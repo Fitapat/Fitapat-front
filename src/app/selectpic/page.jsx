@@ -3,7 +3,8 @@
 import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Button, Box, Container } from '@mui/material';
+import { Button, Box } from '@mui/material';
+import styles from './page.module.css';
 
 export default function Test() {
   const [selectedImage, setSelectedImage] = useState();
@@ -18,22 +19,9 @@ export default function Test() {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
+    <Box className={styles.container}>
       {selectedImage && (
-        <Box
-          style={{
-            position: 'relative',
-            height: '80vh',
-            width: '80vw',
-            margin: '2vh',
-          }}
-        >
+        <Box className={styles.imageBox}>
           <Image
             src={selectedImage}
             alt="Uploaded"
@@ -48,7 +36,7 @@ export default function Test() {
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          style={{ display: 'none' }}
+          className={styles.hiddenInput}
           ref={fileInputRef}
         />
         <Button component="label" variant="outlined" onClick={triggerFileInput}>
