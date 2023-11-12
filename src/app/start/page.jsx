@@ -95,7 +95,7 @@ export default function Start() {
                 <Button variant="outlined" onClick={handleDialogClosed}>
                   네이버로 시작하기
                 </Button>
-                <Button variant="contained" onClick={handleDialogClosed}>
+                <Button variant="contained" href="/register">
                   이메일로 시작하기
                 </Button>
               </Stack>
