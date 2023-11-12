@@ -1,6 +1,6 @@
 'use client';
 
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button, Box } from '@mui/material';
 import styles from './page.module.css';
