@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 export default function Start() {
+  const [showSlide, setShowSlide] = useState(false);
   const [isTitleVisible, setTitleVisible] = useState(false);
   const [isContentVisible, setContentVisible] = useState(false);
 
@@ -31,6 +32,8 @@ export default function Start() {
   });
 
   useEffect(() => {
+    setShowSlide(true);
+
     const titleTimeout = setTimeout(() => {
       setTitleVisible(true);
     }, 500);
@@ -49,7 +52,7 @@ export default function Start() {
     <div>
       <div align="center">
         <Stack spacing={2} sx={{ mt: 20, mb: 10 }}>
-          <Slide direction="right" in={true}>
+          <Slide direction="right" in={showSlide} timeout={150}>
             <Typography variant="h6">오늘도 운동 완료.</Typography>
           </Slide>
           <Fade in={isTitleVisible}>
@@ -95,7 +98,7 @@ export default function Start() {
                 <Button variant="outlined" onClick={handleDialogClosed}>
                   네이버로 시작하기
                 </Button>
-                <Button variant="contained" onClick={handleDialogClosed}>
+                <Button variant="contained" href="/register">
                   이메일로 시작하기
                 </Button>
               </Stack>
