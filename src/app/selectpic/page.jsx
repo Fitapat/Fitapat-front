@@ -1,16 +1,15 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import { React, useState } from 'react';
 import Image from 'next/image';
 import { Button, Box } from '@mui/material';
 import styles from './page.module.css';
 
-export default function Test() {
+export default function SelectPic() {
   const [selectedImage, setSelectedImage] = useState();
   const fileInputRef = React.createRef();
 
-  const handleImageUpload = event => {
+  const handleImageUpload = (event) => {
     setSelectedImage(URL.createObjectURL(event.target.files[0]));
   };
 
