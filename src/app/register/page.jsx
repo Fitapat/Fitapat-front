@@ -24,8 +24,8 @@ export default function Register() {
       alert('비밀번호가 일치하지 않습니다.');
     } else {
       console.log(`회원가입 완료! 이름: ${username}, email: ${email}`);
-      alert('회원가입 완료!');
-      window.location = '/start';
+      alert('회원가입 완료! 로그인해주세요.');
+      window.location = '/login';
     }
   };
 
@@ -69,12 +69,7 @@ export default function Register() {
         <br />
         <div>
           <span>이미 회원이신가요? </span>
-          <Link
-            href={() => false}
-            color="inherit"
-            underline="always"
-            align="center"
-          >
+          <Link href="/login" color="inherit" underline="always" align="center">
             로그인
           </Link>
         </div>
