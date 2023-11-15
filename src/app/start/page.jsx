@@ -70,7 +70,7 @@ export default function Start() {
               </Button>
             </Box>
             <Link
-              href={() => false}
+              href="/login"
               color="inherit"
               underline="always"
               align="center"
