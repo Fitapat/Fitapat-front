@@ -1,26 +1,36 @@
 'use client';
+
+/* eslint-disable no-console, no-alert */
+
 import React, { useState } from 'react';
-import { Stack, Typography, Button, Link, TextField } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Button,
+  Link,
+  TextField,
+} from '@mui/material';
+
 export default function Register() {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
-  const handleSignupSubmit = e => {
+  const handleSignupSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
-      return;
     } else {
       console.log(`회원가입 완료! 이름: ${username}, email: ${email}`);
-      alert('회원가입 완료!');
-      window.location = '/start';
+      alert('회원가입 완료! 로그인해주세요.');
+      window.location = '/login';
     }
   };
 
   return (
-    <div align="center">
+    <Box align="center">
       <Typography variant="h3" sx={{ mt: 15, mb: 10 }}>
         회원가입
       </Typography>
@@ -28,7 +38,7 @@ export default function Register() {
         <TextField
           label="이름"
           variant="outlined"
-          onChange={e => {
+          onChange={(e) => {
             setUsername(e.target.value);
           }}
         />
@@ -36,7 +46,7 @@ export default function Register() {
           type="email"
           label="이메일 주소"
           variant="outlined"
-          onChange={e => {
+          onChange={(e) => {
             setEmail(e.target.value);
           }}
         />
@@ -44,7 +54,7 @@ export default function Register() {
           type="password"
           label="비밀번호"
           variant="outlined"
-          onChange={e => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
@@ -52,14 +62,14 @@ export default function Register() {
           type="password"
           label="비밀번호 확인"
           variant="outlined"
-          onChange={e => {
+          onChange={(e) => {
             setConfirmPassword(e.target.value);
           }}
         />
         <br />
         <div>
           <span>이미 회원이신가요? </span>
-          <Link href="#" color="inherit" underline="always" align="center">
+          <Link href="/login" color="inherit" underline="always" align="center">
             로그인
           </Link>
         </div>
@@ -67,6 +77,6 @@ export default function Register() {
           가입하기
         </Button>
       </Stack>
-    </div>
+    </Box>
   );
 }
