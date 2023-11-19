@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button, Box } from '@mui/material';
 import styles from './page.module.css';
+import Link from 'next/link';
 
 export default function SelectPic() {
   const [selectedImage, setSelectedImage] = useState();
@@ -39,8 +40,24 @@ export default function SelectPic() {
           ref={fileInputRef}
         />
         <Button component="label" variant="outlined" onClick={triggerFileInput}>
-          이미지를 업로드 하고, 오운완 사진을 꾸며보세요!
+          {selectedImage ? '다른 이미지로 교체하기' : '이미지 업로드'}
         </Button>
+        {selectedImage && (
+          <Button
+            className={styles.nextButton}
+            component="label"
+            variant="outlined"
+          >
+            <Link
+              href={{
+                pathname: `/canvas`, // 라우팅
+                query: { img: JSON.stringify(selectedImage) }, // props
+              }}
+            >
+              다음
+            </Link>
+          </Button>
+        )}
       </div>
     </Box>
   );
