@@ -7,21 +7,23 @@ import styles from './page.module.css';
 
 export default function Canvas() {
   const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  let canvas = new fabric.Canvas('myCanvas');
+  useEffect(() => {
+    let canvas = new fabric.Canvas('myCanvas');
 
-  let rect = new fabric.Rect({
-    left: 100,
-    top: 100,
-    fill: 'red',
-    width: 50,
-    height: 50,
-  });
-
-  canvas.add(rect);
+    let rect = new fabric.Rect({
+      left: 100,
+      top: 100,
+      fill: 'red',
+      width: 50,
+      height: 50,
+    });
+    canvas.add(rect);
+  }, [isClient]);
 
   return isClient ? (
     <Box className={styles.container}>
