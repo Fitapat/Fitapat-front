@@ -12,8 +12,14 @@ export default function SelectPic() {
   const [isUploading, setIsUploading] = useState(false); // 이미지 업로드 중 여부
   const fileInputRef = React.createRef();
 
-  // 이미지 업로드 중에 로딩 표시
   const handleImageUpload = async (event) => {
+    // 파일 크기 제한 (예: 3MB)
+    const selectedFile = event.target.files[0];
+    const maxSize = 3 * 1024 * 1024; // 3MB
+    if (selectedFile.size > maxSize) {
+      alert('이미지 파일 크기는 3MB 이하여야 합니다.');
+      return;
+    }
     setIsUploading(true);
     setSelectedImage(URL.createObjectURL(event.target.files[0]));
     // base64로 변환
