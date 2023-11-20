@@ -42,8 +42,18 @@ export default function FabricCanvas() {
       canvas.setWidth(window.innerWidth);
       canvas.setHeight(window.innerWidth * 1.78);
     } else {
-      canvas.setWidth(window.innerHeight * 0.5625 * 0.9);
+      canvas.setWidth(window.innerHeight * 0.5622 * 0.9);
       canvas.setHeight(window.innerHeight * 0.9);
+    }
+
+    console.log(window.innerWidth / window.innerHeight);
+
+    // 윈도우의 화면비가 9:16 이라면 캔버스의 크기를 윈도우에 맞춘다.
+    if (
+      (window.innerWidth / window.innerHeight).toFixed(2) === (0.56).toFixed(2)
+    ) {
+      canvas.setWidth(window.innerWidth - 30);
+      canvas.setHeight((window.innerWidth - 30) * 1.78);
     }
 
     // 로컬 스토리지의 base64 img를 가지고 온다.
@@ -214,14 +224,17 @@ export default function FabricCanvas() {
           justifyContent: 'center',
           width: 0.8,
           height: 0.05,
-          marginTop: 2,
+
+          p: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
         <Button
+          variant="contained"
+          color="primary"
+          component="label"
           sx={{
-            backgroundColor: 'black',
             width: 1,
             height: 'auto',
             borderRadius: 5,
