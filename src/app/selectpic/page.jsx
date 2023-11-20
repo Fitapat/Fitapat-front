@@ -8,10 +8,22 @@ import Link from 'next/link';
 
 export default function SelectPic() {
   const [selectedImage, setSelectedImage] = useState();
+  const [base64Image, setBase64Image] = useState();
+  const [isUploading, setIsUploading] = useState(false); // 이미지 업로드 중 여부
   const fileInputRef = React.createRef();
 
-  const handleImageUpload = (event) => {
+  // 이미지 업로드 중에 로딩 표시
+  const handleImageUpload = async (event) => {
+    setIsUploading(true);
     setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    // base64로 변환
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onloadend = () => {
+      setBase64Image(reader.result);
+      setIsUploading(false);
+      localStorage.setItem('img', reader.result);
+    };
   };
 
   const triggerFileInput = () => {
@@ -48,14 +60,19 @@ export default function SelectPic() {
             component="label"
             variant="outlined"
           >
-            <Link
-              href={{
-                pathname: `/canvas`, // 라우팅
-                query: { img: JSON.stringify(selectedImage) }, // props
-              }}
-            >
-              다음
-            </Link>
+            {isUploading ? (
+              '업로드 중...'
+            ) : (
+              <Link
+                href={{
+                  pathname: `/canvas`, // 라우팅
+                  query: { img: JSON.stringify(base64Image) }, // props
+                }}
+                as={`/canvas`}
+              >
+                다음
+              </Link>
+            )}
           </Button>
         )}
       </div>
