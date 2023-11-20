@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Inter } from 'next/font/google';
-import { Container } from '@mui/system';
 import './globals.css';
 import { Container } from '@mui/material';
 
