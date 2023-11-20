@@ -42,8 +42,8 @@ export default function FabricCanvas() {
       canvas.setWidth(window.innerWidth);
       canvas.setHeight(window.innerWidth * 1.78);
     } else {
-      canvas.setWidth(window.innerHeight * 0.5622 * 0.9);
-      canvas.setHeight(window.innerHeight * 0.9);
+      canvas.setWidth(430);
+      canvas.setHeight(430 * 1.78);
     }
 
     console.log(window.innerWidth / window.innerHeight);
@@ -109,17 +109,6 @@ export default function FabricCanvas() {
     }
   }
 
-  function handleWorkout(e) {}
-
-  function saveImage(e) {
-    canvas.discardActiveObject().renderAll();
-    this.href = canvas.toDataURL({
-      format: 'png',
-      quality: 1.0,
-    });
-    this.download = 'fitapat.png';
-  }
-
   function handleSaveImage(e) {
     canvas.discardActiveObject().renderAll();
     var link = document.createElement('a');
@@ -144,110 +133,120 @@ export default function FabricCanvas() {
     >
       <Box // canvas
         sx={{
-          width: 'auto',
+          width: '1',
           height: 'auto',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          overflow: 'hidden',
-          position: 'relative',
+          flexDirection: 'column',
         }}
       >
-        {isClient ? <canvas className={styles.design} id="myCanvas" /> : null}
-        <Box
-          sx={{
-            width: 1,
-            height: 'auto',
-            top: 0,
-            left: 0,
-            marginTop: 2,
-            position: 'absolute',
-            zIndex: 2,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            '& *': {
-              color: 'white',
-              size: 'large',
-            },
-          }}
-        >
-          <Box // 왼쪽 상단 아이콘들
+        {isClient ? (
+          <Box
             sx={{
+              position: 'fixed',
               display: 'flex',
               alignItems: 'center',
-              width: 0.5,
-              height: 'auto',
+              justifyContent: 'center',
+              flexDirection: 'column',
             }}
           >
-            <Button>
-              <Link href="/selectpic">
-                <NavigateBeforeIcon
-                  fontSize="large"
-                  stroke={'lightgray'}
-                  stroke-width={0.5}
-                ></NavigateBeforeIcon>
-              </Link>
-            </Button>
-          </Box>
-          <Box // 오른쪽 상단 아이콘들
-            sx={{
-              width: 0.5,
-              height: 'auto',
-              alignItems: 'center',
-              display: 'flex',
-              flexDirection: 'row-reverse',
-              marginRight: 2,
-            }}
-          >
-            <Button>
-              <FitnessCenterIcon
-                stroke={'lightgray'}
-                stroke-width={0.5}
-                fontSize="medium"
-              ></FitnessCenterIcon>
-            </Button>
-            <Button>
-              <DeleteIcon
-                stroke={'lightgray'}
-                stroke-width={0.5}
-                fontSize="medium"
-                onClick={handleDeleteButton}
-              ></DeleteIcon>
-            </Button>
-          </Box>
-        </Box>
-      </Box>
-      <Box // 하단 버튼
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: 0.8,
-          height: 0.05,
+            <canvas className={styles.design} id="myCanvas" />
+            <Box
+              sx={{
+                width: 1,
+                height: 'auto',
+                top: 0,
+                left: 0,
+                marginTop: 2,
+                position: 'absolute',
+                zIndex: 2,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                '& *': {
+                  color: 'white',
+                  size: 'large',
+                },
+              }}
+            >
+              <Box // 왼쪽 상단 아이콘들
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: 0.5,
+                  height: 'auto',
+                }}
+              >
+                <Button>
+                  <Link href="/selectpic">
+                    <NavigateBeforeIcon
+                      fontSize="large"
+                      stroke={'lightgray'}
+                      strokeWidth={0.5}
+                    ></NavigateBeforeIcon>
+                  </Link>
+                </Button>
+              </Box>
+              <Box // 오른쪽 상단 아이콘들
+                sx={{
+                  width: 0.5,
+                  height: 'auto',
+                  alignItems: 'center',
+                  display: 'flex',
+                  flexDirection: 'row-reverse',
+                  marginRight: 2,
+                }}
+              >
+                <Button>
+                  <FitnessCenterIcon
+                    stroke={'lightgray'}
+                    strokeWidth={0.5}
+                    fontSize="medium"
+                  ></FitnessCenterIcon>
+                </Button>
+                <Button>
+                  <DeleteIcon
+                    stroke={'lightgray'}
+                    strokeWidth={0.5}
+                    fontSize="medium"
+                    onClick={handleDeleteButton}
+                  ></DeleteIcon>
+                </Button>
+              </Box>
+            </Box>
+            <Box // 하단 버튼
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: 0.8,
+                height: 0.05,
 
-          p: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          component="label"
-          sx={{
-            width: 1,
-            height: 'auto',
-            borderRadius: 5,
-          }}
-        >
-          <DownloadIcon
-            sx={{
-              marginTop: 1,
-              color: 'white',
-            }}
-            onClick={handleSaveImage}
-          ></DownloadIcon>
-        </Button>
+                p: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                component="label"
+                sx={{
+                  width: 1,
+                  height: 'auto',
+                  borderRadius: 5,
+                }}
+              >
+                <DownloadIcon
+                  sx={{
+                    color: 'white',
+                  }}
+                  onClick={handleSaveImage}
+                ></DownloadIcon>
+              </Button>
+            </Box>
+          </Box>
+        ) : null}
       </Box>
     </Box>
   );
