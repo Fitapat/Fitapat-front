@@ -2,13 +2,19 @@ import React from 'react';
 import { fabric } from 'fabric';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
-import { usePathname, useRouter } from 'next/navigation';
+import { Box, Button, ButtonGroup } from '@mui/material';
+import Image from 'next/image';
+import Link from 'next/link';
+import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
-  const pathname = usePathname();
-  const router = useRouter();
+  const [isCanvasInit, setIsCanvasInit] = useState(false);
+  const [canvas, setCanvas] = useState();
 
   // SSR 대응, 클라이언트에서만 실행되도록 하는 코드
   useEffect(() => {
@@ -17,10 +23,21 @@ export default function FabricCanvas() {
 
   // 초기 캔버스 세팅
   useEffect(() => {
-    let canvas = new fabric.Canvas('myCanvas');
+    const newCanvas = new fabric.Canvas('myCanvas', {
+      backgroundColor: 'black',
+    });
 
-    canvas.setBackgroundColor('white');
+    setCanvas(newCanvas);
+    setIsCanvasInit(true);
+  }, [isClient]);
 
+  // 캔버스가 초기화 되면 실행
+  useEffect(() => {
+    // 캔버스가 초기화 되지 않았으면 실행하지 않음
+    if (!isCanvasInit) return;
+    if (!canvas) return;
+
+    // 캔버스의 크기 조정
     if (window.innerWidth < 430) {
       canvas.setWidth(window.innerWidth);
       canvas.setHeight(window.innerWidth * 1.78);
@@ -29,35 +46,33 @@ export default function FabricCanvas() {
       canvas.setHeight(window.innerHeight * 0.9);
     }
 
-    console.log(window.innerWidth, window.innerHeight);
-    canvas.setBackgroundColor('white');
-
-    // 주소창에 쿼리를 받아온다.
-    const query = router.query;
-
-    // 쿼리가 있으면
-    if (query) {
-      // 쿼리를 JSON으로 변환한다.
-      const img = JSON.parse(query.img);
-      // 쿼리로 받아온 이미지를 캔버스에 추가한다.
+    // 로컬 스토리지의 base64 img를 가지고 온다.
+    const img = localStorage.getItem('img');
+    // img가 있으면 캔버스에 추가
+    if (img) {
       fabric.Image.fromURL(img, function (oImg) {
-        oImg.scaleToWidth(canvas.width);
+        if (oImg.height > oImg.width) {
+          oImg.scaleToHeight(canvas.getHeight());
+        }
+        if (oImg.height <= oImg.width) {
+          oImg.scaleToWidth(canvas.getWidth());
+        }
+        oImg.set({
+          left: canvas.getWidth() / 2,
+          top: canvas.getHeight() / 2,
+          originX: 'center',
+          originY: 'center',
+        });
         canvas.add(oImg);
       });
     }
 
     canvas.renderAll();
-    console.log('canvas rendered', canvas);
 
-    // let imageLoader = document.getElementById('imageLoader');
-    // imageLoader.addEventListener('change', handleImage, false);
-
-    const imageSaver = document.getElementById('lnkDownload');
-    imageSaver.addEventListener('click', saveImage, false);
-  }, [isClient]);
+    return () => {};
+  }, [canvas, isCanvasInit]);
 
   function handleImage(e) {
-    const canvas = document.getElementById('myCanvas');
     var objects = canvas.getObjects();
     for (var i in objects) {
       objects[i].remove();
@@ -70,15 +85,24 @@ export default function FabricCanvas() {
           selectable: 1,
         });
         canvas.add(imgInstance);
-        canvas.deactivateAll().renderAll();
+        canvas.discardActiveObject().renderAll();
       };
       img.src = event.target.result;
     };
     reader.readAsDataURL(e.target.files[0]);
   }
 
+  function handleDeleteButton(e) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject) {
+      canvas.remove(activeObject);
+    }
+  }
+
+  function handleWorkout(e) {}
+
   function saveImage(e) {
-    const canvas = document.getElementById('myCanvas');
+    canvas.discardActiveObject().renderAll();
     this.href = canvas.toDataURL({
       format: 'png',
       quality: 1.0,
@@ -86,14 +110,132 @@ export default function FabricCanvas() {
     this.download = 'fitapat.png';
   }
 
+  function handleSaveImage(e) {
+    canvas.discardActiveObject().renderAll();
+    var link = document.createElement('a');
+    link.download = 'fitapat.png';
+    link.href = canvas.toDataURL({
+      format: 'png',
+      quality: 1.0,
+    });
+    link.click();
+  }
+
   return (
-    <div>
-      {isClient ? <canvas className={styles.design} id="myCanvas" /> : null}
-      <Button variant="outlined">
-        <a id="lnkDownload" href="#">
-          Save image
-        </a>
-      </Button>
-    </div>
+    <Box
+      sx={{
+        width: 1,
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Box // canvas
+        sx={{
+          width: 'auto',
+          height: 'auto',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        {isClient ? <canvas className={styles.design} id="myCanvas" /> : null}
+        <Box
+          sx={{
+            width: 1,
+            height: 'auto',
+            top: 0,
+            left: 0,
+            marginTop: 2,
+            position: 'absolute',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            '& *': {
+              color: 'white',
+              size: 'large',
+            },
+          }}
+        >
+          <Box // 왼쪽 상단 아이콘들
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              width: 0.5,
+              height: 'auto',
+            }}
+          >
+            <Button>
+              <Link href="/selectpic">
+                <NavigateBeforeIcon
+                  fontSize="large"
+                  stroke={'lightgray'}
+                  stroke-width={0.5}
+                ></NavigateBeforeIcon>
+              </Link>
+            </Button>
+          </Box>
+          <Box // 오른쪽 상단 아이콘들
+            sx={{
+              width: 0.5,
+              height: 'auto',
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              marginRight: 2,
+            }}
+          >
+            <Button>
+              <FitnessCenterIcon
+                stroke={'lightgray'}
+                stroke-width={0.5}
+                fontSize="medium"
+              ></FitnessCenterIcon>
+            </Button>
+            <Button>
+              <DeleteIcon
+                stroke={'lightgray'}
+                stroke-width={0.5}
+                fontSize="medium"
+                onClick={handleDeleteButton}
+              ></DeleteIcon>
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box // 하단 버튼
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: 0.8,
+          height: 0.05,
+          marginTop: 2,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          sx={{
+            backgroundColor: 'black',
+            width: 1,
+            height: 'auto',
+            borderRadius: 5,
+          }}
+        >
+          <DownloadIcon
+            sx={{
+              marginTop: 1,
+              color: 'white',
+            }}
+            onClick={handleSaveImage}
+          ></DownloadIcon>
+        </Button>
+      </Box>
+    </Box>
   );
 }
