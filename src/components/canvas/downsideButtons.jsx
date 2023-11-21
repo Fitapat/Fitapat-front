@@ -2,7 +2,7 @@ import React from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box, Button } from '@mui/material';
 
-export default function downSideButtons(props) {
+export default function DownSideButtons(props) {
   return (
     <Box // 하단 버튼
       sx={{
