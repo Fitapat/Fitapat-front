@@ -1,12 +1,21 @@
 'use client';
 
-import { React, useState, useEffect } from 'react';
-import { fabric } from 'fabric';
-import { Box, Button, ButtonGroup } from '@mui/material';
-import styles from './page.module.css';
-import FabricCanvas from '../../components/canvas/fabric';
-import Link from 'next/link';
+import { React } from 'react';
+import FabricCanvas from '../../components/canvas/fabricCanvas';
 
 export default function Canvas() {
-  return <FabricCanvas />;
+  return (
+    <Box
+      sx={{
+        width: 1,
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <FabricCanvas />
+    </Box>
+  );
 }
