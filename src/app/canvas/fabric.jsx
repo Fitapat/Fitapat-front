@@ -15,6 +15,7 @@ export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
   const [isCanvasInit, setIsCanvasInit] = useState(false);
   const [canvas, setCanvas] = useState();
+  const [backgroundId, setBackgroundId] = useState();
 
   // SSR 대응, 클라이언트에서만 실행되도록 하는 코드
   useEffect(() => {
@@ -42,8 +43,8 @@ export default function FabricCanvas() {
       canvas.setWidth(window.innerWidth);
       canvas.setHeight(window.innerWidth * 1.78);
     } else {
-      canvas.setWidth(430);
-      canvas.setHeight(430 * 1.78);
+      canvas.setWidth(window.innerHeight * 0.9 * 0.56);
+      canvas.setHeight(window.innerHeight * 0.9);
     }
 
     console.log(window.innerWidth / window.innerHeight);
@@ -72,14 +73,16 @@ export default function FabricCanvas() {
           top: canvas.getHeight() / 2,
           originX: 'center',
           originY: 'center',
+          id: 'background',
         });
         canvas.add(oImg);
+        // oImg의 id를 저장
+        setBackgroundId(oImg.id);
+        console.log(oImg.id);
       });
     }
 
     canvas.renderAll();
-
-    return () => {};
   }, [canvas, isCanvasInit]);
 
   function handleImage(e) {
