@@ -1,21 +1,25 @@
-import React from 'react';
+import * as React from 'react';
 import { fabric } from 'fabric';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-import { Box, Button, ButtonGroup } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import OverlayButtons from './overlayButtons';
+import DownSideButtons from './downsideButtons';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
   const [isCanvasInit, setIsCanvasInit] = useState(false);
   const [canvas, setCanvas] = useState();
   const [backgroundId, setBackgroundId] = useState();
+  const [triggerBgDelete, setTriggerBgDelete] = useState(false);
 
   // SSR 대응, 클라이언트에서만 실행되도록 하는 코드
   useEffect(() => {
@@ -75,15 +79,26 @@ export default function FabricCanvas() {
           originY: 'center',
           id: 'background',
         });
+
         canvas.add(oImg);
         // oImg의 id를 저장
         setBackgroundId(oImg.id);
-        console.log(oImg.id);
       });
     }
 
+    canvas.selection = false;
+
     canvas.renderAll();
   }, [canvas, isCanvasInit]);
+
+  const handleBgErrorOpen = () => {
+    setTriggerBgDelete(true);
+  };
+
+  const handleBgErrorClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setTriggerBgDelete(false);
+  };
 
   function handleImage(e) {
     var objects = canvas.getObjects();
@@ -107,6 +122,10 @@ export default function FabricCanvas() {
 
   function handleDeleteButton(e) {
     var activeObject = canvas.getActiveObject();
+    if (activeObject.id === 'background') {
+      handleBgErrorOpen();
+      return;
+    }
     if (activeObject) {
       canvas.remove(activeObject);
     }
@@ -144,7 +163,7 @@ export default function FabricCanvas() {
           flexDirection: 'column',
         }}
       >
-        {isClient ? (
+        {isClient && (
           <Box
             sx={{
               position: 'fixed',
@@ -155,101 +174,14 @@ export default function FabricCanvas() {
             }}
           >
             <canvas className={styles.design} id="myCanvas" />
-            <Box
-              sx={{
-                width: 1,
-                height: 'auto',
-                top: 0,
-                left: 0,
-                marginTop: 2,
-                position: 'absolute',
-                zIndex: 2,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                '& *': {
-                  color: 'white',
-                  size: 'large',
-                },
-              }}
-            >
-              <Box // 왼쪽 상단 아이콘들
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: 0.5,
-                  height: 'auto',
-                }}
-              >
-                <Button>
-                  <Link href="/selectpic">
-                    <NavigateBeforeIcon
-                      fontSize="large"
-                      stroke={'lightgray'}
-                      strokeWidth={0.5}
-                    ></NavigateBeforeIcon>
-                  </Link>
-                </Button>
-              </Box>
-              <Box // 오른쪽 상단 아이콘들
-                sx={{
-                  width: 0.5,
-                  height: 'auto',
-                  alignItems: 'center',
-                  display: 'flex',
-                  flexDirection: 'row-reverse',
-                  marginRight: 2,
-                }}
-              >
-                <Button>
-                  <FitnessCenterIcon
-                    stroke={'lightgray'}
-                    strokeWidth={0.5}
-                    fontSize="medium"
-                  ></FitnessCenterIcon>
-                </Button>
-                <Button>
-                  <DeleteIcon
-                    stroke={'lightgray'}
-                    strokeWidth={0.5}
-                    fontSize="medium"
-                    onClick={handleDeleteButton}
-                  ></DeleteIcon>
-                </Button>
-              </Box>
-            </Box>
-            <Box // 하단 버튼
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: 0.8,
-                height: 0.05,
-
-                p: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                component="label"
-                sx={{
-                  width: 1,
-                  height: 'auto',
-                  borderRadius: 5,
-                }}
-              >
-                <DownloadIcon
-                  sx={{
-                    color: 'white',
-                  }}
-                  onClick={handleSaveImage}
-                ></DownloadIcon>
-              </Button>
-            </Box>
+            <OverlayButtons
+              handleDeleteButton={handleDeleteButton}
+              handleBgErrorClose={handleBgErrorClose}
+              triggerBgDelete={triggerBgDelete}
+            />
+            <DownSideButtons handleSaveImage={handleSaveImage} />
           </Box>
-        ) : null}
+        )}
       </Box>
     </Box>
   );
