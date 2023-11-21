@@ -2,10 +2,9 @@ import React from 'react';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadIcon from '@mui/icons-material/Download';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Box, Button, ButtonGroup } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import { Box, Button } from '@mui/material';
 import Link from 'next/link';
 
 const Alert = React.forwardRef(function Alert(props, ref) {

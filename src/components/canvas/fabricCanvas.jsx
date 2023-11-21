@@ -2,15 +2,8 @@ import * as React from 'react';
 import { fabric } from 'fabric';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Image from 'next/image';
-import Link from 'next/link';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadIcon from '@mui/icons-material/Download';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import OverlayButtons from './overlayButtons';
 import DownSideButtons from './downsideButtons';
 
@@ -145,44 +138,33 @@ export default function FabricCanvas() {
   return (
     <Box
       sx={{
-        width: 1,
-        height: '100vh',
+        width: '1',
+        height: 'auto',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
       }}
     >
-      <Box // canvas
-        sx={{
-          width: '1',
-          height: 'auto',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
-        {isClient && (
-          <Box
-            sx={{
-              position: 'fixed',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
-          >
-            <canvas className={styles.design} id="myCanvas" />
-            <OverlayButtons
-              handleDeleteButton={handleDeleteButton}
-              handleBgErrorClose={handleBgErrorClose}
-              triggerBgDelete={triggerBgDelete}
-            />
-            <DownSideButtons handleSaveImage={handleSaveImage} />
-          </Box>
-        )}
-      </Box>
+      {isClient && (
+        <Box
+          sx={{
+            position: 'fixed',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+          }}
+        >
+          <canvas className={styles.design} id="myCanvas" />
+          <OverlayButtons
+            handleDeleteButton={handleDeleteButton}
+            handleBgErrorClose={handleBgErrorClose}
+            triggerBgDelete={triggerBgDelete}
+          />
+          <DownSideButtons handleSaveImage={handleSaveImage} />
+        </Box>
+      )}
     </Box>
   );
 }
