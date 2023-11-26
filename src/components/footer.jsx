@@ -17,20 +17,29 @@ export default function Footer() {
 
   const value = pathname;
   return (
-    <BottomNavigation value={value}>
+    <BottomNavigation
+      value={value}
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        /* left: 0, right: 0, */
+        width: '385px', // 수정하기
+        background: '#ddd',
+      }}
+    >
       <BottomNavigationAction
         value="/"
-        icon={<HomeIcon />}
+        icon={<HomeIcon fontSize="large" />}
         onClick={() => onLink('/')}
       />
       <BottomNavigationAction
         value="/selectpic"
-        icon={<CameraAltIcon />}
+        icon={<CameraAltIcon fontSize="large" />}
         onClick={() => onLink('/selectpic')}
       />
       <BottomNavigationAction
         value="/user"
-        icon={<AccountCircleIcon />}
+        icon={<AccountCircleIcon fontSize="large" />}
         onClick={() => onLink('/user')}
       />
     </BottomNavigation>
