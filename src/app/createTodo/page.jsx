@@ -57,7 +57,7 @@ function SwipeableEdgeDrawer(props) {
         <Typography variant="h4" sx={{ my: 2 }}>
             운동 To-do 생성
         </Typography>
-        <Button variant='outlined' fullWidth={true} onClick={toggleDrawer(true)}>운동 To-do 추가</Button>
+        <Button variant='contained' fullWidth={true} onClick={toggleDrawer(true)}>운동 To-do 추가</Button>
       </Box>
       <SwipeableDrawer
         container={container}
