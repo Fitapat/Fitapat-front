@@ -1,7 +1,7 @@
 .design {
-    box-sizing: border-box;
-    /* border: 0.2rem solid lightgray; */
-    border-radius: 1rem;
-    z-index: 1;
-    left: 0;
-  }
+  box-sizing: border-box;
+  /* border: 0.2rem solid lightgray; */
+  border-radius: 1rem;
+  z-index: 1;
+  left: 0;
+}
