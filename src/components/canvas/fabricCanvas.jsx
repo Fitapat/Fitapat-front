@@ -3,7 +3,6 @@ import { fabric } from 'fabric';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import Image from 'next/image';
 import OverlayButtons from './overlayButtons';
 import DownSideButtons from './downsideButtons';
 
@@ -93,26 +92,6 @@ export default function FabricCanvas() {
     setTriggerBgDelete(false);
   };
 
-  function handleImage(e) {
-    var objects = canvas.getObjects();
-    for (var i in objects) {
-      objects[i].remove();
-    }
-    var reader = new FileReader();
-    reader.onload = function (event) {
-      var img = new Image();
-      img.onload = function () {
-        var imgInstance = new fabric.Image(img, {
-          selectable: 1,
-        });
-        canvas.add(imgInstance);
-        canvas.discardActiveObject().renderAll();
-      };
-      img.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  }
-
   function handleDeleteButton(e) {
     var activeObject = canvas.getActiveObject();
     if (activeObject.id === 'background') {
@@ -161,6 +140,7 @@ export default function FabricCanvas() {
             handleDeleteButton={handleDeleteButton}
             handleBgErrorClose={handleBgErrorClose}
             triggerBgDelete={triggerBgDelete}
+            canvas={canvas}
           />
           <DownSideButtons handleSaveImage={handleSaveImage} />
         </Box>

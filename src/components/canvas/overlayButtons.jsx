@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,12 +6,15 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Box, Button } from '@mui/material';
 import Link from 'next/link';
+import WorkoutModal from './workoutModal';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 export default function OverlayButtons(props) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -60,11 +63,7 @@ export default function OverlayButtons(props) {
         }}
       >
         <Button>
-          <FitnessCenterIcon
-            stroke={'lightgray'}
-            strokeWidth={0.5}
-            fontSize="medium"
-          ></FitnessCenterIcon>
+          <WorkoutModal />
         </Button>
         <Button>
           <DeleteIcon
