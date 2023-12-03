@@ -1,41 +1,37 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   height: 100%;
-  background-color: #f0f0f0;
-  position: relative;
-  }
+}
 
 .canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   height: 100%;
   width: 100%;
 }
 
 .design {
-    box-sizing: border-box;
-    /* border: 0.2rem solid lightgray; */
-    border-radius: 1rem;
-    z-index: 1;
-  }
-
-.header {
-  width:100%;
-  height:48px;
+  box-sizing: border-box;
+  /* border: 0.2rem solid lightgray; */
+  border-radius: 1rem;
+  z-index: 1;
+  left: 0;
 }
 
-.bottomButtons{
-  position: fixed;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+.header {
+  width: 100%;
+  height: 48px;
+}
+
+.bottomButtons {
+  position: relative;
   z-index: 2;
-  margin-bottom: 2%;
+
   width: 100%;
   height: 5%;
-  left : 0;
-  right: 0;
-  bottom: 0;
-
 }

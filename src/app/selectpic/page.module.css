@@ -3,13 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    width: 1;
   }
   
   .imageBox {
     position: relative;
     width: 100vh;
-    height: 60vw;
+    height: 60%;
     margin: 2vh;
   }
   
