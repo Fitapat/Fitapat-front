@@ -3,19 +3,11 @@
 import { useState } from 'react';
 import { Box, Button, SwipeableDrawer } from '@mui/material';
 import { Input } from '@mui/base';
-import PropTypes from 'prop-types';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { grey } from '@mui/material/colors';
-import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 const drawerBleeding = 56;
-
-const StyledBox = styled(Box)(() => ({
-  backgroundColor: grey[300],
-}));
 
 // 서랍창 상단 작은 막대기
 const Puller = styled(Box)(({ theme }) => ({
@@ -28,21 +20,15 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-function SwipeableEdgeDrawer(props) {
-  const { window } = props;
+function SwipeableEdgeDrawer() {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  // This is used only for the example
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box>
-      <CssBaseline />
       <Global
         styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
@@ -67,7 +53,6 @@ function SwipeableEdgeDrawer(props) {
         </Button>
       </Box>
       <SwipeableDrawer
-        container={container}
         anchor="bottom"
         open={open}
         onClose={toggleDrawer(false)}
@@ -78,7 +63,7 @@ function SwipeableEdgeDrawer(props) {
           keepMounted: true,
         }}
       >
-        <StyledBox
+        <Box
           sx={{
             position: 'absolute',
             top: -drawerBleeding,
@@ -87,34 +72,26 @@ function SwipeableEdgeDrawer(props) {
             visibility: 'visible',
             right: 0,
             left: 0,
+            backgroundColor: 'lightgrey',
           }}
         >
           <Puller />
           <Typography sx={{ p: 2, color: 'text.secondary' }}>
             51 results
           </Typography>
-        </StyledBox>
-        <StyledBox
+        </Box>
+        <Box
           sx={{
             px: 2,
             pb: 2,
             height: '100%',
             overflow: 'auto',
+            backgroundColor: 'lightgrey',
           }}
-        >
-          <Skeleton variant="rectangular" height="100%" />
-        </StyledBox>
+        ></Box>
       </SwipeableDrawer>
     </Box>
   );
 }
-
-SwipeableEdgeDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default SwipeableEdgeDrawer;
