@@ -37,7 +37,8 @@ function SwipeableEdgeDrawer(props) {
   };
 
   // This is used only for the example
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box>
@@ -49,15 +50,21 @@ function SwipeableEdgeDrawer(props) {
             overflow: 'visible',
             width: '100%',
             maxWidth: '430px',
-            margin: '0 auto'
-          }
+            margin: '0 auto',
+          },
         }}
       />
       <Box>
         <Typography variant="h4" sx={{ my: 2 }}>
-            운동 To-do 생성
+          운동 To-do 생성
         </Typography>
-        <Button variant='contained' fullWidth={true} onClick={toggleDrawer(true)}>운동 To-do 추가</Button>
+        <Button
+          variant="contained"
+          fullWidth={true}
+          onClick={toggleDrawer(true)}
+        >
+          운동 To-do 추가
+        </Button>
       </Box>
       <SwipeableDrawer
         container={container}
@@ -83,7 +90,9 @@ function SwipeableEdgeDrawer(props) {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}>
+            51 results
+          </Typography>
         </StyledBox>
         <StyledBox
           sx={{
