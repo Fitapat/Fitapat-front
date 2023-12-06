@@ -94,6 +94,7 @@ export default function FabricCanvas() {
 
   function handleDeleteButton(e) {
     var activeObject = canvas.getActiveObject();
+    if (!activeObject) return;
     if (activeObject.id === 'background') {
       handleBgErrorOpen();
       return;
@@ -142,7 +143,7 @@ export default function FabricCanvas() {
             triggerBgDelete={triggerBgDelete}
             canvas={canvas}
           />
-          <DownSideButtons handleSaveImage={handleSaveImage} />
+          {/* <DownSideButtons handleSaveImage={handleSaveImage} /> */}
         </Box>
       )}
     </Box>

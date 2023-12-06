@@ -13,7 +13,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function OverlayButtons(props) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const { canvas } = props;
 
   return (
     <Box
@@ -28,64 +28,82 @@ export default function OverlayButtons(props) {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        boxSizing: 'border-box',
         '& *': {
           color: 'white',
           size: 'large',
         },
       }}
     >
-      <Box // 왼쪽 상단 아이콘들
+      {' '}
+      <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          width: 0.5,
-          height: 'auto',
+          width: 1,
+          height: 1,
         }}
       >
-        <Button>
-          <Link href="/selectpic">
-            <NavigateBeforeIcon
-              fontSize="large"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: 1,
+          }}
+        >
+          <Box // 왼쪽 상단 아이콘들
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              width: 0.5,
+              height: 'auto',
+            }}
+          >
+            <Button>
+              <Link href="/selectpic">
+                <NavigateBeforeIcon
+                  fontSize="large"
+                  stroke={'lightgray'}
+                  strokeWidth={0.5}
+                ></NavigateBeforeIcon>
+              </Link>
+            </Button>
+          </Box>
+          <Box // 오른쪽 상단 아이콘들
+            sx={{
+              width: 0.5,
+              height: 'auto',
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              marginRight: 2,
+            }}
+          ></Box>
+          <Button>
+            <WorkoutModal canvas={canvas} />
+          </Button>
+          <Button>
+            <DeleteIcon
               stroke={'lightgray'}
               strokeWidth={0.5}
-            ></NavigateBeforeIcon>
-          </Link>
-        </Button>
-      </Box>
-      <Box // 오른쪽 상단 아이콘들
-        sx={{
-          width: 0.5,
-          height: 'auto',
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          marginRight: 2,
-        }}
-      >
-        <Button>
-          <WorkoutModal />
-        </Button>
-        <Button>
-          <DeleteIcon
-            stroke={'lightgray'}
-            strokeWidth={0.5}
-            fontSize="medium"
-            onClick={props.handleDeleteButton}
-          ></DeleteIcon>
-          <Snackbar
-            open={props.triggerBgDelete}
-            autoHideDuration={3000}
-            onClose={props.handleBgErrorClose}
-          >
-            <Alert
+              fontSize="medium"
+              onClick={props.handleDeleteButton}
+            ></DeleteIcon>
+            <Snackbar
+              open={props.triggerBgDelete}
+              autoHideDuration={3000}
               onClose={props.handleBgErrorClose}
-              severity="error"
-              sx={{ width: '100%' }}
             >
-              배경은 삭제 할 수 없습니다.
-            </Alert>
-          </Snackbar>
-        </Button>
+              <Alert
+                onClose={props.handleBgErrorClose}
+                severity="error"
+                sx={{ width: '100%' }}
+              >
+                배경은 삭제 할 수 없습니다.
+              </Alert>
+            </Snackbar>
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
