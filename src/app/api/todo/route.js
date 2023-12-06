@@ -1,18 +1,16 @@
 /*app/items/route.ts*/
 import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient({});
 
 export async function GET() {
-  // const res = await fetch('<https://data.mongodb-api.com/>...', {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'API-Key': process.env.DATA_API_KEY,
-  //   },
-  // });
-  // const data = await res.json();
-
-  const workouts = EXAMPLE_WORKOUTS;
-
+  const workouts = await prisma.todo.findMany({ take: 10 });
   return NextResponse.json(workouts);
+}
+
+export async function POST() {
+  // post
 }
 
 // 운동 예시 오브젝트
@@ -24,15 +22,15 @@ const EXAMPLE_WORKOUT1 = {
   done: true,
   sets: [
     {
-      intensity: '30kg',
+      intensity: 30,
       time: 10,
     },
     {
-      intensity: '40kg',
+      intensity: 40,
       time: 8,
     },
     {
-      intensity: '50kg',
+      intensity: 50,
       time: 6,
     },
   ],
@@ -46,15 +44,15 @@ const EXAMPLE_WORKOUT2 = {
   done: true,
   sets: [
     {
-      intensity: '30kg',
+      intensity: 30,
       time: 10,
     },
     {
-      intensity: '40kg',
+      intensity: 40,
       time: 8,
     },
     {
-      intensity: '50kg',
+      intensity: 50,
       time: 6,
     },
   ],
@@ -68,15 +66,15 @@ const EXAMPLE_WORKOUT3 = {
   done: true,
   sets: [
     {
-      intensity: '6km/h',
+      intensity: 6,
       time: 10,
     },
     {
-      intensity: '7km/h',
+      intensity: 7,
       time: 8,
     },
     {
-      intensity: '8km/h',
+      intensity: 8,
       time: 6,
     },
   ],
