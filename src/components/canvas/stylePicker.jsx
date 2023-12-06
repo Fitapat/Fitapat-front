@@ -48,6 +48,15 @@ function simpleText(workoutsString) {
   return text;
 }
 
+function addItemToCanvasCenter(canvas, item) {
+  item.set({
+    left: canvas.getWidth() / 2,
+    top: canvas.getHeight() / 2,
+  });
+  canvas.add(item);
+  canvas.renderAll();
+}
+
 // make a function that makes a fabric text object into Image
 function textToImage(text) {}
 
@@ -104,7 +113,7 @@ export default function StylePicker(props) {
       <Button
         variant="contained"
         onClick={() => {
-          canvas.add(workoutResult);
+          addItemToCanvasCenter(canvas, workoutResult);
           handleClose();
         }}
       >
