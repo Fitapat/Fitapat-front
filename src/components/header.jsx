@@ -23,6 +23,7 @@ export default function Header() {
         top: 0,
         width: '100%',
         p: 1,
+        boxSizing: 'border-box',
       }}
     >
       <Button color={'inherit'} variant="text" onClick={() => onLink('/')}>
