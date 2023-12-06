@@ -116,7 +116,11 @@ function SwipeableEdgeDrawer() {
           }}
         >
           <Puller />
-          <Button variant="text" sx={{ p: 2, left: 'calc(100% - 70px)' }}>
+          <Button
+            variant="text"
+            sx={{ p: 2, left: 'calc(100% - 70px)' }}
+            onClick={toggleDrawer(false)}
+          >
             완료
           </Button>
         </Box>
