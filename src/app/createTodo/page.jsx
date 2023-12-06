@@ -26,11 +26,45 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
+function TodoSets(props) {
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'grey',
+        borderRadius: 2,
+        marginBottom: '20px',
+      }}
+    >
+      {props.num} Set
+      <TextField
+        variant="outlined"
+        type="number"
+        size="small"
+        margin="dense"
+        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+      ></TextField>
+      kg
+      <TextField
+        variant="outlined"
+        type="number"
+        size="small"
+        margin="dense"
+        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+      ></TextField>
+      회
+    </Box>
+  );
+}
+
 function SwipeableEdgeDrawer() {
   const [open, setOpen] = useState(false);
+  const [numSets, setNumSets] = useState(1);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
+  };
+  const addSet = () => {
+    setNumSets(numSets + 1);
   };
 
   return (
@@ -100,32 +134,14 @@ function SwipeableEdgeDrawer() {
             control={<Switch defaultChecked />}
             label="유산소 여부"
           />
-          <Box
-            sx={{
-              backgroundColor: 'grey',
-              borderRadius: 2,
-              marginBottom: '20px',
+          <TodoSets num={numSets}></TodoSets>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              addSet();
             }}
           >
-            1 Set
-            <TextField
-              variant="outlined"
-              type="number"
-              size="small"
-              margin="dense"
-              sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-            ></TextField>
-            kg
-            <TextField
-              variant="outlined"
-              type="number"
-              size="small"
-              margin="dense"
-              sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-            ></TextField>
-            회
-          </Box>
-          <Button variant="contained" fullWidth>
             세트 추가
           </Button>
         </Box>
