@@ -21,82 +21,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function WorkoutModal(props) {
-  // 운동 예시 오브젝트
-  const EXAMPLE_WORKOUT1 = {
-    user_id: '1',
-    title: '벤치프레스',
-    date: '2021-10-10',
-    aerobic: false,
-    done: true,
-    sets: [
-      {
-        intensity: '30kg',
-        time: 10,
-      },
-      {
-        intensity: '40kg',
-        time: 8,
-      },
-      {
-        intensity: '50kg',
-        time: 6,
-      },
-    ],
-  };
-
-  const EXAMPLE_WORKOUT2 = {
-    user_id: '1',
-    title: '스쿼트',
-    date: '2021-10-10',
-    aerobic: false,
-    done: true,
-    sets: [
-      {
-        intensity: '30kg',
-        time: 10,
-      },
-      {
-        intensity: '40kg',
-        time: 8,
-      },
-      {
-        intensity: '50kg',
-        time: 6,
-      },
-    ],
-  };
-
-  const EXAMPLE_WORKOUT3 = {
-    user_id: '1',
-    title: '런닝머신',
-    date: '2021-10-10',
-    aerobic: true,
-    done: true,
-    sets: [
-      {
-        intensity: '6km/h',
-        time: 10,
-      },
-      {
-        intensity: '7km/h',
-        time: 8,
-      },
-      {
-        intensity: '8km/h',
-        time: 6,
-      },
-    ],
-  };
-
-  const EXAMPLE_WORKOUTS = [
-    EXAMPLE_WORKOUT1,
-    EXAMPLE_WORKOUT2,
-    EXAMPLE_WORKOUT3,
-  ];
-  const workouts = EXAMPLE_WORKOUTS;
-
   const [open, setOpen] = React.useState(false);
   const [isStyle, setIsStyle] = React.useState(false);
+  const [workouts, setWorkouts] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -104,6 +31,18 @@ export default function WorkoutModal(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const getWorkouts = async () => {
+    await fetch('/api/todo')
+      .then((res) => res.json())
+      .then((res) => {
+        setWorkouts(res);
+      });
+  };
+
+  React.useEffect(() => {
+    getWorkouts();
+  }, []);
 
   return (
     <React.Fragment>
