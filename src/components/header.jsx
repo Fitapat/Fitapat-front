@@ -21,7 +21,7 @@ export default function Header() {
     <Box
       sx={{
         top: 0,
-        width: '385px',
+        width: '100%',
         p: 1,
       }}
     >
