@@ -27,33 +27,37 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 function TodoSets(props) {
-  return (
-    <Box
-      sx={{
-        backgroundColor: 'grey',
-        borderRadius: 2,
-        marginBottom: '20px',
-      }}
-    >
-      {props.num} Set
-      <TextField
-        variant="outlined"
-        type="number"
-        size="small"
-        margin="dense"
-        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-      ></TextField>
-      kg
-      <TextField
-        variant="outlined"
-        type="number"
-        size="small"
-        margin="dense"
-        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-      ></TextField>
-      회
-    </Box>
-  );
+  let set = [];
+  for (let i = 1; i <= props.num; i++)
+    set.push(
+      <Box
+        sx={{
+          backgroundColor: 'grey',
+          borderRadius: 2,
+          marginBottom: '20px',
+        }}
+      >
+        {i} Set
+        <TextField
+          variant="outlined"
+          type="number"
+          size="small"
+          margin="dense"
+          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+        ></TextField>
+        kg
+        <TextField
+          variant="outlined"
+          type="number"
+          size="small"
+          margin="dense"
+          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+        ></TextField>
+        회
+      </Box>,
+    );
+
+  return <>{set}</>;
 }
 
 function SwipeableEdgeDrawer() {
