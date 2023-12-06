@@ -15,10 +15,13 @@ export default function Footer() {
     router.push(href);
   };
 
-  const value = pathname;
+  if (pathname == '/selectpic' || pathname == '/canvas') {
+    return null;
+  }
+
   return (
     <BottomNavigation
-      value={value}
+      value={pathname}
       sx={{
         position: 'absolute',
         bottom: 0,
