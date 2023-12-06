@@ -24,8 +24,8 @@ export default function SelectWorkoutButtons(props) {
           value={view}
           onChange={handleChange}
         >
-          {workouts.map((item) => (
-            <ToggleButton value={item.title} aria-label={item.title}>
+          {workouts.map((item, idx) => (
+            <ToggleButton value={item.title} aria-label={item.title} key={idx}>
               {item.title}
             </ToggleButton>
           ))}
