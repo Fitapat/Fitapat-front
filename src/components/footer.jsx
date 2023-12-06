@@ -22,7 +22,6 @@ export default function Footer() {
       style={{
         position: 'fixed',
         bottom: 0,
-        /* left: 0, right: 0, */
         width: '385px', // 수정하기
         background: '#ddd',
       }}
