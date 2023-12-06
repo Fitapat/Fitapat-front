@@ -1,8 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Button, SwipeableDrawer } from '@mui/material';
-import { Input } from '@mui/base';
+import {
+  Box,
+  Button,
+  SwipeableDrawer,
+  TextField,
+  FormControlLabel,
+  Switch,
+} from '@mui/material';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -76,9 +82,9 @@ function SwipeableEdgeDrawer() {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>
-            51 results
-          </Typography>
+          <Button variant="text" sx={{ p: 2, left: 'calc(100% - 70px)' }}>
+            완료
+          </Button>
         </Box>
         <Box
           sx={{
@@ -88,7 +94,41 @@ function SwipeableEdgeDrawer() {
             overflow: 'auto',
             backgroundColor: 'lightgrey',
           }}
-        ></Box>
+        >
+          <TextField label="운동 이름" variant="standard" fullWidth />
+          <FormControlLabel
+            control={<Switch defaultChecked />}
+            label="유산소 여부"
+          />
+          <Box
+            sx={{
+              backgroundColor: 'grey',
+              borderRadius: 2,
+              marginBottom: '20px',
+            }}
+          >
+            1 Set
+            <TextField
+              variant="outlined"
+              type="number"
+              size="small"
+              margin="dense"
+              sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+            ></TextField>
+            kg
+            <TextField
+              variant="outlined"
+              type="number"
+              size="small"
+              margin="dense"
+              sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+            ></TextField>
+            회
+          </Box>
+          <Button variant="contained" fullWidth>
+            세트 추가
+          </Button>
+        </Box>
       </SwipeableDrawer>
     </Box>
   );
