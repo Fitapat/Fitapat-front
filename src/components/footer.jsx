@@ -19,10 +19,10 @@ export default function Footer() {
   return (
     <BottomNavigation
       value={value}
-      style={{
-        position: 'fixed',
+      sx={{
+        position: 'absolute',
         bottom: 0,
-        width: '385px', // 수정하기
+        width: '430px',
         background: '#ddd',
       }}
     >
