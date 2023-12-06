@@ -12,20 +12,46 @@ import {
   TextField,
 } from '@mui/material';
 
-export default function Register() {
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+async function createUser(email, password, nickname) {
+  const res = await fetch('/api/auth/signup', {
+    method: 'POST',
+    body: JSON.stringify({ email, password, nickname }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  console.log('POST 요청 보냅니다');
+  const data = await res.json();
+  if (res.status === 409) {
+    alert(data.error); // 이미 가입된 이메일 status code
+  } else if (!res.ok) {
+    // 다른 오류 처리
+    throw new Error(data.message || 'createUser: Something went wrong!');
+  }
 
-  const handleSignupSubmit = (e) => {
+  return data;
+}
+
+export default function Register() {
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
     } else {
-      console.log(`회원가입 완료! 이름: ${username}, email: ${email}`);
-      alert('회원가입 완료! 로그인해주세요.');
-      window.location = '/login';
+      try {
+        const result = await createUser(email, password, nickname);
+        console.log(result);
+        console.log(`회원가입 완료! 닉네임: ${nickname}, email: ${email}`);
+        alert('회원가입 완료! 로그인해주세요.');
+        window.location = '/login';
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -36,10 +62,10 @@ export default function Register() {
       </Typography>
       <Stack spacing={2} sx={{ margin: 'auto', maxWidth: 500, padding: 3 }}>
         <TextField
-          label="이름"
+          label="닉네임"
           variant="outlined"
           onChange={(e) => {
-            setUsername(e.target.value);
+            setNickname(e.target.value);
           }}
         />
         <TextField
