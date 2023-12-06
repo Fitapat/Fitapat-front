@@ -31,7 +31,8 @@ function ServerDay(props) {
   );
 }
 
-export default function MuiCalendar() {
+export default function MuiCalendar(/*TODO {value, setValue}*/) {
+  const [value, setValue] = React.useState(dayjs()); // TODO: parents에게서 받아오는걸로 수정
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([
     '2023-12-17',
@@ -39,19 +40,22 @@ export default function MuiCalendar() {
     '2023-12-19',
   ]);
 
-  const initialValue = dayjs('2023-12-17');
+  const initialValue = dayjs(); // today
 
   const fetchHighlightedDays = (date) => {
-    console.log(date.format('YYYY-MM-DD')); // 2023-12-01
+    // TODO 그 달에 해당하는 기록만 fetch 해오기
     setHighlightedDays(['2023-12-17', '2023-12-18', '2023-12-19']);
     setIsLoading(false);
   };
 
   React.useEffect(() => {
     fetchHighlightedDays(initialValue);
+    setValue(initialValue);
   }, []);
 
   const handleMonthChange = (date) => {
+    console.log(date.format('YYYY-MM-DD')); // 2023-12-01 ..  1일로 바뀜
+    setValue(date);
     setIsLoading(true);
     setHighlightedDays([]);
     fetchHighlightedDays(date);
@@ -61,6 +65,8 @@ export default function MuiCalendar() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         defaultValue={initialValue}
+        value={value}
+        onChange={(newValue) => setValue(newValue)}
         loading={isLoading}
         onMonthChange={handleMonthChange}
         renderLoading={() => <DayCalendarSkeleton />}
