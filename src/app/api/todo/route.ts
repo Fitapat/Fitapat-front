@@ -1,4 +1,3 @@
-/*app/items/route.ts*/
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -10,9 +9,9 @@ const prisma = new PrismaClient({});
 // }
 
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
-export async function GET(request : NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const date = request.nextUrl.searchParams.get("date");
+    const date = request.nextUrl.searchParams.get('date');
 
     // 날짜가 주어지지 않았을 경우 에러 리턴
     if (!date) {
