@@ -1,4 +1,3 @@
-/*app/items/route.ts*/
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -15,7 +14,8 @@ export async function POST() {
 
 // 운동 예시 오브젝트
 const EXAMPLE_WORKOUT1 = {
-  user_id: '1',
+  _id: 'stringstring',
+  userId: '1',
   title: '벤치프레스',
   date: '2021-10-10',
   aerobic: false,
@@ -37,7 +37,8 @@ const EXAMPLE_WORKOUT1 = {
 };
 
 const EXAMPLE_WORKOUT2 = {
-  user_id: '1',
+  _id: 'dddd',
+  userId: '1',
   title: '스쿼트',
   date: '2021-10-10',
   aerobic: false,
@@ -59,7 +60,8 @@ const EXAMPLE_WORKOUT2 = {
 };
 
 const EXAMPLE_WORKOUT3 = {
-  user_id: '1',
+  _id: 'string3',
+  userId: '1',
   title: '런닝머신',
   date: '2021-10-10',
   aerobic: true,
