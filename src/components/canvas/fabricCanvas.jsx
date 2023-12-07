@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import OverlayButtons from './overlayButtons';
-import DownSideButtons from './downsideButtons';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
