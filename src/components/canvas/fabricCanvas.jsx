@@ -121,6 +121,7 @@ export default function FabricCanvas() {
         height: '1',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
