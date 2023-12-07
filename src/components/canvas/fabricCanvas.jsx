@@ -94,6 +94,7 @@ export default function FabricCanvas() {
 
   function handleDeleteButton(e) {
     var activeObject = canvas.getActiveObject();
+    if (!activeObject) return;
     if (activeObject.id === 'background') {
       handleBgErrorOpen();
       return;
@@ -118,9 +119,8 @@ export default function FabricCanvas() {
     <Box
       sx={{
         width: '1',
-        height: 'auto',
+        height: '1',
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
       }}
@@ -130,8 +130,6 @@ export default function FabricCanvas() {
           sx={{
             position: 'fixed',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             flexDirection: 'column',
           }}
         >
@@ -139,10 +137,11 @@ export default function FabricCanvas() {
           <OverlayButtons
             handleDeleteButton={handleDeleteButton}
             handleBgErrorClose={handleBgErrorClose}
+            handleSaveImage={handleSaveImage}
             triggerBgDelete={triggerBgDelete}
             canvas={canvas}
           />
-          <DownSideButtons handleSaveImage={handleSaveImage} />
+          {/* <DownSideButtons handleSaveImage={handleSaveImage} /> */}
         </Box>
       )}
     </Box>
