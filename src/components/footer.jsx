@@ -23,7 +23,8 @@ export default function Footer() {
     <BottomNavigation
       value={pathname}
       sx={{
-        position: 'absolute',
+        position: 'relative',
+        transition: '-100%',
         bottom: 0,
         width: '430px',
         background: '#ddd',

@@ -13,7 +13,7 @@ export default function Header() {
     router.push(href);
   };
 
-  if (pathname == '/start') {
+  if (pathname == '/start' || pathname == '/canvas') {
     return <></>;
   }
 
