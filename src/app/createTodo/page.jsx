@@ -67,7 +67,7 @@ function SwipeableEdgeDrawer() {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-  const addSet = () => {
+  const addSet = () => () => {
     setNumSets(numSets + 1);
   };
 
@@ -143,13 +143,7 @@ function SwipeableEdgeDrawer() {
             label="유산소 여부"
           />
           <TodoSets num={numSets}></TodoSets>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={() => {
-              addSet();
-            }}
-          >
+          <Button variant="contained" fullWidth onClick={addSet()}>
             세트 추가
           </Button>
         </Box>
