@@ -52,6 +52,12 @@ function addItemToCanvasCenter(canvas, item) {
   item.set({
     left: canvas.getWidth() / 2,
     top: canvas.getHeight() / 2,
+    zIndex: 2,
+  });
+  canvas.discardActiveObject();
+  // Activate 될 때마다 가장 앞으로 오도록 이벤트리스너 등록
+  canvas.on('object:selected', function (options) {
+    options.target.bringToFront();
   });
   canvas.add(item);
   canvas.renderAll();

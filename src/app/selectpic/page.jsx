@@ -70,7 +70,7 @@ export default function SelectPic() {
       )}
 
       <Box>
-        <Link href="/canvas">
+        <Link href="/">
           <Button
             variant="outlined"
             component="label"

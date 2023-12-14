@@ -21,6 +21,7 @@ export default function FabricCanvas() {
   useEffect(() => {
     const newCanvas = new fabric.Canvas('myCanvas', {
       backgroundColor: 'black',
+      preserveObjectStacking: true,
     });
 
     setCanvas(newCanvas);
