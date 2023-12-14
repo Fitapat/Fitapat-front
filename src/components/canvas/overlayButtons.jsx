@@ -66,38 +66,38 @@ export default function OverlayButtons(props) {
             height: 'auto',
             alignItems: 'center',
             display: 'flex',
-            flexDirection: 'row-reverse',
+            flexDirection: 'row',
             marginRight: 2,
           }}
-        ></Box>
-
-        <Button sx={{ height: 1 }}>
-          <DeleteIcon
-            stroke={'lightgray'}
-            strokeWidth={0.5}
-            fontSize="medium"
-            onClick={props.handleDeleteButton}
-          ></DeleteIcon>
-          <Snackbar
-            open={props.triggerBgDelete}
-            autoHideDuration={3000}
-            onClose={props.handleBgErrorClose}
-          >
-            <Alert
+        >
+          <Button sx={{ height: 1 }}>
+            <DeleteIcon
+              stroke={'lightgray'}
+              strokeWidth={0.5}
+              fontSize="medium"
+              onClick={props.handleDeleteButton}
+            ></DeleteIcon>
+            <Snackbar
+              open={props.triggerBgDelete}
+              autoHideDuration={3000}
               onClose={props.handleBgErrorClose}
-              severity="error"
-              sx={{ width: '100%' }}
             >
-              배경은 삭제 할 수 없습니다.
-            </Alert>
-          </Snackbar>
-        </Button>
-        <Button>
-          <WorkoutModal canvas={canvas} />
-        </Button>
-        <Button sx={{ height: 1 }}>
-          <DownloadIcon onClick={() => handleSaveImage()}></DownloadIcon>
-        </Button>
+              <Alert
+                onClose={props.handleBgErrorClose}
+                severity="error"
+                sx={{ width: '100%' }}
+              >
+                배경은 삭제 할 수 없습니다.
+              </Alert>
+            </Snackbar>
+          </Button>
+          <Button>
+            <WorkoutModal canvas={canvas} />
+          </Button>
+          <Button sx={{ height: 1 }}>
+            <DownloadIcon onClick={() => handleSaveImage()}></DownloadIcon>
+          </Button>
+        </Box>
       </Box>
       {/* <Box // 하단 아이콘들
         sx={{

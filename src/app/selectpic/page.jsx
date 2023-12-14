@@ -69,7 +69,18 @@ export default function SelectPic() {
         </Box>
       )}
 
-      <div>
+      <Box>
+        <Link href="/">
+          <Button
+            variant="outlined"
+            component="label"
+            sx={{
+              m: 0.5,
+            }}
+          >
+            이전
+          </Button>
+        </Link>
         <input
           type="file"
           accept="image/*"
@@ -99,7 +110,7 @@ export default function SelectPic() {
             </Button>
           </Link>
         )}
-      </div>
+      </Box>
     </Box>
   );
 }

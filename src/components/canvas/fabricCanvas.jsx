@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import OverlayButtons from './overlayButtons';
-import DownSideButtons from './downsideButtons';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
@@ -22,6 +21,7 @@ export default function FabricCanvas() {
   useEffect(() => {
     const newCanvas = new fabric.Canvas('myCanvas', {
       backgroundColor: 'black',
+      preserveObjectStacking: true,
     });
 
     setCanvas(newCanvas);
@@ -122,6 +122,7 @@ export default function FabricCanvas() {
         height: '1',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
