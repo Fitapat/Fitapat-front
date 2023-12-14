@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <Container sx={{ height: '100%', overflow: 'auto' }}>
+        <Container sx={{ height: '100%', overflow: 'hidden' }}>
           {children}
         </Container>
         <Footer />
