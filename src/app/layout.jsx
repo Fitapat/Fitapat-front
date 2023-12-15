@@ -5,6 +5,7 @@ import './globals.css';
 import { Container } from '@mui/material';
 import Header from '../components/header';
 import Footer from '../components/footer';
+import AuthSession from '../AuthSession';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,8 +19,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <Container sx={{ height: '100%', overflow: 'hidden' }}>
-          {children}
+        <Container sx={{ height: '100%', overflow: 'scroll' }}>
+          <AuthSession>{children}</AuthSession>
         </Container>
         <Footer />
       </body>
