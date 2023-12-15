@@ -43,7 +43,7 @@ export default function SelectPic() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height: 1,
         width: 1,
         position: 'relative',
       }}
@@ -52,7 +52,7 @@ export default function SelectPic() {
         <Box
           sx={{
             width: 1,
-            height: 0.8,
+            height: '50vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -69,7 +69,18 @@ export default function SelectPic() {
         </Box>
       )}
 
-      <div>
+      <Box>
+        <Link href="/">
+          <Button
+            variant="outlined"
+            component="label"
+            sx={{
+              m: 0.5,
+            }}
+          >
+            이전
+          </Button>
+        </Link>
         <input
           type="file"
           accept="image/*"
@@ -77,12 +88,20 @@ export default function SelectPic() {
           className={styles.hiddenInput}
           ref={fileInputRef}
         />
-        <Button component="label" variant="outlined" onClick={triggerFileInput}>
+        <Button
+          sx={{ m: 0.5 }}
+          component="label"
+          variant="outlined"
+          onClick={triggerFileInput}
+        >
           {selectedImage ? '다른 이미지로 교체하기' : '이미지 업로드'}
         </Button>
         {selectedImage && !isUploading && (
           <Link href="/canvas">
             <Button
+              sx={{
+                m: 0.5,
+              }}
               className={styles.nextButton}
               component="label"
               variant="outlined"
@@ -91,7 +110,7 @@ export default function SelectPic() {
             </Button>
           </Link>
         )}
-      </div>
+      </Box>
     </Box>
   );
 }

@@ -13,7 +13,7 @@ export default function Header() {
     router.push(href);
   };
 
-  if (pathname == '/start') {
+  if (pathname == '/start' || pathname == '/canvas') {
     return <></>;
   }
 
@@ -21,8 +21,9 @@ export default function Header() {
     <Box
       sx={{
         top: 0,
-        width: '385px',
+        width: '100%',
         p: 1,
+        boxSizing: 'border-box',
       }}
     >
       <Button color={'inherit'} variant="text" onClick={() => onLink('/')}>

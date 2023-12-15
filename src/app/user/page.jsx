@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { Stack, Button, Link } from '@mui/material';
-import Footer from '@/components/footer';
 
 const handleLogoutSubmit = (e) => {
   e.preventDefault();
@@ -31,7 +30,6 @@ export default function User() {
           회원탈퇴
         </Link>
       </Stack>
-      <Footer />
     </div>
   );
 }

@@ -15,14 +15,18 @@ export default function Footer() {
     router.push(href);
   };
 
-  const value = pathname;
+  if (pathname == '/selectpic' || pathname == '/canvas') {
+    return null;
+  }
+
   return (
     <BottomNavigation
-      value={value}
-      style={{
-        position: 'fixed',
+      value={pathname}
+      sx={{
+        position: 'relative',
+        transition: '-100%',
         bottom: 0,
-        width: '385px', // 수정하기
+        width: '430px',
         background: '#ddd',
       }}
     >

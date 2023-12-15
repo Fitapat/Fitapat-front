@@ -1,12 +1,43 @@
-/*app/items/route.ts*/
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({});
 
-export async function GET() {
-  const workouts = await prisma.todo.findMany({ take: 10 });
-  return NextResponse.json(workouts);
+// export async function GET() {
+//   const workouts = await prisma.todo.findMany({ take: 10 });
+//   return NextResponse.json(workouts);
+// }
+
+// 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
+export async function GET(request: NextRequest) {
+  try {
+    const date = request.nextUrl.searchParams.get('date');
+
+    // 날짜가 주어지지 않았을 경우 에러 리턴
+    if (!date) {
+      return NextResponse.json({
+        status: 400,
+        body: 'Bad Request: Date parameter is missing',
+      });
+    }
+
+    // Prisma를 사용하여 해당 날짜에 해당하는 Todo 데이터를 가져옴
+    const todoData = await prisma.todo.findMany({
+      // 입력된 날짜와 일치하는 데이터 검색
+      where: {
+        date: date,
+      },
+    });
+
+    // JSON 형식으로 응답
+    return NextResponse.json(todoData);
+  } catch {
+    // 에러가 발생하면 에러 상태를 반환
+    return NextResponse.json({
+      status: 500,
+      body: 'Internal Server Error',
+    });
+  }
 }
 
 export async function POST() {
