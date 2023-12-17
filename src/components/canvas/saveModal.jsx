@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Link from 'next/link';
 
 export default function SaveModal(props) {
   const { handleSaveOpen, handleSaveClose, saveOpen } = props;
@@ -25,9 +26,11 @@ export default function SaveModal(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSaveClose}>Disagree</Button>
-          <Button onClick={handleSaveClose} autoFocus>
-            Agree
-          </Button>
+          <Link href="/">
+            <Button onClick={handleSaveClose} autoFocus>
+              Agree
+            </Button>
+          </Link>
         </DialogActions>
       </Dialog>
     </React.Fragment>
