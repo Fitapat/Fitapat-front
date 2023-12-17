@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
-    console.log('POST 요청 받았어요');
     const body = await req.json();
 
     // 해당 이메일이 db에 있는지 체크하기

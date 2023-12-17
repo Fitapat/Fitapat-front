@@ -3,7 +3,12 @@
 'use client';
 
 import React from 'react';
-import { Stack, Button, Link } from '@mui/material';
+import {
+  Stack,
+  Button,
+  Link,
+  Box,
+} from '@mui/material';
 import { useSession, signOut } from 'next-auth/react';
 
 const handleLogoutSubmit = (e) => {
@@ -18,20 +23,20 @@ export default function User() {
   return (
     <div>
       {status === 'authenticated' ? (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            variant="text"
-            onClick={handleLogoutSubmit}
-            sx={{ margin: 3 }}
-          >
-            로그아웃
-          </Button>
+        <Box display="flex" flexDirection="column" alignItems="flex-end">
           {/* 현재 로그인중인 사용자 이메일 표시 */}
           <div>
             현재 로그인:
             {status === 'authenticated' ? session?.user?.email : '(error)'}
           </div>
-        </div>
+          <Button
+            variant="text"
+            onClick={handleLogoutSubmit}
+            sx={{ margin: 0 }}
+          >
+            로그아웃
+          </Button>
+        </Box>
       ) : (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Link href="/register" underline="hover" sx={{ margin: 1 }}>

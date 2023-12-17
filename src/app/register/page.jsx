@@ -20,7 +20,6 @@ async function createUser(email, password, nickname) {
       'Content-Type': 'application/json',
     },
   });
-  console.log('POST 요청 보냅니다');
   const data = await res.json();
   if (res.status === 409) {
     alert(data.error); // 이미 가입된 이메일 status code

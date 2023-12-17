@@ -46,8 +46,7 @@ const handler = NextAuth({
         if (!isCorrectPassword) {
           return null;
         }
-        console.log('로그인 완료');
-        console.log('authorize에서 반환하는 user는 ', user);
+        // console.log('authorized user: ', user);
         return user;
       },
     }),
@@ -56,19 +55,18 @@ const handler = NextAuth({
     strategy: 'jwt',
   },
   callbacks: {
-    session: ({ session, token }) => {
-      console.log('session callback', { session, token });
-      return {
+    session: ({ session, token }) =>
+      // console.log('session callback', { session, token });
+      ({
         ...session,
         user: {
           ...session.user,
           id: token.id,
           randomKey: token.randomKey,
         },
-      };
-    },
+      }),
     jwt: ({ token, user }) => {
-      console.log('JWT callback', { token, user });
+      // console.log('JWT callback', { token, user });
       if (user) {
         const u = user;
         return {
