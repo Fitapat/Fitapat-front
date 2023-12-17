@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Checkbox, Grid, List, ListItem } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -13,11 +13,16 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function TodoItem(/*{ item }*/) {
-  const item = EXAMPLE_WORKOUT1;
+  const [item, setItem] = useState(EXAMPLE_WORKOUT1);
+
+  const onDoneClick = () => {
+    setItem({ ...item, done: !item.done });
+  };
+
   return (
     <Grid container sx={{ mb: 1 }}>
       <Grid item xs={'auto'}>
-        <Checkbox checked={item.done ? true : false} />
+        <Checkbox onClick={onDoneClick} checked={item.done ? true : false} />
       </Grid>
       <Grid item xs={10}>
         <Accordion>
