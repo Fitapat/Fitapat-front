@@ -13,7 +13,7 @@ const handleLogoutSubmit = (e) => {
 };
 
 export default function User() {
-  const { session, status } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <div>
@@ -29,7 +29,7 @@ export default function User() {
           {/* 현재 로그인중인 사용자 이메일 표시 */}
           <div>
             현재 로그인:
-            {status === 'authenticated' ? session?.user?.email : 'X'}
+            {status === 'authenticated' ? session?.user?.email : '(error)'}
           </div>
         </div>
       ) : (

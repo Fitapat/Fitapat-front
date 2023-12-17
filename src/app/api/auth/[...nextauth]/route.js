@@ -35,8 +35,6 @@ const handler = NextAuth({
           where: { email: credentials.email },
         });
 
-        console.log(user);
-
         if (!user) {
           return null;
         }
@@ -49,6 +47,7 @@ const handler = NextAuth({
           return null;
         }
         console.log('로그인 완료');
+        console.log('authorize에서 반환하는 user는 ', user);
         return user;
       },
     }),
@@ -57,23 +56,28 @@ const handler = NextAuth({
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, user, session }) {
-      if (user) {
-        return {
-          ...token,
-          id: user.id,
-        };
-      }
-      return token;
-    },
-    async session({ session, token, user }) {
+    session: ({ session, token }) => {
+      console.log('session callback', { session, token });
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
+          randomKey: token.randomKey,
         },
       };
+    },
+    jwt: ({ token, user }) => {
+      console.log('JWT callback', { token, user });
+      if (user) {
+        const u = user;
+        return {
+          ...token,
+          id: u.id,
+          randomKey: u.randomKey,
+        };
+      }
+      return token;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
