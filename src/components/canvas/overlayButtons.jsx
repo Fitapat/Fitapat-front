@@ -8,13 +8,15 @@ import { Box, Button } from '@mui/material';
 import Link from 'next/link';
 import WorkoutModal from './workoutModal';
 import DownloadIcon from '@mui/icons-material/Download';
+import SaveModal from './saveModal';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 export default function OverlayButtons(props) {
-  const { canvas, handleSaveImage } = props;
+  const { canvas, handleSaveImage, handleSaveOpen, handleSaveClose, saveOpen } =
+    props;
 
   return (
     <Box
@@ -96,6 +98,11 @@ export default function OverlayButtons(props) {
           </Button>
           <Button sx={{ height: 1 }}>
             <DownloadIcon onClick={() => handleSaveImage()}></DownloadIcon>
+            <SaveModal
+              handleSaveClose={handleSaveClose}
+              handleSaveOpen={handleSaveOpen}
+              saveOpen={saveOpen}
+            ></SaveModal>
           </Button>
         </Box>
       </Box>
