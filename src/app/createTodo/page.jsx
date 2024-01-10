@@ -26,7 +26,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-function TodoSet({ index }) {
+function TodoSet({ index, isAerobic }) {
   return (
     <Box
       sx={{
@@ -43,7 +43,7 @@ function TodoSet({ index }) {
         margin="dense"
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
       ></TextField>
-      kg
+      {isAerobic ? 'km' : 'kg'}
       <TextField
         variant="outlined"
         type="number"
@@ -51,7 +51,7 @@ function TodoSet({ index }) {
         margin="dense"
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
       ></TextField>
-      회
+      {isAerobic ? '분' : '회'}
     </Box>
   );
 }
@@ -95,7 +95,7 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
 
   let todoSets = [];
   for (let i = 1; i <= numSets; i++) {
-    todoSets.push(<TodoSet index={i} key={i}></TodoSet>);
+    todoSets.push(<TodoSet index={i} key={i} isAerobic={isAerobic}></TodoSet>);
   }
 
   return (
