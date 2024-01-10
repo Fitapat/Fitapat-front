@@ -80,13 +80,23 @@ function FinishCreateTodoBtn({ toggleDrawer }) {
   );
 }
 
-function AerobicSwitch() {
+function AerobicSwitch({ isAerobic, setIsAerobic }) {
+  const handleAerobic = (event) => {
+    setIsAerobic(event.target.checked);
+  };
+
   return (
-    <FormControlLabel control={<Switch defaultChecked />} label="유산소 여부" />
+    <FormControlLabel
+      control={<Switch defaultChecked />}
+      label={isAerobic ? '유산소' : '무산소'}
+      onChange={handleAerobic}
+    />
   );
 }
 
 function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
+  const [isAerobic, setIsAerobic] = useState(true);
+
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -119,7 +129,7 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
         }}
       >
         <TextField label="운동 이름" variant="standard" fullWidth />
-        <AerobicSwitch />
+        <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
         <TodoSets num={numSets}></TodoSets>
         <Button variant="contained" fullWidth onClick={addSet()}>
           세트 추가
