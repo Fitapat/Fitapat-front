@@ -60,7 +60,7 @@ function TodoSets(props) {
   return <>{set}</>;
 }
 
-function SwipeableEdgeDrawer() {
+function CreateTodoDrawer() {
   const [open, setOpen] = useState(false);
   const [numSets, setNumSets] = useState(1);
 
@@ -152,4 +152,4 @@ function SwipeableEdgeDrawer() {
   );
 }
 
-export default SwipeableEdgeDrawer;
+export default CreateTodoDrawer;
