@@ -26,38 +26,34 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-function TodoSets(props) {
-  let set = [];
-  for (let i = 1; i <= props.num; i++)
-    set.push(
-      <Box
-        sx={{
-          backgroundColor: 'grey',
-          borderRadius: 2,
-          marginBottom: '20px',
-        }}
-      >
-        {i} Set
-        <TextField
-          variant="outlined"
-          type="number"
-          size="small"
-          margin="dense"
-          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-        ></TextField>
-        kg
-        <TextField
-          variant="outlined"
-          type="number"
-          size="small"
-          margin="dense"
-          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-        ></TextField>
-        회
-      </Box>,
-    );
-
-  return <>{set}</>;
+function TodoSet({ index }) {
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'grey',
+        borderRadius: 2,
+        marginBottom: '20px',
+      }}
+    >
+      {index} Set
+      <TextField
+        variant="outlined"
+        type="number"
+        size="small"
+        margin="dense"
+        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+      ></TextField>
+      kg
+      <TextField
+        variant="outlined"
+        type="number"
+        size="small"
+        margin="dense"
+        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+      ></TextField>
+      회
+    </Box>
+  );
 }
 
 function CreateTodoBtn({ toggleDrawer }) {
@@ -97,6 +93,11 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
 function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
   const [isAerobic, setIsAerobic] = useState(true);
 
+  let todoSets = [];
+  for (let i = 1; i <= numSets; i++) {
+    todoSets.push(<TodoSet index={i} key={i}></TodoSet>);
+  }
+
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -130,7 +131,7 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
       >
         <TextField label="운동 이름" variant="standard" fullWidth />
         <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
-        <TodoSets num={numSets}></TodoSets>
+        {todoSets}
         <Button variant="contained" fullWidth onClick={addSet()}>
           세트 추가
         </Button>
