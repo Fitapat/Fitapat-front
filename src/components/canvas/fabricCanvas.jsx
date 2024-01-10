@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import OverlayButtons from './overlayButtons';
-import DownSideButtons from './downsideButtons';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);
@@ -12,6 +11,7 @@ export default function FabricCanvas() {
   const [canvas, setCanvas] = useState();
   const [backgroundId, setBackgroundId] = useState();
   const [triggerBgDelete, setTriggerBgDelete] = useState(false);
+  const [saveOpen, setSaveOpen] = React.useState(false);
 
   // SSR 대응, 클라이언트에서만 실행되도록 하는 코드
   useEffect(() => {
@@ -22,6 +22,7 @@ export default function FabricCanvas() {
   useEffect(() => {
     const newCanvas = new fabric.Canvas('myCanvas', {
       backgroundColor: 'black',
+      preserveObjectStacking: true,
     });
 
     setCanvas(newCanvas);
@@ -113,7 +114,16 @@ export default function FabricCanvas() {
       quality: 1.0,
     });
     link.click();
+    setSaveOpen(true);
   }
+
+  const handleSaveOpen = () => {
+    setSaveOpen(true);
+  };
+
+  const handleSaveClose = () => {
+    setSaveOpen(false);
+  };
 
   return (
     <Box
@@ -122,6 +132,7 @@ export default function FabricCanvas() {
         height: '1',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
@@ -138,6 +149,9 @@ export default function FabricCanvas() {
             handleDeleteButton={handleDeleteButton}
             handleBgErrorClose={handleBgErrorClose}
             handleSaveImage={handleSaveImage}
+            handleSaveOpen={handleSaveOpen}
+            handleSaveClose={handleSaveClose}
+            saveOpen={saveOpen}
             triggerBgDelete={triggerBgDelete}
             canvas={canvas}
           />

@@ -2,6 +2,7 @@
 
 /* eslint-disable no-console, no-alert */
 
+import { signIn } from 'next-auth/react';
 import React, { useState } from 'react';
 import {
   Box,
@@ -20,14 +21,25 @@ export default function Login() {
 
   const [isChecked, setChecked] = useState(false);
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    alert(`로그인 완료: ${email}`);
-    window.location = '/';
+    console.log(`이메일: ${email}`);
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+    if (!result.error) {
+      alert(`로그인 완료: ${email}`);
+      window.location = '/';
+    } else {
+      console.error(result.error);
+      alert('로그인 실패');
+    }
   };
 
   const handleChecked = (e) => {
-    // console.log(`${e.target.checked}`);
+    console.log(`${e.target.checked}`);
     setChecked(e.target.checked);
   };
 
