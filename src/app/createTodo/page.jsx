@@ -88,10 +88,6 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
       onClose={toggleDrawer(false)}
       onOpen={toggleDrawer(true)}
       swipeAreaWidth={drawerBleeding}
-      disableSwipeToOpen={false}
-      ModalProps={{
-        keepMounted: true,
-      }}
     >
       <Box
         sx={{
