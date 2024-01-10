@@ -60,6 +60,14 @@ function TodoSets(props) {
   return <>{set}</>;
 }
 
+function CreateTodoBtn({ toggleDrawer }) {
+  return (
+    <Button variant="contained" fullWidth={true} onClick={toggleDrawer(true)}>
+      운동 To-do 추가
+    </Button>
+  );
+}
+
 function CreateTodoDrawer() {
   const [open, setOpen] = useState(false);
   const [numSets, setNumSets] = useState(1);
@@ -88,13 +96,7 @@ function CreateTodoDrawer() {
         <Typography variant="h4" sx={{ my: 2 }}>
           운동 To-do 생성
         </Typography>
-        <Button
-          variant="contained"
-          fullWidth={true}
-          onClick={toggleDrawer(true)}
-        >
-          운동 To-do 추가
-        </Button>
+        <CreateTodoBtn toggleDrawer={toggleDrawer} />
       </Box>
       <SwipeableDrawer
         anchor="bottom"
