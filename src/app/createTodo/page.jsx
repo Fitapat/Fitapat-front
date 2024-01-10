@@ -80,7 +80,7 @@ function FinishCreateTodoBtn({ toggleDrawer }) {
   );
 }
 
-function CreateTodoForm({ open, toggleDrawer, numSets, addSet }) {
+function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -131,7 +131,7 @@ function CreateTodoForm({ open, toggleDrawer, numSets, addSet }) {
   );
 }
 
-function CreateTodoDrawer() {
+function CreateTodo() {
   const [open, setOpen] = useState(false);
   const [numSets, setNumSets] = useState(1);
 
@@ -161,7 +161,7 @@ function CreateTodoDrawer() {
         </Typography>
         <CreateTodoBtn toggleDrawer={toggleDrawer} />
       </Box>
-      <CreateTodoForm
+      <CreateTodoDrawer
         open={open}
         toggleDrawer={toggleDrawer}
         numSets={numSets}
@@ -171,4 +171,4 @@ function CreateTodoDrawer() {
   );
 }
 
-export default CreateTodoDrawer;
+export default CreateTodo;
