@@ -80,6 +80,57 @@ function FinishCreateTodoBtn({ toggleDrawer }) {
   );
 }
 
+function CreateTodoForm({ toggleDrawer, numSets, addSet }) {
+  return (
+    <SwipeableDrawer
+      anchor="bottom"
+      open={open}
+      onClose={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
+      swipeAreaWidth={drawerBleeding}
+      disableSwipeToOpen={false}
+      ModalProps={{
+        keepMounted: true,
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -drawerBleeding,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          visibility: 'visible',
+          right: 0,
+          left: 0,
+          backgroundColor: 'lightgrey',
+        }}
+      >
+        <Puller />
+        <FinishCreateTodoBtn toggleDrawer={toggleDrawer} />
+      </Box>
+      <Box
+        sx={{
+          px: 2,
+          pb: 2,
+          height: '100%',
+          overflow: 'auto',
+          backgroundColor: 'lightgrey',
+        }}
+      >
+        <TextField label="운동 이름" variant="standard" fullWidth />
+        <FormControlLabel
+          control={<Switch defaultChecked />}
+          label="유산소 여부"
+        />
+        <TodoSets num={numSets}></TodoSets>
+        <Button variant="contained" fullWidth onClick={addSet()}>
+          세트 추가
+        </Button>
+      </Box>
+    </SwipeableDrawer>
+  );
+}
+
 function CreateTodoDrawer() {
   const [open, setOpen] = useState(false);
   const [numSets, setNumSets] = useState(1);
@@ -110,52 +161,7 @@ function CreateTodoDrawer() {
         </Typography>
         <CreateTodoBtn toggleDrawer={toggleDrawer} />
       </Box>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-        swipeAreaWidth={drawerBleeding}
-        disableSwipeToOpen={false}
-        ModalProps={{
-          keepMounted: true,
-        }}
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: -drawerBleeding,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: 'visible',
-            right: 0,
-            left: 0,
-            backgroundColor: 'lightgrey',
-          }}
-        >
-          <Puller />
-          <FinishCreateTodoBtn toggleDrawer={toggleDrawer} />
-        </Box>
-        <Box
-          sx={{
-            px: 2,
-            pb: 2,
-            height: '100%',
-            overflow: 'auto',
-            backgroundColor: 'lightgrey',
-          }}
-        >
-          <TextField label="운동 이름" variant="standard" fullWidth />
-          <FormControlLabel
-            control={<Switch defaultChecked />}
-            label="유산소 여부"
-          />
-          <TodoSets num={numSets}></TodoSets>
-          <Button variant="contained" fullWidth onClick={addSet()}>
-            세트 추가
-          </Button>
-        </Box>
-      </SwipeableDrawer>
+      <CreateTodoForm toggleDrawer={toggleDrawer} addSet={addSet} />
     </Box>
   );
 }
