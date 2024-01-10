@@ -68,6 +68,18 @@ function CreateTodoBtn({ toggleDrawer }) {
   );
 }
 
+function FinishCreateTodoBtn({ toggleDrawer }) {
+  return (
+    <Button
+      variant="text"
+      sx={{ p: 2, left: 'calc(100% - 70px)' }}
+      onClick={toggleDrawer(false)}
+    >
+      완료
+    </Button>
+  );
+}
+
 function CreateTodoDrawer() {
   const [open, setOpen] = useState(false);
   const [numSets, setNumSets] = useState(1);
@@ -122,13 +134,7 @@ function CreateTodoDrawer() {
           }}
         >
           <Puller />
-          <Button
-            variant="text"
-            sx={{ p: 2, left: 'calc(100% - 70px)' }}
-            onClick={toggleDrawer(false)}
-          >
-            완료
-          </Button>
+          <FinishCreateTodoBtn toggleDrawer={toggleDrawer} />
         </Box>
         <Box
           sx={{
