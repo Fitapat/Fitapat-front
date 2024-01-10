@@ -80,6 +80,12 @@ function FinishCreateTodoBtn({ toggleDrawer }) {
   );
 }
 
+function AerobicSwitch() {
+  return (
+    <FormControlLabel control={<Switch defaultChecked />} label="유산소 여부" />
+  );
+}
+
 function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
   return (
     <SwipeableDrawer
@@ -113,10 +119,7 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
         }}
       >
         <TextField label="운동 이름" variant="standard" fullWidth />
-        <FormControlLabel
-          control={<Switch defaultChecked />}
-          label="유산소 여부"
-        />
+        <AerobicSwitch />
         <TodoSets num={numSets}></TodoSets>
         <Button variant="contained" fullWidth onClick={addSet()}>
           세트 추가
