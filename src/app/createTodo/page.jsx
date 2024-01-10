@@ -95,7 +95,6 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
           top: -drawerBleeding,
           borderTopLeftRadius: 8,
           borderTopRightRadius: 8,
-          visibility: 'visible',
           right: 0,
           left: 0,
           backgroundColor: 'lightgrey',
