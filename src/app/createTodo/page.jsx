@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import {
   Box,
   Button,
@@ -95,12 +95,29 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
   );
 }
 
-function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
+function CreateTodoDrawer({ open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
+  const [setId, setSetId] = useState(1);
+  const [setList, setSetList] = useState([
+    { key: 'set-' + setId, load: 0, time: 0 },
+  ]);
+
+  const addSet = () => {
+    setSetId(setId + 1);
+    let newSetList = setList.slice();
+    newSetList.push({ key: 'set-' + setId, load: 0, time: 0 });
+    setSetList(newSetList);
+  };
 
   let todoSets = [];
-  for (let i = 1; i <= numSets; i++) {
-    todoSets.push(<TodoSet index={i} key={i} isAerobic={isAerobic}></TodoSet>);
+  for (let i = 0; i < setList.length; i++) {
+    todoSets.push(
+      <TodoSet
+        key={setList[i].key}
+        index={i + 1}
+        isAerobic={isAerobic}
+      ></TodoSet>,
+    );
   }
 
   return (
@@ -137,7 +154,7 @@ function CreateTodoDrawer({ open, toggleDrawer, numSets, addSet }) {
         <TextField label="운동 이름" variant="standard" fullWidth />
         <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
         {todoSets}
-        <Button variant="contained" fullWidth onClick={addSet()}>
+        <Button variant="contained" fullWidth onClick={addSet}>
           세트 추가
         </Button>
       </Box>
