@@ -164,13 +164,9 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
 
 function CreateTodo() {
   const [open, setOpen] = useState(false);
-  const [numSets, setNumSets] = useState(1);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
-  };
-  const addSet = () => () => {
-    setNumSets(numSets + 1);
   };
 
   return (
@@ -192,12 +188,7 @@ function CreateTodo() {
         </Typography>
         <CreateTodoBtn toggleDrawer={toggleDrawer} />
       </Box>
-      <CreateTodoDrawer
-        open={open}
-        toggleDrawer={toggleDrawer}
-        numSets={numSets}
-        addSet={addSet}
-      />
+      <CreateTodoDrawer open={open} toggleDrawer={toggleDrawer} />
     </Box>
   );
 }
