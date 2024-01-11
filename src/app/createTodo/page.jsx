@@ -8,7 +8,9 @@ import {
   TextField,
   FormControlLabel,
   Switch,
+  IconButton,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -52,6 +54,9 @@ function TodoSet({ index, isAerobic }) {
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
       ></TextField>
       {isAerobic ? '분' : '회'}
+      <IconButton aria-label="delete set">
+        <CloseIcon htmlColor="black" />
+      </IconButton>
     </Box>
   );
 }
