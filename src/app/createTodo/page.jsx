@@ -28,7 +28,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-function TodoSet({ index, isAerobic }) {
+function TodoSet({ id, index, isAerobic, onDeleteSet }) {
   return (
     <Box
       sx={{
@@ -54,7 +54,7 @@ function TodoSet({ index, isAerobic }) {
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
       ></TextField>
       {isAerobic ? '분' : '회'}
-      <IconButton aria-label="delete set">
+      <IconButton aria-label="delete set" onClick={() => onDeleteSet(id)}>
         <CloseIcon htmlColor="black" />
       </IconButton>
     </Box>
@@ -107,13 +107,21 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
     setSetList(newSetList);
   };
 
+  const handleDeleteSet = (id) => {
+    for (let i = 0; i < setList.length; i++) console.log(setList[i].id === id);
+    let newSetList = setList.filter((set) => set.id !== id);
+    setSetList(newSetList);
+  };
+
   let todoSets = [];
   for (let i = 0; i < setList.length; i++) {
     todoSets.push(
       <TodoSet
+        id={setList[i].id}
         key={setList[i].id}
         index={i + 1}
         isAerobic={isAerobic}
+        onDeleteSet={handleDeleteSet}
       ></TodoSet>,
     );
   }
