@@ -108,7 +108,6 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
   };
 
   const handleDeleteSet = (id) => {
-    for (let i = 0; i < setList.length; i++) console.log(setList[i].id === id);
     let newSetList = setList.filter((set) => set.id !== id);
     setSetList(newSetList);
   };
