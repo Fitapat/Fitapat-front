@@ -97,13 +97,13 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
 
 function CreateTodoDrawer({ open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
-  const [nextSetId, setSetId] = useState(2);
-  const [setList, setSetList] = useState([{ key: 'set-1', load: 0, time: 0 }]);
+  const [nextId, setNextId] = useState(2);
+  const [setList, setSetList] = useState([{ id: 'set-1', load: 0, time: 0 }]);
 
   const addSet = () => {
-    setSetId(nextSetId + 1);
+    setNextId(nextId + 1);
     let newSetList = setList.slice();
-    newSetList.push({ key: 'set-' + nextSetId, load: 0, time: 0 });
+    newSetList.push({ id: 'set-' + nextId, load: 0, time: 0 });
     setSetList(newSetList);
   };
 
@@ -111,7 +111,7 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
   for (let i = 0; i < setList.length; i++) {
     todoSets.push(
       <TodoSet
-        key={setList[i].key}
+        key={setList[i].id}
         index={i + 1}
         isAerobic={isAerobic}
       ></TodoSet>,
