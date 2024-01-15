@@ -63,7 +63,11 @@ function TodoSet({ id, index, isAerobic, onDeleteSet }) {
 
 function CreateTodoBtn({ toggleDrawer }) {
   return (
-    <Button variant="contained" fullWidth={true} onClick={toggleDrawer(true)}>
+    <Button
+      variant="contained"
+      fullWidth={true}
+      onClick={() => toggleDrawer(true)}
+    >
       운동 To-do 추가
     </Button>
   );
@@ -121,7 +125,7 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
       sets: setList,
     });
 
-    toggleDrawer(false); // 동작 안함
+    toggleDrawer(false);
   };
 
   let todoSets = [];
@@ -141,8 +145,8 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
     <SwipeableDrawer
       anchor="bottom"
       open={open}
-      onClose={toggleDrawer(false)}
-      onOpen={toggleDrawer(true)}
+      onClose={() => toggleDrawer(false)}
+      onOpen={() => toggleDrawer(true)}
       swipeAreaWidth={drawerBleeding}
     >
       <Box
@@ -193,7 +197,7 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
 function CreateTodo() {
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
+  const toggleDrawer = (newOpen) => {
     setOpen(newOpen);
   };
 
