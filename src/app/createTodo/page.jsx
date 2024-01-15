@@ -117,6 +117,15 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
   );
 }
 
+function checkAllFilled(title, setList) {
+  if (!title) return false;
+
+  for (let i = 0; i < setList.length; i++) {
+    if (!(setList[i].load && setList[i].time)) return false;
+  }
+  return true;
+}
+
 function CreateTodoDrawer({ open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
@@ -137,13 +146,21 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      title: data.get('title'),
-      areobic: isAerobic,
-      sets: setList,
-    });
+    const title = data.get('title');
 
-    toggleDrawer(false);
+    if (checkAllFilled(title, setList)) {
+      // 모두 입력된 경우 서버에 전송
+      console.log({
+        title: title,
+        areobic: isAerobic,
+        sets: setList,
+      });
+
+      toggleDrawer(false);
+    } else {
+      alert('아직 입력이 완료되지 않았습니다. 진행 상황을 종료할까요?');
+      toggleDrawer(false);
+    }
   };
 
   let todoSets = [];
