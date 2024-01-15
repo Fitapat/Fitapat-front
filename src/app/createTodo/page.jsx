@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import InterruptDialog from './interruptDialog';
 
 const drawerBleeding = 56;
 
@@ -130,6 +131,7 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
   const [setList, setSetList] = useState([{ id: 'set-1', load: 0, time: 0 }]);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const addSet = () => {
     setNextId(nextId + 1);
@@ -158,9 +160,21 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
 
       toggleDrawer(false);
     } else {
-      alert('아직 입력이 완료되지 않았습니다. 진행 상황을 종료할까요?');
-      toggleDrawer(false);
+      handleOpenDialog();
     }
+  };
+
+  // 변경사항 삭제 다이얼로그 (팝업창)
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const handleInterrupt = () => {
+    setOpenDialog(false);
+    toggleDrawer(false);
+    // 투두 입력창 초기화
   };
 
   let todoSets = [];
@@ -227,6 +241,11 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
           </Button>
         </Box>
       </Box>
+      <InterruptDialog
+        open={openDialog}
+        onCloseDialog={handleCloseDialog}
+        onInterrupt={handleInterrupt}
+      />
     </SwipeableDrawer>
   );
 }
