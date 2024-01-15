@@ -28,7 +28,21 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-function TodoSet({ id, index, isAerobic, onDeleteSet }) {
+function TodoSet({ id, index, isAerobic, onDeleteSet, setList, setSetList }) {
+  const handleInput = (event) => {
+    const name = event.target.name;
+    const value = Number(event.target.value);
+
+    let newSetList = setList.slice();
+    newSetList.map((set) => {
+      if (set.id === id) {
+        if (name === 'load') set.load = value;
+        else if (name === 'time') set.time = value;
+      }
+    });
+    setSetList(newSetList);
+  };
+
   return (
     <Box
       sx={{
@@ -39,16 +53,20 @@ function TodoSet({ id, index, isAerobic, onDeleteSet }) {
     >
       {index} Set
       <TextField
+        name="load"
         variant="outlined"
         type="number"
+        onChange={handleInput}
         size="small"
         margin="dense"
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
       ></TextField>
       {isAerobic ? 'km' : 'kg'}
       <TextField
+        name="time"
         variant="outlined"
         type="number"
+        onChange={handleInput}
         size="small"
         margin="dense"
         sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
@@ -137,6 +155,8 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
         index={i + 1}
         isAerobic={isAerobic}
         onDeleteSet={handleDeleteSet}
+        setList={setList}
+        setSetList={setSetList}
       ></TodoSet>,
     );
   }
