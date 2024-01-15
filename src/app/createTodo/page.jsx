@@ -69,12 +69,12 @@ function CreateTodoBtn({ toggleDrawer }) {
   );
 }
 
-function FinishCreateTodoBtn({ toggleDrawer }) {
+function FinishCreateTodoBtn() {
   return (
     <Button
+      type="submit"
       variant="text"
       sx={{ p: 2, left: 'calc(100% - 70px)' }}
-      onClick={toggleDrawer(false)}
     >
       완료
     </Button>
@@ -112,6 +112,18 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
     setSetList(newSetList);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      title: data.get('title'),
+      areobic: isAerobic,
+      sets: setList,
+    });
+
+    toggleDrawer(false); // 동작 안함
+  };
+
   let todoSets = [];
   for (let i = 0; i < setList.length; i++) {
     todoSets.push(
@@ -134,34 +146,45 @@ function CreateTodoDrawer({ open, toggleDrawer }) {
       swipeAreaWidth={drawerBleeding}
     >
       <Box
-        sx={{
-          position: 'absolute',
-          top: -drawerBleeding,
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-          right: 0,
-          left: 0,
-          backgroundColor: 'lightgrey',
-        }}
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ height: '100%', backgroundColor: 'lightgrey' }}
       >
-        <Puller />
-        <FinishCreateTodoBtn toggleDrawer={toggleDrawer} />
-      </Box>
-      <Box
-        sx={{
-          px: 2,
-          pb: 2,
-          height: '100%',
-          overflow: 'auto',
-          backgroundColor: 'lightgrey',
-        }}
-      >
-        <TextField label="운동 이름" variant="standard" fullWidth />
-        <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
-        {todoSets}
-        <Button variant="contained" fullWidth onClick={addSet}>
-          세트 추가
-        </Button>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: -drawerBleeding,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            right: 0,
+            left: 0,
+            backgroundColor: 'lightgrey',
+          }}
+        >
+          <Puller />
+          <FinishCreateTodoBtn />
+        </Box>
+        <Box
+          sx={{
+            px: 2,
+            pb: 2,
+            height: '100%',
+            overflow: 'auto',
+            backgroundColor: 'lightgrey',
+          }}
+        >
+          <TextField
+            name="title"
+            label="운동 이름"
+            variant="standard"
+            fullWidth
+          />
+          <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
+          {todoSets}
+          <Button variant="contained" fullWidth onClick={addSet}>
+            세트 추가
+          </Button>
+        </Box>
       </Box>
     </SwipeableDrawer>
   );
