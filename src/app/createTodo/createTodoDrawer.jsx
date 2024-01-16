@@ -47,6 +47,7 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
       control={<Switch defaultChecked />}
       label={isAerobic ? '유산소' : '무산소'}
       onChange={handleAerobic}
+      sx={{ marginBottom: 1 }}
     />
   );
 }
@@ -136,7 +137,7 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ height: '100%', backgroundColor: 'lightgrey' }}
+        sx={{ height: '100%', backgroundColor: 'lightgrey', padding: 2 }}
       >
         <Box
           sx={{
