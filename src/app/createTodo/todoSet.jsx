@@ -1,4 +1,4 @@
-import { Box, TextField, IconButton } from '@mui/material';
+import { TextField, IconButton, AppBar, Toolbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function TodoSet({
@@ -24,37 +24,40 @@ export default function TodoSet({
   };
 
   return (
-    <Box
+    <AppBar
+      position="static"
       sx={{
         backgroundColor: 'grey',
         borderRadius: 2,
         marginBottom: '20px',
       }}
     >
-      {index} Set
-      <TextField
-        name="load"
-        variant="outlined"
-        type="number"
-        onChange={handleInput}
-        size="small"
-        margin="dense"
-        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-      ></TextField>
-      {isAerobic ? 'km' : 'kg'}
-      <TextField
-        name="time"
-        variant="outlined"
-        type="number"
-        onChange={handleInput}
-        size="small"
-        margin="dense"
-        sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-      ></TextField>
-      {isAerobic ? '분' : '회'}
-      <IconButton aria-label="delete set" onClick={() => onDeleteSet(id)}>
-        <CloseIcon htmlColor="black" />
-      </IconButton>
-    </Box>
+      <Toolbar disableGutters={true}>
+        {index} Set
+        <TextField
+          name="load"
+          variant="outlined"
+          type="number"
+          onChange={handleInput}
+          size="small"
+          margin="dense"
+          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+        ></TextField>
+        {isAerobic ? 'km' : 'kg'}
+        <TextField
+          name="time"
+          variant="outlined"
+          type="number"
+          onChange={handleInput}
+          size="small"
+          margin="dense"
+          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
+        ></TextField>
+        {isAerobic ? '분' : '회'}
+        <IconButton aria-label="delete set" onClick={() => onDeleteSet(id)}>
+          <CloseIcon htmlColor="black" />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   );
 }
