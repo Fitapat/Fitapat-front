@@ -1,4 +1,10 @@
-import { TextField, IconButton, AppBar, Toolbar } from '@mui/material';
+import {
+  TextField,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function TodoSet({
@@ -33,7 +39,7 @@ export default function TodoSet({
       }}
     >
       <Toolbar disableGutters={true}>
-        {index} Set
+        <Typography>{index} Set</Typography>
         <TextField
           name="load"
           variant="outlined"
@@ -41,9 +47,13 @@ export default function TodoSet({
           onChange={handleInput}
           size="small"
           margin="dense"
-          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-        ></TextField>
-        {isAerobic ? 'km' : 'kg'}
+          sx={{
+            width: '20%',
+            backgroundColor: 'white',
+            borderRadius: 2,
+          }}
+        />
+        <Typography>{isAerobic ? 'km' : 'kg'}</Typography>
         <TextField
           name="time"
           variant="outlined"
@@ -51,9 +61,13 @@ export default function TodoSet({
           onChange={handleInput}
           size="small"
           margin="dense"
-          sx={{ width: '20%', backgroundColor: 'white', borderRadius: 2 }}
-        ></TextField>
-        {isAerobic ? '분' : '회'}
+          sx={{
+            width: '20%',
+            backgroundColor: 'white',
+            borderRadius: 2,
+          }}
+        />
+        <Typography>{isAerobic ? '분' : '회'}</Typography>
         <IconButton aria-label="delete set" onClick={() => onDeleteSet(id)}>
           <CloseIcon htmlColor="black" />
         </IconButton>
