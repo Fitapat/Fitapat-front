@@ -129,7 +129,7 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
     <SwipeableDrawer
       anchor="bottom"
       open={open}
-      onClose={() => toggleDrawer(false)}
+      onClose={handleOpenDialog}
       onOpen={() => toggleDrawer(true)}
       swipeAreaWidth={drawerBleeding}
     >
