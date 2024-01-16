@@ -34,40 +34,42 @@ export default function TodoSet({
       position="static"
       sx={{
         backgroundColor: 'grey',
-        borderRadius: 2,
+        borderRadius: 8,
         marginBottom: '20px',
       }}
     >
-      <Toolbar disableGutters={true}>
-        <Typography>{index} Set</Typography>
+      <Toolbar>
+        <Typography sx={{ flexGrow: 1 }} color="textPrimary">
+          {index} Set
+        </Typography>
         <TextField
           name="load"
           variant="outlined"
           type="number"
           onChange={handleInput}
           size="small"
-          margin="dense"
           sx={{
             width: '20%',
             backgroundColor: 'white',
             borderRadius: 2,
+            margin: 1,
           }}
         />
-        <Typography>{isAerobic ? 'km' : 'kg'}</Typography>
+        <Typography sx={{ flexGrow: 1 }}>{isAerobic ? 'km' : 'kg'}</Typography>
         <TextField
           name="time"
           variant="outlined"
           type="number"
           onChange={handleInput}
           size="small"
-          margin="dense"
           sx={{
             width: '20%',
             backgroundColor: 'white',
             borderRadius: 2,
+            margin: 1,
           }}
         />
-        <Typography>{isAerobic ? '분' : '회'}</Typography>
+        <Typography sx={{ flexGrow: 1 }}>{isAerobic ? '분' : '회'}</Typography>
         <IconButton aria-label="delete set" onClick={() => onDeleteSet(id)}>
           <CloseIcon htmlColor="black" />
         </IconButton>
