@@ -38,6 +38,11 @@ function CreateTodo() {
             maxWidth: '430px',
             margin: '0 auto',
           },
+          '.MuiDialog-root': {
+            width: '80%',
+            maxWidth: '400px',
+            margin: '0 auto',
+          },
         }}
       />
       <Box>
