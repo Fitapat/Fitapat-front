@@ -16,7 +16,7 @@ import { drawerBleeding } from './page';
 
 // 서랍창 상단 작은 막대기
 const Puller = styled(Box)(() => ({
-  width: 30,
+  width: 40,
   height: 6,
   backgroundColor: 'white',
   borderRadius: 3,
@@ -31,6 +31,7 @@ function FinishCreateTodoBtn() {
       type="submit"
       variant="text"
       sx={{ p: 2, left: 'calc(100% - 70px)' }}
+      disableRipple
     >
       완료
     </Button>
@@ -143,8 +144,8 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
           sx={{
             position: 'absolute',
             top: -drawerBleeding,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
             right: 0,
             left: 0,
             backgroundColor: 'lightgrey',
