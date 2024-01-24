@@ -5,13 +5,13 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Stack, TextField } from '@mui/material';
 
-export default function ForgotPassword() {
+export default function Forgot() {
   const [email, setEmail] = useState();
 
   const handleSendEmail = async (e) => {
     e.preventDefault();
     // console.log(`이메일: ${email}`);
-    const res = await fetch('/api/auth/forgot-password', {
+    const res = await fetch('/api/auth/forgot', {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {

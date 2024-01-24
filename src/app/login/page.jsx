@@ -71,12 +71,7 @@ export default function Login() {
           label="자동 로그인"
         /> */}
         <div>
-          <Link
-            href="/forgot-password"
-            color="inherit"
-            underline="hover"
-            align="center"
-          >
+          <Link href="/forgot" color="inherit" underline="hover" align="center">
             비밀번호 찾기
           </Link>
           <span> | </span>
