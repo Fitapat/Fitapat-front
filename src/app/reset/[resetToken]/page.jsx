@@ -14,16 +14,16 @@ export default function Reset(p) {
   useEffect(() => {
     const verifyResetToken = async () => {
       const { params } = p;
-      const { userToken } = params;
-      console.log('userToken = ', userToken);
+      const { resetToken } = params;
+      console.log('resetToken = ', resetToken);
 
-      // userToken을 verify해서 어떤 이메일인지 알아오자
+      // resetToken을 verify해서 어떤 계정인지 알아오자
       const res = await fetch('/api/auth/verifyResetToken', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userToken }),
+        body: JSON.stringify({ resetToken }),
       });
       const user = await res.json();
 
@@ -36,7 +36,7 @@ export default function Reset(p) {
       }
     };
 
-    verifyResetToken(); // 렌더링될 때 한 번 실행
+    verifyResetToken();
   }, []);
 
   const handleResetSubmit = async (e) => {

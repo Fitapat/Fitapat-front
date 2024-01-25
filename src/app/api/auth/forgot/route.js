@@ -35,7 +35,7 @@ export async function POST(req) {
     });
 
     // jwt로 토큰 만들기
-    console.log(existingUser.id);
+    // console.log(existingUser.id);
     const userToken = jwt.sign(
       { userId: existingUser.id },
       process.env.NEXTAUTH_SECRET,
@@ -50,8 +50,8 @@ export async function POST(req) {
     const mailOptions = {
       from: user,
       to: body.email,
-      subject: 'Fitapat 비밀번호 변경 메일(테스트)',
-      html: `<span>아래의 링크로 접속하여 비밀번호를 변경해주시기 바랍니다.</span><br/><a href=${url}>비밀번호 변경</a>`,
+      subject: '[Fitapat] 비밀번호 재설정 인증 메일',
+      html: `<span>안녕하세요, ${existingUser.nickname}님.</span><br/><span>아래의 링크를 클릭하여 비밀번호를 재설정할 수 있는 화면으로 이동합니다.</span><br/><a href=${url}>비밀번호 재설정하기</a>`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

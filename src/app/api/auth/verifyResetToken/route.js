@@ -12,7 +12,7 @@ export async function POST(req) {
     // console.log('body: ', body);
 
     // jwt로 토큰 인증
-    const verified = jwt.verify(body.userToken, process.env.NEXTAUTH_SECRET);
+    const verified = jwt.verify(body.resetToken, process.env.NEXTAUTH_SECRET);
     // console.log('verified: ', verified);
     // verified = {userId: ..., iat: ..., exp: ...}
 
@@ -21,7 +21,7 @@ export async function POST(req) {
       where: { id: verified.userId },
     });
     console.log('user를 찾았습니다: ', user.email);
-    console.log(user);
+    // console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);

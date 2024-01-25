@@ -19,7 +19,9 @@ export default function Forgot() {
       },
     });
     if (res.ok) {
-      alert(`이메일 전송 완료: ${email}`);
+      alert(
+        `${email} 로 메일이 전송되었습니다. 1시간 이내로 비밀번호를 재설정해주시기 바랍니다.`,
+      );
     } else {
       console.error(res.error);
       if (res.error === '가입되지 않은 이메일') {
