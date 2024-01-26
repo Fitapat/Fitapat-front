@@ -65,13 +65,17 @@ export default function Login() {
             setPassword(e.target.value);
           }}
         />
+        {/*
         <FormControlLabel
           control={<Checkbox checked={isChecked} onChange={handleChecked} />}
           label="자동 로그인"
-        />
+        /> */}
         <div>
-          <span>계정이 없나요? </span>
-          <Link href="/start" color="inherit" underline="always" align="center">
+          <Link href="/forgot" color="inherit" underline="hover" align="center">
+            비밀번호 찾기
+          </Link>
+          <span> | </span>
+          <Link href="/start" color="inherit" underline="hover" align="center">
             회원가입
           </Link>
         </div>
