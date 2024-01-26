@@ -38,6 +38,9 @@ function CreateTodo() {
             maxWidth: '430px',
             margin: '0 auto',
           },
+          '.MuiBox-root > .PrivateSwipeArea-root': {
+            display: 'none',
+          },
         }}
       />
       <Box>
