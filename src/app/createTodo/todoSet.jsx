@@ -22,7 +22,7 @@ export default function TodoSet({
     let newSetList = setList.slice();
     newSetList.map((set) => {
       if (set.id === id) {
-        if (name === 'load') set.load = value;
+        if (name === 'intensity') set.intensity = value;
         else if (name === 'time') set.time = value;
       }
     });
@@ -43,7 +43,7 @@ export default function TodoSet({
           {index} Set
         </Typography>
         <TextField
-          name="load"
+          name="intensity"
           variant="outlined"
           type="number"
           onChange={handleInput}

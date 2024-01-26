@@ -57,7 +57,7 @@ function checkAllFilled(title, setList) {
   if (!title) return false;
 
   for (let i = 0; i < setList.length; i++) {
-    if (!(setList[i].load && setList[i].time)) return false;
+    if (!(setList[i].intensity && setList[i].time)) return false;
   }
   return true;
 }
@@ -65,13 +65,15 @@ function checkAllFilled(title, setList) {
 export default function CreateTodoDrawer({ open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
-  const [setList, setSetList] = useState([{ id: 'set-1', load: 0, time: 0 }]);
+  const [setList, setSetList] = useState([
+    { id: 'set-1', intensity: 0, time: 0 },
+  ]);
   const [openDialog, setOpenDialog] = useState(false);
 
   const addSet = () => {
     setNextId(nextId + 1);
     let newSetList = setList.slice();
-    newSetList.push({ id: 'set-' + nextId, load: 0, time: 0 });
+    newSetList.push({ id: 'set-' + nextId, intensity: 0, time: 0 });
     setSetList(newSetList);
   };
 
