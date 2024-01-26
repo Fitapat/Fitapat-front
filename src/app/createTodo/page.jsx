@@ -29,26 +29,7 @@ function CreateTodo() {
 
   return (
     <Box>
-      <Global
-        styles={{
-          '.MuiDrawer-root > .MuiPaper-root': {
-            height: `calc(90% - ${drawerBleeding}px)`,
-            overflow: 'visible',
-            width: '100%',
-            maxWidth: '430px',
-            margin: '0 auto',
-          },
-          '.MuiBox-root > .PrivateSwipeArea-root': {
-            display: 'none',
-          },
-        }}
-      />
-      <Box>
-        <Typography variant="h4" sx={{ my: 2 }}>
-          운동 To-do 생성
-        </Typography>
-        <CreateTodoBtn toggleDrawer={toggleDrawer} />
-      </Box>
+      <CreateTodoBtn toggleDrawer={toggleDrawer} />
       <CreateTodoDrawer open={open} toggleDrawer={toggleDrawer} />
     </Box>
   );

@@ -10,6 +10,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Global } from '@emotion/react';
 import TodoSet from './todoSet';
 import InterruptDialog from './interruptDialog';
 import { drawerBleeding } from './page';
@@ -130,59 +131,75 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
   }
 
   return (
-    <SwipeableDrawer
-      anchor="bottom"
-      open={open}
-      onClose={handleOpenDialog}
-      onOpen={() => toggleDrawer(true)}
-      swipeAreaWidth={drawerBleeding}
-    >
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ height: '100%', backgroundColor: 'lightgrey', padding: 2 }}
+    <Box>
+      <Global
+        styles={{
+          '.MuiDrawer-root > .MuiPaper-root': {
+            height: `calc(90% - ${drawerBleeding}px)`,
+            overflow: 'visible',
+            width: '100%',
+            maxWidth: '430px',
+            margin: '0 auto',
+          },
+          '.MuiBox-root > .PrivateSwipeArea-root': {
+            display: 'none',
+          },
+        }}
+      />
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={handleOpenDialog}
+        onOpen={() => toggleDrawer(true)}
+        swipeAreaWidth={drawerBleeding}
       >
         <Box
-          sx={{
-            position: 'absolute',
-            top: -drawerBleeding,
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
-            right: 0,
-            left: 0,
-            backgroundColor: 'lightgrey',
-          }}
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ height: '100%', backgroundColor: 'lightgrey', padding: 2 }}
         >
-          <Puller />
-          <FinishCreateTodoBtn />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: -drawerBleeding,
+              borderTopLeftRadius: 25,
+              borderTopRightRadius: 25,
+              right: 0,
+              left: 0,
+              backgroundColor: 'lightgrey',
+            }}
+          >
+            <Puller />
+            <FinishCreateTodoBtn />
+          </Box>
+          <Box
+            sx={{
+              px: 2,
+              pb: 2,
+              height: '100%',
+              overflow: 'auto',
+              backgroundColor: 'lightgrey',
+            }}
+          >
+            <TextField
+              name="title"
+              label="운동 이름"
+              variant="standard"
+              fullWidth
+            />
+            <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
+            {todoSets}
+            <Button variant="contained" fullWidth onClick={addSet}>
+              세트 추가
+            </Button>
+          </Box>
         </Box>
-        <Box
-          sx={{
-            px: 2,
-            pb: 2,
-            height: '100%',
-            overflow: 'auto',
-            backgroundColor: 'lightgrey',
-          }}
-        >
-          <TextField
-            name="title"
-            label="운동 이름"
-            variant="standard"
-            fullWidth
-          />
-          <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
-          {todoSets}
-          <Button variant="contained" fullWidth onClick={addSet}>
-            세트 추가
-          </Button>
-        </Box>
-      </Box>
-      <InterruptDialog
-        open={openDialog}
-        onCloseDialog={handleCloseDialog}
-        onInterrupt={handleInterrupt}
-      />
-    </SwipeableDrawer>
+        <InterruptDialog
+          open={openDialog}
+          onCloseDialog={handleCloseDialog}
+          onInterrupt={handleInterrupt}
+        />
+      </SwipeableDrawer>
+    </Box>
   );
 }
