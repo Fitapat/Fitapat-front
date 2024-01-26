@@ -13,7 +13,8 @@ import { styled } from '@mui/material/styles';
 import { Global } from '@emotion/react';
 import TodoSet from './todoSet';
 import InterruptDialog from './interruptDialog';
-import { drawerBleeding } from './page';
+
+const drawerBleeding = 56;
 
 // 서랍창 상단 작은 막대기
 const Puller = styled(Box)(() => ({
