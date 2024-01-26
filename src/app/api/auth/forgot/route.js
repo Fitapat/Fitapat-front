@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 export async function POST(req) {
   try {
     const body = await req.json();
+    // body = {email: '...'}
 
     // 해당 이메일이 db에 있는지 체크하기
     const existingUser = await prisma.user.findUnique({
@@ -19,7 +20,10 @@ export async function POST(req) {
     // 가입되지 않은 이메일
     if (!existingUser) {
       console.log('가입되지 않은 이메일');
-      return NextResponse.json({ ok: false, error: '가입되지 않은 이메일' });
+      return NextResponse.json(
+        { error: '가입되지 않은 이메일' },
+        { status: 404 },
+      );
     }
 
     // 가입된 이메일인 경우 메일을 보낸다
@@ -35,7 +39,6 @@ export async function POST(req) {
     });
 
     // jwt로 토큰 만들기
-    // console.log(existingUser.id);
     const userToken = jwt.sign(
       { userId: existingUser.id },
       process.env.NEXTAUTH_SECRET,
@@ -43,9 +46,9 @@ export async function POST(req) {
         expiresIn: '1h',
       },
     );
-    // console.log(userToken);
+
     const url = `${process.env.NEXTAUTH_URL}/reset/${userToken}`;
-    console.log(url);
+    // console.log(url);
 
     const mailOptions = {
       from: user,
@@ -65,8 +68,8 @@ export async function POST(req) {
     // 성공시 response
     return NextResponse.json({ msg: '이메일 전송됨' });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ ok: false, error: '서버 에러' });
+    console.error('에러: ', error);
+    return NextResponse.json({ error: '서버 에러' }, { status: 500 });
   } finally {
     await prisma.$disconnect();
   }

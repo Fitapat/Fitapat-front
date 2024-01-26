@@ -3,32 +3,46 @@
 /* eslint-disable no-console, no-alert */
 
 import React, { useState } from 'react';
-import { Box, Typography, Button, Stack, TextField } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Stack,
+  TextField,
+} from '@mui/material';
 
 export default function Forgot() {
   const [email, setEmail] = useState();
 
   const handleSendEmail = async (e) => {
     e.preventDefault();
-    // console.log(`이메일: ${email}`);
-    const res = await fetch('/api/auth/forgot', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (res.ok) {
-      alert(
-        `${email} 로 메일이 전송되었습니다. 1시간 이내로 비밀번호를 재설정해주시기 바랍니다.`,
-      );
-    } else {
-      console.error(res.error);
-      if (res.error === '가입되지 않은 이메일') {
+
+    if (!email) {
+      alert('이메일을 입력해주세요.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/forgot', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        alert(
+          `${email} 로 메일이 전송되었습니다. 1시간 이내로 비밀번호를 재설정해주시기 바랍니다.`,
+        );
+      } else if (res.status === 404) {
         alert('가입되지 않은 이메일입니다.');
+      } else if (res.status === 500) {
+        alert('서버 에러');
       } else {
-        alert('로그인 실패');
+        alert('에러');
       }
+    } catch (error) {
+      alert('에러: ', error);
     }
   };
 
