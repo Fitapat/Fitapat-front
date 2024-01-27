@@ -3,11 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({});
 
-// export async function GET() {
-//   const workouts = await prisma.todo.findMany({ take: 10 });
-//   return NextResponse.json(workouts);
-// }
-
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +25,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // JSON 형식으로 응답
+    // 검색된 todo 데이터 반환
     return NextResponse.json(todoData);
   } catch (error) {
     console.error('Error in GET function:', error);
@@ -43,8 +38,56 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST() {
-  // post
+// todo 생성
+export async function POST(request: NextRequest) {
+  try {
+    // 클라이언트에서 전달된 데이터 파싱
+    const { userId, title, date, aerobic, done, sets } = await request.json();
+    const date_ = new Date(date);
+
+    // 유저 정보 확인
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    // 유저가 존재하지 않을 경우 에러 반환
+    if (!user) {
+      return NextResponse.json({
+        status: 404,
+        body: 'User not found',
+      });
+    }
+
+    // 새로운 todo 생성
+    const newTodo = await prisma.todo.create({
+      data: {
+        userId: userId,
+        title: title,
+        date: date_.toISOString(),
+        aerobic: aerobic,
+        done: done,
+        sets: {
+          create: sets.map((set) => ({
+            intensity: set.intensity,
+            time: set.time,
+          })),
+        },
+      },
+    });
+
+    // 생성된 todo 정보 반환
+    return NextResponse.json(newTodo);
+  } catch (error) {
+    console.error('Error in GET function:', error);
+
+    // 에러가 발생하면 에러 상태를 반환
+    return NextResponse.json({
+      status: 500,
+      body: `Internal Server Error: ${error.message}`,
+    });
+  }
 }
 
 // 운동 예시 오브젝트
