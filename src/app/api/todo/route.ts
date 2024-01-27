@@ -11,7 +11,8 @@ const prisma = new PrismaClient({});
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
 export async function GET(request: NextRequest) {
   try {
-    const date = request.nextUrl.searchParams.get('date');
+    const dateString = request.nextUrl.searchParams.get('date');
+    const date = new Date(dateString);
 
     // 날짜가 주어지지 않았을 경우 에러 리턴
     if (!date) {
@@ -25,17 +26,19 @@ export async function GET(request: NextRequest) {
     const todoData = await prisma.todo.findMany({
       // 입력된 날짜와 일치하는 데이터 검색
       where: {
-        date: date,
+        date: date.toISOString(),
       },
     });
 
     // JSON 형식으로 응답
     return NextResponse.json(todoData);
-  } catch {
+  } catch (error) {
+    console.error('Error in GET function:', error);
+
     // 에러가 발생하면 에러 상태를 반환
     return NextResponse.json({
       status: 500,
-      body: 'Internal Server Error',
+      body: `Internal Server Error: ${error.message}`,
     });
   }
 }
