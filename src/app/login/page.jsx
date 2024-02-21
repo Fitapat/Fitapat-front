@@ -24,14 +24,15 @@ export default function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log(`이메일: ${email}`);
+    // signIn(): [...nextauth]의 authorize 함수가 작동됨
     const result = await signIn('credentials', {
       email,
       password,
-      redirect: false,
+      redirect: true, // 로그인 성공 시 callbackUrl로 이동
+      callbackUrl: '/',
     });
     if (!result.error) {
       alert(`로그인 완료: ${email}`);
-      window.location = '/';
     } else {
       console.error(result.error);
       alert('로그인 실패');
