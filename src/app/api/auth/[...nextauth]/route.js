@@ -57,50 +57,61 @@ const handler = NextAuth({
         // 결과 만들어서 반환
         const user = {
           email: existingUser.email,
+          nickname: existingUser.nickname,
           accessToken,
         };
-        // console.log('authorized user: ', user);
+        console.log('authorized: ', user);
         return user;
       },
     }),
   ],
 
-  // callbacks: {
-  // session: ({ session, token }) =>
-  //   // console.log('session callback', { session, token });
-  //   ({
-  //     ...session,
-  //     user: {
-  //       ...session.user,
-  //       id: token.id,
-  //       randomKey: token.randomKey,
-  //     },
-  //   }),
-  // jwt: ({ token, user }) => {
-  //   // console.log('JWT callback', { token, user });
-  //   if (user) {
-  //     const u = user;
-  //     return {
-  //       ...token,
-  //       id: u.id,
-  //       randomKey: u.randomKey,
-  //     };
-  //   }
-  //   return token;
-  // },
+  session: {
+    strategy: 'jwt',
+  },
 
   // NextAuth의 콜백: authorize 함수가 실행된 후 마지막으로 실행됨
   callbacks: {
-    async jwt({ token, user }) {
-      console.log('JWT callback', { token, user });
-      return { ...token, ...user };
+    // jwt 생성될 때 실행되는 콜백
+    jwt: ({ token, user }) => {
+      if (user) {
+        const j = {
+          ...token,
+          nickname: user.nickname,
+          accessToken: user.accessToken,
+        };
+        console.log('JWT callback, ', j);
+        return j;
+      }
+      return token;
     },
-    async session({ session, token }) {
-      session.user = token;
-      console.log('session callback', { session, token });
-      return session;
+    // 세션이 조회될 때 실행되는 콜백
+    session: ({ session, token }) => {
+      const s = {
+        ...session,
+        nickname: token.nickname,
+        accessToken: token.accessToken,
+      };
+      console.log('session callback, ', s);
+      return s;
     },
+
+    // session: ({ session, token }) => ({
+    //   ...session,
+    //   user: {
+    //     ...session.user,
+    //     id: token.id,
+    //     randomKey: token.randomKey,
+    //   },
+    // }),
+
+    // console.log('session callback', { session, token });
+
+    // session.user = token.user;
+    // console.log('session callback, session: ', session);
+    // return session;
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 });
 
