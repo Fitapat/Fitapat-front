@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Box from '@mui/material/Box';
 import MuiCalendar from '../components/calendar/muiCalendar';
-import TodoItem from '../components/todo/todoItem';
+import TodoItem from '../components/getTodo/todoItem';
 import CreateTodoBtn from '../components/createTodo/createTodoBtn';
 import CreateTodoDrawer from '../components/createTodo/createTodoDrawer';
 
