@@ -6,27 +6,48 @@ const prisma = new PrismaClient({});
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
 export async function GET(request: NextRequest) {
   try {
-    const dateString = request.nextUrl.searchParams.get('date');
+    const dateString = request.nextUrl.searchParams.get('date'); // 2002-08-09
     const date = new Date(dateString);
+    // console.log('date', dateString, date);
+    const reqType = request.nextUrl.searchParams.get('reqType'); // 'm' | 'd'
 
     // 날짜가 주어지지 않았을 경우 에러 리턴
-    if (!date) {
+    if (!dateString) {
       return NextResponse.json({
         status: 400,
         body: 'Bad Request: Date parameter is missing',
       });
     }
 
-    // Prisma를 사용하여 해당 날짜에 해당하는 Todo 데이터를 가져옴
-    const todoData = await prisma.todo.findMany({
-      // 입력된 날짜와 일치하는 데이터 검색
-      where: {
-        date: date.toISOString(),
-      },
-    });
-
-    // 검색된 todo 데이터 반환
-    return NextResponse.json(todoData);
+    if (reqType === 'm') {
+      // 해당 날짜 앞뒤로 1달씩 todo 리스트 가져옴
+      const startDate = new Date(date.setMonth(date.getMonth() - 1));
+      const endDate = new Date(date.setMonth(date.getMonth() + 2));
+      // console.log(startDate, endDate);
+      const todoDataList = await prisma.todo.findMany({
+        where: {
+          date: {
+            gte: startDate.toISOString(),
+            lte: endDate.toISOString(),
+          },
+        },
+      });
+      return NextResponse.json(todoDataList);
+    } else if (reqType === 'd') {
+      // 해당 날짜에 해당하는 Todo 데이터를 가져옴
+      const todoData = await prisma.todo.findMany({
+        where: {
+          date: date.toISOString(),
+        },
+      });
+      return NextResponse.json(todoData);
+    } else {
+      // reqType 오류
+      return NextResponse.json({
+        status: 400,
+        body: 'Bad Request: reqType parameter is wrong',
+      });
+    }
   } catch (error) {
     console.error('Error in GET function:', error);
 
