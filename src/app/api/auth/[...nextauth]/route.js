@@ -48,7 +48,7 @@ const handler = NextAuth({
         // 비밀번호가 일치하면 jwt 토큰 생성
         const accessToken = jwt.sign(
           { userId: existingUser.id },
-          process.env.SECRET_KEY,
+          process.env.JWT_KEY,
           {
             expiresIn: '1h',
           },

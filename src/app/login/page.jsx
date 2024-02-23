@@ -28,11 +28,11 @@ export default function Login() {
     const result = await signIn('credentials', {
       email,
       password,
-      redirect: true, // 로그인 성공 시 callbackUrl로 이동
-      callbackUrl: '/',
+      redirect: false,
     });
     if (!result.error) {
       alert(`로그인 완료: ${email}`);
+      window.location.href = '/';
     } else {
       console.error(result.error);
       alert('로그인 실패');

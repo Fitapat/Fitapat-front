@@ -27,7 +27,11 @@ function SignInButton() {
         세션 status:
         {status}
       </div>
-      <Button variant="text" onClick={() => signIn()} sx={{ margin: 0 }}>
+      <Button
+        variant="text"
+        onClick={() => (window.location.href = '/login')}
+        sx={{ margin: 0 }}
+      >
         로그인
       </Button>
     </div>
