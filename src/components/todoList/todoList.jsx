@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import TodoItem from './todoItem';
 
-export default function GetTodo({ date, reqType }) {
+export default function TodoList({ date, reqType }) {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
