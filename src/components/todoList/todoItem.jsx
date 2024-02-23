@@ -12,11 +12,9 @@ import Menu from '@mui/material/Menu';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function TodoItem(/*{ item }*/) {
-  const [item, setItem] = useState(EXAMPLE_WORKOUT1);
-
+export default function TodoItem({ item }) {
   const onDoneClick = () => {
-    setItem({ ...item, done: !item.done });
+    // setItem({ ...item, done: !item.done });
   };
 
   return (
@@ -92,27 +90,3 @@ export default function TodoItem(/*{ item }*/) {
     </Grid>
   );
 }
-
-// 운동 예시 오브젝트
-const EXAMPLE_WORKOUT1 = {
-  _id: 'ididiid',
-  userId: '1',
-  title: '벤치프레스',
-  date: '2021-10-10',
-  aerobic: false,
-  done: true,
-  sets: [
-    {
-      intensity: 30,
-      time: 10,
-    },
-    {
-      intensity: 40,
-      time: 8,
-    },
-    {
-      intensity: 50,
-      time: 6,
-    },
-  ],
-};
