@@ -64,7 +64,7 @@ function checkAllFilled(title, setList) {
   return true;
 }
 
-export default function CreateTodoDrawer({ open, toggleDrawer }) {
+export default function CreateTodoDrawer({ userId, open, toggleDrawer }) {
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
   const [setList, setSetList] = useState([
@@ -88,14 +88,38 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const title = data.get('title');
+    const today = new Date();
+    const date = `${today.getFullYear()}-${
+      today.getMonth() + 1
+    }-${today.getDate()}`;
 
     if (checkAllFilled(title, setList)) {
       // 모두 입력된 경우 서버에 전송
-      console.log({
-        title: title,
-        areobic: isAerobic,
-        sets: setList,
-      });
+      fetch('http://localhost:3000/api/todo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8;',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          title: title,
+          date: date,
+          aerobic: isAerobic,
+          done: false,
+          sets: setList,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => console.log(result));
+
+      // console.log({
+      //   userId: userId,
+      //   title: title,
+      //   date: date,
+      //   aerobic: isAerobic,
+      //   done: false,
+      //   sets: setList,
+      // });
 
       toggleDrawer(false);
     } else {

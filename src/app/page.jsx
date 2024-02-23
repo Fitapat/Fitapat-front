@@ -11,6 +11,7 @@ import CreateTodoBtn from '../components/createTodo/createTodoBtn';
 import CreateTodoDrawer from '../components/createTodo/createTodoDrawer';
 
 export default function Home() {
+  const userID = 'testUser';
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = (newOpen) => {
@@ -23,7 +24,11 @@ export default function Home() {
       <TodoItem />
       <TodoItem />
       <CreateTodoBtn toggleDrawer={toggleDrawer} />
-      <CreateTodoDrawer open={openDrawer} toggleDrawer={toggleDrawer} />
+      <CreateTodoDrawer
+        userId={userID}
+        open={openDrawer}
+        toggleDrawer={toggleDrawer}
+      />
     </Box>
   );
 }
