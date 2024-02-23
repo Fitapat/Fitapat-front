@@ -3,28 +3,43 @@
 'use client';
 
 import React from 'react';
-import {
-  Stack,
-  Button,
-  Link,
-  Box,
-} from '@mui/material';
-import { useSession, signOut } from 'next-auth/react';
+import { Stack, Button, Link, Box } from '@mui/material';
+// import { useSession, signOut } from 'next-auth/react';
+import SignInButton from '../../components/signInButton';
 
+/*
 const handleLogoutSubmit = (e) => {
   e.preventDefault();
   signOut({ callbackUrl: '/', redirect: false });
   alert('로그아웃되었습니다.');
 };
+*/
 
 export default function User() {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   return (
     <div>
+      <Box display="flex" flexDirection="column" alignItems="flex-end">
+        <SignInButton />
+      </Box>
+      <Stack spacing={10} sx={{ padding: 3 }}>
+        <Link href="/" color="inherit" underline="hover">
+          설정
+        </Link>
+        <Link href="/" color="inherit" underline="hover">
+          개인정보
+        </Link>
+        <Link href="/" color="inherit" underline="hover">
+          회원탈퇴
+        </Link>
+      </Stack>
+    </div>
+    /*
+    <div>
       {status === 'authenticated' ? (
         <Box display="flex" flexDirection="column" alignItems="flex-end">
-          {/* 현재 로그인중인 사용자 이메일 표시 */}
+          // 현재 로그인중인 사용자 이메일 표시
           <div>
             현재 로그인:
             {status === 'authenticated' ? session?.user?.email : '(error)'}
@@ -60,5 +75,6 @@ export default function User() {
         </Link>
       </Stack>
     </div>
+    */
   );
 }
