@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Box from '@mui/material/Box';
 import MuiCalendar from '../components/calendar/muiCalendar';
-import TodoItem from '../components/getTodo/todoItem';
+import GetTodo from '../components/getTodo/getTodo';
 import CreateTodoBtn from '../components/createTodo/createTodoBtn';
 import CreateTodoDrawer from '../components/createTodo/createTodoDrawer';
 
@@ -20,8 +20,7 @@ export default function Home() {
   return (
     <Box sx={{ height: '100%', overflowY: 'scroll' }}>
       <MuiCalendar />
-      <TodoItem />
-      <TodoItem />
+      <GetTodo date="2023-12-17" reqType="d" />
       <CreateTodoBtn toggleDrawer={toggleDrawer} />
       <CreateTodoDrawer open={openDrawer} toggleDrawer={toggleDrawer} />
     </Box>
