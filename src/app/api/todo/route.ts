@@ -201,6 +201,91 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+// todo 삭제
+export async function DELETE(request: NextRequest) {
+  try {
+    // 요청에서 todo id를 가져옴
+    const todoId = request.nextUrl.searchParams.get('id');
+
+    // todo id가 주어지지 않았을 경우 에러 반환
+    if (!todoId) {
+      return NextResponse.json({
+        status: 400,
+        body: 'Bad Request: Todo ID parameter is missing',
+      });
+    }
+
+    // 클라이언트에서 전달된 데이터 파싱
+    const { userId } = await request.json();
+
+    // 유저 정보 확인
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    // 유저가 존재하지 않을 경우 에러 반환
+    if (!user) {
+      return NextResponse.json({
+        status: 404,
+        body: 'User not found',
+      });
+    }
+
+    // todo 정보 확인
+    const todo = await prisma.todo.findUnique({
+      where: {
+        id: todoId,
+      },
+    });
+
+    // todo가 존재하지 않을 경우 에러 반환
+    if (!todo) {
+      return NextResponse.json({
+        status: 404,
+        body: 'Todo not found',
+      });
+    }
+
+    // 요청한 유저와 todo의 유저가 다를 경우 에러 반환
+    if (todo.userId !== userId) {
+      return NextResponse.json({
+        status: 403,
+        body: 'Forbidden: You do not have permission to delete this todo',
+      });
+    }
+
+    // todo에 연결된 모든 Set 삭제
+    await prisma.set.deleteMany({
+      where: {
+        todoId: todoId,
+      },
+    });
+
+    // todo 삭제
+    await prisma.todo.delete({
+      where: {
+        id: todoId,
+      },
+    });
+
+    // 삭제 성공 메시지 반환
+    return NextResponse.json({
+      status: 200,
+      body: 'Todo deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error in DELETE function:', error);
+
+    // 에러가 발생하면 에러 상태를 반환
+    return NextResponse.json({
+      status: 500,
+      body: `Internal Server Error: ${error.message}`,
+    });
+  }
+}
+
 // 운동 예시 오브젝트
 const EXAMPLE_WORKOUT1 = {
   user_id: '1',
