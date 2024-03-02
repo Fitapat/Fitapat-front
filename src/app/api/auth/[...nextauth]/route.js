@@ -68,6 +68,7 @@ const handler = NextAuth({
 
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60, // 1시간
   },
 
   // NextAuth의 콜백: authorize 함수가 실행된 후 마지막으로 실행됨
@@ -95,21 +96,10 @@ const handler = NextAuth({
       console.log('session callback, ', s);
       return s;
     },
+  },
 
-    // session: ({ session, token }) => ({
-    //   ...session,
-    //   user: {
-    //     ...session.user,
-    //     id: token.id,
-    //     randomKey: token.randomKey,
-    //   },
-    // }),
-
-    // console.log('session callback', { session, token });
-
-    // session.user = token.user;
-    // console.log('session callback, session: ', session);
-    // return session;
+  pages: {
+    signIn: '/login',
   },
 
   secret: process.env.NEXTAUTH_SECRET,
