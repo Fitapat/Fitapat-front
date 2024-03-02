@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     // 생성된 todo 정보 반환
     return NextResponse.json(newTodo);
   } catch (error) {
-    console.error('Error in GET function:', error);
+    console.error('Error in POST function:', error);
 
     // 에러가 발생하면 에러 상태를 반환
     return NextResponse.json({
