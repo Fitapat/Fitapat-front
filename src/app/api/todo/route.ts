@@ -114,8 +114,19 @@ export async function POST(request: NextRequest) {
 // todo 편집
 export async function PUT(request: NextRequest) {
   try {
+    // 요청에서 todo id를 가져옴
+    const todoId = request.nextUrl.searchParams.get('id');
+
+    // todo id가 주어지지 않았을 경우 에러 반환
+    if (!todoId) {
+      return NextResponse.json({
+        status: 400,
+        body: 'Bad Request: Todo ID parameter is missing',
+      });
+    }
+
     // 클라이언트에서 전달된 데이터 파싱
-    const { id, userId, title, date, aerobic, done, sets } = await request.json();
+    const { userId, title, date, aerobic, done, sets } = await request.json();
     const date_ = new Date(date);
 
     // 유저 정보 확인
@@ -136,7 +147,7 @@ export async function PUT(request: NextRequest) {
     // todo 정보 확인
     const todo = await prisma.todo.findUnique({
       where: {
-        id: id,
+        id: todoId,
       },
     });
 
@@ -148,7 +159,7 @@ export async function PUT(request: NextRequest) {
       });
     }
 
-    // 요청한 유저와 Todo의 유저가 다를 경우 에러 반환
+    // 요청한 유저와 todo의 유저가 다를 경우 에러 반환
     if (todo.userId !== userId) {
       return NextResponse.json({
         status: 403,
@@ -159,7 +170,7 @@ export async function PUT(request: NextRequest) {
     // todo 업데이트
     const updatedTodo = await prisma.todo.update({
       where: {
-        id: id,
+        id: todoId,
       },
       data: {
         title: title,
