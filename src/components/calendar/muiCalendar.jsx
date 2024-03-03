@@ -31,8 +31,7 @@ function ServerDay(props) {
   );
 }
 
-export default function MuiCalendar(/*TODO {value, setValue}*/) {
-  const [value, setValue] = React.useState(dayjs()); // TODO: parents에게서 받아오는걸로 수정
+export default function MuiCalendar({ value, setValue }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([
     '2023-12-17',
@@ -43,8 +42,19 @@ export default function MuiCalendar(/*TODO {value, setValue}*/) {
   const initialValue = dayjs(); // today
 
   const fetchHighlightedDays = (date) => {
-    // TODO 그 달에 해당하는 기록만 fetch 해오기
-    setHighlightedDays(['2023-12-17', '2023-12-18', '2023-12-19']);
+    fetch(
+      `http://localhost:3000/api/todo?date=${date.format(
+        'YYYY-MM-DD',
+      )}&reqType=m`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setHighlightedDays(
+          data.map((item) => {
+            return dayjs(item.date).format('YYYY-MM-DD');
+          }),
+        );
+      });
     setIsLoading(false);
   };
 
@@ -54,10 +64,9 @@ export default function MuiCalendar(/*TODO {value, setValue}*/) {
   }, []);
 
   const handleMonthChange = (date) => {
-    console.log(date.format('YYYY-MM-DD')); // 2023-12-01 ..  1일로 바뀜
+    // console.log(date.format('YYYY-MM-DD')); // 2023-12-01 ..  1일로 바뀜
     setValue(date);
     setIsLoading(true);
-    setHighlightedDays([]);
     fetchHighlightedDays(date);
   };
 
