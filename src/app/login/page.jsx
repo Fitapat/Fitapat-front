@@ -24,17 +24,23 @@ export default function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log(`이메일: ${email}`);
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
-    if (!result.error) {
-      alert(`로그인 완료: ${email}`);
-      window.location = '/';
-    } else {
-      console.error(result.error);
-      alert('로그인 실패');
+    // signIn(): [...nextauth]의 authorize 함수가 작동됨
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        // callbackUrl: '/',
+      });
+      if (!result.error) {
+        alert(`로그인 완료: ${email}`);
+        window.location.href = '/';
+      } else {
+        console.error(result.error);
+        alert('이메일 또는 비밀번호가 일치하지 않습니다.');
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 

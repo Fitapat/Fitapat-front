@@ -5,6 +5,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -15,69 +16,92 @@ const handler = NextAuth({
       name: 'Credentials',
       credentials: {
         email: {
-          label: 'Email',
-          type: 'text',
-          placeholder: '이메일 주소 입력',
+          type: 'email',
         },
         password: {
-          label: 'Password',
           type: 'password',
-          placeholder: '비밀번호 입력',
         },
       },
-      // 승인
-      async authorize(credentials) {
+      // signin
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
+          console.log('authorize is null');
           return null;
         }
         // Prisma를 사용하여 유저 정보를 가져옴
-        const user = await prisma.user.findUnique({
+        const existingUser = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user) {
+        if (!existingUser) {
           return null;
         }
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
-          user.password,
+          existingUser.password,
         );
 
         if (!isCorrectPassword) {
           return null;
         }
-        // console.log('authorized user: ', user);
+
+        // 비밀번호가 일치하면 jwt 토큰 생성
+        const accessToken = jwt.sign(
+          { userId: existingUser.id },
+          process.env.JWT_KEY,
+          {
+            expiresIn: '1h',
+          },
+        );
+
+        // 결과 만들어서 반환
+        const user = {
+          email: existingUser.email,
+          nickname: existingUser.nickname,
+          accessToken,
+        };
+        console.log('authorized: ', user);
         return user;
       },
     }),
   ],
+
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60, // 1시간
   },
+
+  // NextAuth의 콜백: authorize 함수가 실행된 후 마지막으로 실행됨
   callbacks: {
-    session: ({ session, token }) =>
-      // console.log('session callback', { session, token });
-      ({
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-          randomKey: token.randomKey,
-        },
-      }),
+    // jwt 생성될 때 실행되는 콜백
     jwt: ({ token, user }) => {
-      // console.log('JWT callback', { token, user });
       if (user) {
-        const u = user;
-        return {
+        const j = {
           ...token,
-          id: u.id,
-          randomKey: u.randomKey,
+          nickname: user.nickname,
+          accessToken: user.accessToken,
         };
+        console.log('JWT callback, ', j);
+        return j;
       }
       return token;
     },
+    // 세션이 조회될 때 실행되는 콜백
+    session: ({ session, token }) => {
+      const s = {
+        ...session,
+        nickname: token.nickname,
+        accessToken: token.accessToken,
+      };
+      console.log('session callback, ', s);
+      return s;
+    },
   },
+
+  pages: {
+    signIn: '/login',
+  },
+
   secret: process.env.NEXTAUTH_SECRET,
 });
 

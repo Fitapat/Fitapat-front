@@ -111,7 +111,7 @@ export default function FabricCanvas() {
     link.download = 'fitapat.png';
     link.href = canvas.toDataURL({
       format: 'png',
-      quality: 1.0,
+      quality: 4.0,
     });
     link.click();
     setSaveOpen(true);

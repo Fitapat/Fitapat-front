@@ -37,7 +37,7 @@ export async function POST(req) {
     return NextResponse.json({ msg: 'User 생성됨', user: newUser });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: '서버 에러' });
+    return NextResponse.json({ error: '서버 에러' }, { status: 500 });
   } finally {
     await prisma.$disconnect();
   }

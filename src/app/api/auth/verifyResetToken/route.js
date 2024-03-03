@@ -11,7 +11,7 @@ export async function POST(req) {
     const body = await req.json();
 
     // jwt로 토큰 인증
-    const verified = jwt.verify(body.resetToken, process.env.NEXTAUTH_SECRET);
+    const verified = jwt.verify(body.resetToken, process.env.JWT_KEY);
     // verified = {userId: ..., iat: ..., exp: ...}
 
     // 해당 userId를 가진 user를 db에서 가져오기
