@@ -49,12 +49,15 @@ export default function MuiCalendar({ value, setValue }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        setHighlightedDays(
-          data.map((item) => {
-            return dayjs(item.date).format('YYYY-MM-DD');
-          }),
-        );
+        if (data.length) {
+          setHighlightedDays(
+            data.map((item) => {
+              return dayjs(item.date).format('YYYY-MM-DD');
+            }),
+          );
+        }
       });
+
     setIsLoading(false);
   };
 
