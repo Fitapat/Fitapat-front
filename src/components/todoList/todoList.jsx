@@ -7,7 +7,11 @@ export default function TodoList({ date }) {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/todo?date=${date}&reqType=d`)
+    fetch(
+      `http://localhost:3000/api/todo?date=${date.format(
+        'YYYY-MM-DD',
+      )}&reqType=d`,
+    )
       .then((res) => res.json())
       .then((data) => setTodoList(data));
   }, [date]);
