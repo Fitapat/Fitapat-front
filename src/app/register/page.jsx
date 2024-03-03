@@ -1,6 +1,6 @@
 'use client';
 
-/* eslint-disable no-console, no-alert */
+/* eslint-disable no-console, no-alert, no-useless-escape */
 
 import React, { useState } from 'react';
 import {
@@ -12,25 +12,6 @@ import {
   TextField,
 } from '@mui/material';
 
-async function createUser(email, password, nickname) {
-  const res = await fetch('/api/auth/signup', {
-    method: 'POST',
-    body: JSON.stringify({ email, password, nickname }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await res.json();
-  if (res.status === 409) {
-    alert(data.error); // 이미 가입된 이메일 status code
-  } else if (!res.ok) {
-    // 다른 오류 처리
-    throw new Error(data.message || 'createUser: Something went wrong!');
-  }
-
-  return data;
-}
-
 export default function Register() {
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -39,18 +20,47 @@ export default function Register() {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    if (!nickname) {
+      alert('닉네임을 입력해주세요.');
+      return;
+    }
+
+    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+    if (!pattern.test(email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return;
+    }
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
-    } else {
-      try {
-        const result = await createUser(email, password, nickname);
-        console.log(result);
-        console.log(`회원가입 완료! 닉네임: ${nickname}, email: ${email}`);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify({ email, password, nickname }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        console.log(`회원가입 완료, 닉네임: ${nickname}, email: ${email}`);
         alert('회원가입 완료! 로그인해주세요.');
         window.location = '/login';
-      } catch (error) {
-        console.error(error);
+      } else if (res.status === 409 || res.status === 500) {
+        alert(data.error); // 해당 status의 에러 메시지 출력
+      } else {
+        alert('에러');
       }
+    } catch (error) {
+      alert('에러: ', error);
     }
   };
 
