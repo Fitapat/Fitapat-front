@@ -15,7 +15,7 @@ function SignInButton() {
           {status}
         </div>
         <Button variant="text" onClick={() => signOut()} sx={{ margin: 0 }}>
-          {session.nickname}님 로그아웃
+          {session.user.nickname}님 로그아웃
         </Button>
       </div>
     );
