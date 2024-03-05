@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-const handler = NextAuth({
+export const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -106,3 +106,5 @@ const handler = NextAuth({
 });
 
 export { handler as GET, handler as POST };
+
+export default handler;

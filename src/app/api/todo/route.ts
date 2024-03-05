@@ -1,10 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { authOptions } from '/src/app/api/auth/[...nextauth]/route.js';
+import { getServerSession } from 'next-auth/next';
 
 const prisma = new PrismaClient({});
 
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, response: NextResponse) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      body: 'No authorization',
+    });
+  }
+
+  // console.log('server session', session);
+  /*
+  server session {
+  user: { name: undefined, email: 'test@test.test', image: undefined }
+  }
+ */
+
   try {
     const dateString = request.nextUrl.searchParams.get('date'); // 2002-08-09
     const date = new Date(dateString);

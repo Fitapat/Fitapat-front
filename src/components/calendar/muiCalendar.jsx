@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
+import { useSession } from 'next-auth/react';
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -38,10 +39,14 @@ export default function MuiCalendar({ value, setValue }) {
     '2023-12-18',
     '2023-12-19',
   ]);
-
+  const { data: session, status } = useSession();
   const initialValue = dayjs(); // today
 
   const fetchHighlightedDays = (date) => {
+    // session loading 됐을 때만 요청
+    if (status == 'loading') {
+      return;
+    }
     fetch(
       `http://localhost:3000/api/todo?date=${date.format(
         'YYYY-MM-DD',
