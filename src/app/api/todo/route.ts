@@ -89,12 +89,10 @@ export async function POST(request: NextRequest) {
         date: date_.toISOString(),
         aerobic: aerobic,
         done: done,
-        sets: {
-          create: sets.map((set) => ({
+        sets: sets.map((set) => ({
             intensity: set.intensity,
             time: set.time,
-          })),
-        },
+        })),
       },
     });
 
@@ -179,8 +177,9 @@ export async function PUT(request: NextRequest) {
         done: done,
         sets: {
           // sets 필드 업데이트
-          deleteMany: {}, // 기존의 sets 삭제
-          create: sets.map((set) => ({
+          // 각 set을 순회하면서 업데이트
+          set: sets.map((set) => ({
+            id: set.id, // 업데이트할 set의 고유한 ID
             intensity: set.intensity,
             time: set.time,
           })),
@@ -257,11 +256,11 @@ export async function DELETE(request: NextRequest) {
     }
 
     // todo에 연결된 모든 Set 삭제
-    await prisma.set.deleteMany({
-      where: {
-        todoId: todoId,
-      },
-    });
+    // await prisma.set.deleteMany({
+    //   where: {
+    //     todoId: todoId,
+    //   },
+    // });
 
     // todo 삭제
     await prisma.todo.delete({
