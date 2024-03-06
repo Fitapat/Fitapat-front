@@ -9,8 +9,7 @@ const prisma = new PrismaClient({});
 export async function GET(request: NextRequest, response: NextResponse) {
   const session = await getServerSession(authOptions);
 
-  // console.log('세션: ', session);
-  // console.log('투두: ', session.user.todos);
+  console.log('세션: ', session);
 
   if (!session) {
     return NextResponse.json({

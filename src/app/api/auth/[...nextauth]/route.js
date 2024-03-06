@@ -33,9 +33,9 @@ export const authOptions = {
           where: {
             email: credentials.email,
           },
-          include: {
-            todos: true, // 해당 사용자의 todo 목록을 가져옴
-          },
+          // include: {
+          //   todos: true, // 해당 사용자의 todo 목록을 가져옴
+          // },
         });
 
         if (!existingUser) {
@@ -51,13 +51,12 @@ export const authOptions = {
         }
 
         // 비밀번호가 일치하면 진행
-        const { email, nickname, todos } = existingUser;
+        const { email, nickname } = existingUser;
 
         // 결과 만들어서 반환
         const user = {
           email,
           nickname,
-          todos,
         };
         console.log('authorized: ', user);
         return user;
