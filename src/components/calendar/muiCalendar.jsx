@@ -8,6 +8,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
+import { useSession } from 'next-auth/react';
+import todoAPI from '/src/apis/todoAPI.js';
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -38,23 +40,23 @@ export default function MuiCalendar({ value, setValue }) {
     '2023-12-18',
     '2023-12-19',
   ]);
-
+  const { data: session, status } = useSession();
   const initialValue = dayjs(); // today
 
   const fetchHighlightedDays = (date) => {
-    fetch(
-      `http://localhost:3000/api/todo?date=${date.format(
-        'YYYY-MM-DD',
-      )}&reqType=m`,
-    )
+    todoAPI
+      .getTodo(date, 'm')
       .then((res) => res.json())
       .then((data) => {
-        setHighlightedDays(
-          data.map((item) => {
-            return dayjs(item.date).format('YYYY-MM-DD');
-          }),
-        );
+        if (data.length) {
+          setHighlightedDays(
+            data.map((item) => {
+              return dayjs(item.date).format('YYYY-MM-DD');
+            }),
+          );
+        }
       });
+
     setIsLoading(false);
   };
 

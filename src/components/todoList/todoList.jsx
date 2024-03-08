@@ -18,9 +18,9 @@ export default function TodoList({ date }) {
 
   return (
     <Box>
-      {todoList.map((item) => (
-        <TodoItem key={item.id} item={item} />
-      ))}
+      {todoList.length
+        ? todoList.map((item) => <TodoItem key={item.id} item={item} />)
+        : null}
     </Box>
   );
 }

@@ -1,14 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { authOptions } from '/src/app/api/auth/[...nextauth]/route.js';
+import { getServerSession } from 'next-auth/next';
 
 const prisma = new PrismaClient({});
 
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, response: NextResponse) {
+  const session = await getServerSession(authOptions);
+
+  console.log('세션: ', session);
+
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      body: 'No authorization',
+    });
+  }
+
+  // console.log('server session', session);
+  /*
+  server session {
+  user: { name: undefined, email: 'test@test.test', image: undefined }
+  }
+ */
+
   try {
     const dateString = request.nextUrl.searchParams.get('date'); // 2002-08-09
     const date = new Date(dateString);
-    // console.log('date', dateString, date);
     const reqType = request.nextUrl.searchParams.get('reqType'); // 'm' | 'd'
 
     // 날짜가 주어지지 않았을 경우 에러 리턴
@@ -23,9 +42,9 @@ export async function GET(request: NextRequest) {
       // 해당 날짜 앞뒤로 1달씩 todo 리스트 가져옴
       const startDate = new Date(date.setMonth(date.getMonth() - 1));
       const endDate = new Date(date.setMonth(date.getMonth() + 2));
-      // console.log(startDate, endDate);
       const todoDataList = await prisma.todo.findMany({
         where: {
+          user: { email: session.user.email },
           date: {
             gte: startDate.toISOString(),
             lte: endDate.toISOString(),
@@ -35,12 +54,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(todoDataList);
     } else if (reqType === 'd') {
       // 해당 날짜에 해당하는 Todo 데이터를 가져옴
-      const todoData = await prisma.todo.findMany({
+      const startDate = new Date(dateString);
+      const endDate = new Date(date.setDate(date.getDate() + 1)); // 다음날 00시00분00초 데이터 까지 가져오기
+      const todoDataList = await prisma.todo.findMany({
         where: {
-          date: date.toISOString(),
+          user: { email: session.user.email },
+          date: {
+            gte: startDate.toISOString(),
+            lt: endDate.toISOString(),
+          },
         },
       });
-      return NextResponse.json(todoData);
+      return NextResponse.json(todoDataList);
     } else {
       // reqType 오류
       return NextResponse.json({
