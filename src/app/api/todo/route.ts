@@ -86,6 +86,17 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
 // todo 생성
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  console.log('세션: ', session);
+
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      body: 'No authorization',
+    });
+  }
+
   try {
     // 클라이언트에서 전달된 데이터 파싱
     const { userId, title, date, aerobic, done, sets } = await request.json();
@@ -136,6 +147,17 @@ export async function POST(request: NextRequest) {
 
 // todo 편집
 export async function PUT(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  console.log('세션: ', session);
+
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      body: 'No authorization',
+    });
+  }
+  
   try {
     // 요청에서 todo id를 가져옴
     const todoId = request.nextUrl.searchParams.get('id');
@@ -227,6 +249,17 @@ export async function PUT(request: NextRequest) {
 
 // todo 삭제
 export async function DELETE(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  console.log('세션: ', session);
+
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      body: 'No authorization',
+    });
+  }
+
   try {
     // 요청에서 todo id를 가져옴
     const todoId = request.nextUrl.searchParams.get('id');
