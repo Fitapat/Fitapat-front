@@ -12,7 +12,14 @@ import Box from '@mui/material/Box';
 import SelectWorkoutButtons from './selectWorkoutButtons';
 import StylePicker from './stylePicker';
 
-import { useSession } from 'next-auth/react';
+async function fetchWorkouts() {
+  const today = new Date().toISOString().split('T')[0];
+  const res = await fetch('/api/todo?date=' + today + '&reqType=d', {
+    method: 'GET',
+  });
+  const data = await res.json();
+  return data;
+}
 
 // 운동 예시 오브젝트
 const EXAMPLE_WORKOUT1 = {
@@ -122,22 +129,19 @@ export default function WorkoutModal(props) {
     setOpen(false);
   };
 
-  const getWorkouts = async () => {
-    await fetch('/api/todo')
-      .then((res) => res.json())
-      .then((res) => {
-        setWorkouts(res);
-      });
-  };
-
   const handleSelectWorkout = (workout) => {
     setSelectedWorkout(workout);
   };
 
   React.useEffect(() => {
-    // getWorkouts();
-    // TODO: 테스트용, 변경 필요
-    setWorkouts(EXAMPLE_WORKOUTS);
+    try {
+      fetchWorkouts().then((data) => {
+        setWorkouts(data);
+        console.log(data);
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   return (
