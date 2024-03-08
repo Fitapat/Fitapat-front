@@ -17,13 +17,13 @@ function simpleObjectToString(workouts) {
       if (workouts[i].aerobic) {
         string +=
           workouts[i].sets[j].intensity +
-          'km/h x ' +
+          'km/h | ' +
           workouts[i].sets[j].time +
           'min\n';
       } else {
         string +=
           workouts[i].sets[j].intensity +
-          'kg x ' +
+          'kg | ' +
           workouts[i].sets[j].time +
           'reps\n';
       }
@@ -33,14 +33,12 @@ function simpleObjectToString(workouts) {
   return string;
 }
 
-function simpleText(workoutsString) {
+function simpleText(workoutsString, color) {
   const text = new fabric.Text(workoutsString, {
     textAlign: 'left',
     fontSize: 20,
-    fontFamily: 'Helvetica',
-    fill: 'white',
-    stroke: 'black',
-    strokeWidth: 1,
+    fontFamily: 'Pretendard-Medium',
+    fill: color,
     fontWeight: 'bold',
     originX: 'center',
     originY: 'center',
@@ -80,9 +78,15 @@ export default function StylePicker(props) {
   React.useEffect(() => {
     if (value === null || value === undefined) return;
 
-    if (value === 'simple') {
+    if (value === 'white') {
       const workoutsString = simpleObjectToString(selectedWorkout);
-      const text = simpleText(workoutsString);
+      const text = simpleText(workoutsString, 'white');
+      setWorkoutResult(text);
+    }
+
+    if (value === 'black') {
+      const workoutsString = simpleObjectToString(selectedWorkout);
+      const text = simpleText(workoutsString, 'black');
       setWorkoutResult(text);
     }
   }, [value]);
@@ -106,17 +110,17 @@ export default function StylePicker(props) {
           }}
         >
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Simple" value="simple" />
-            {
-              // WIP: Work In Progress
-            }
-            <Tab label="Work In Progress.." value="WIP" disabled={true} />{' '}
+            <Tab label="White" value="white" />
+            <Tab label="Black" value="black" />
           </TabList>
         </Box>
-        <TabPanel value="simple"></TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        {/* <TabPanel value="white"></TabPanel>
+        <TabPanel value="black"></TabPanel> */}
       </TabContext>
       <Button
+        sx={{
+          mt: 2,
+        }}
         variant="contained"
         onClick={() => {
           addItemToCanvasCenter(canvas, workoutResult);

@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import SelectWorkoutButtons from './selectWorkoutButtons';
 import StylePicker from './stylePicker';
 
+import { useSession } from 'next-auth/react';
+
 // 운동 예시 오브젝트
 const EXAMPLE_WORKOUT1 = {
   _id: '1',

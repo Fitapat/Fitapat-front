@@ -81,6 +81,9 @@ export default function FabricCanvas() {
 
     canvas.selection = false;
 
+    // 캔버스에 로고 추가
+    addlogoToCanvas();
+
     canvas.renderAll();
   }, [canvas, isCanvasInit]);
 
@@ -123,6 +126,34 @@ export default function FabricCanvas() {
 
   const handleSaveClose = () => {
     setSaveOpen(false);
+  };
+
+  const generateLogoText = () => {
+    const text = new fabric.Text('fit-a-pat', {
+      fontSize: 50,
+      fontFamily: 'Pretendard-Medium',
+      fill: 'rgba(78, 78, 78, 1)' /* 투명도 조절 */,
+      fontWeight: 'bold',
+      originX: 'center',
+      originY: 'center',
+      evented: false,
+      selectable: false,
+    });
+    return text;
+  };
+
+  const addlogoToCanvas = () => {
+    const logoText = generateLogoText();
+    logoText.set({
+      originX: 'center',
+      originY: 'center',
+      left: canvas.getWidth() / 2,
+      top: canvas.getHeight() / 2,
+      zIndex: 50,
+    });
+    canvas.discardActiveObject();
+    canvas.add(logoText);
+    canvas.renderAll();
   };
 
   return (
