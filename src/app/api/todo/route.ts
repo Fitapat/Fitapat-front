@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { authOptions } from '/src/app/api/auth/[...nextauth]/route.js';
+import { authOptions } from '../auth/[...nextauth]/route.js';
 import { getServerSession } from 'next-auth/next';
 
 const prisma = new PrismaClient({});
