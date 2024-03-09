@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import { Global } from '@emotion/react';
 import TodoSet from './todoSet';
 import InterruptDialog from './interruptDialog';
+import todoAPI from '/src/apis/todoAPI.js';
 
 const drawerBleeding = 56;
 
@@ -93,7 +94,13 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
       // 모두 입력된 경우 서버에 전송
       console.log({
         title: title,
-        areobic: isAerobic,
+        aerobic: isAerobic,
+        sets: setList,
+      });
+
+      todoAPI.createTodo({
+        title: title,
+        aerobic: isAerobic,
         sets: setList,
       });
 

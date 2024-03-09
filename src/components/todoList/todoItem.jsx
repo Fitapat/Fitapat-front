@@ -11,10 +11,13 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
+import todoAPI from '/src/apis/todoAPI.js';
 
 export default function TodoItem({ item }) {
   const onDoneClick = () => {
-    // setItem({ ...item, done: !item.done });
+    const data = item;
+    data.done = !item.done;
+    todoAPI.updateTodo(data);
   };
 
   return (
@@ -60,7 +63,7 @@ export default function TodoItem({ item }) {
                       <MenuItem
                         onClick={() => {
                           popupState.close();
-                          // postTodoDelete(item._id)
+                          todoAPI.deleteTodo(item.id);
                         }}
                       >
                         삭제
