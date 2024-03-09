@@ -7,6 +7,7 @@ const prisma = new PrismaClient({});
 
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
 export async function GET(request: NextRequest, response: NextResponse) {
+  // @ts-ignore
   const session = await getServerSession(authOptions);
 
   // console.log('세션: ', session);
