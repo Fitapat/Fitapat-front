@@ -3,13 +3,8 @@
 /* eslint-disable no-console, no-alert */
 
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Box, Typography, Button, Stack, TextField } from '@mui/material';
+import authAPI from '/src/apis/authAPI';
 
 export default function Forgot() {
   const [email, setEmail] = useState();
@@ -23,13 +18,7 @@ export default function Forgot() {
     }
 
     try {
-      const res = await fetch('/api/auth/forgot', {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await authAPI.forgot(email);
       if (res.ok) {
         alert(
           `${email} 로 메일이 전송되었습니다. 1시간 이내로 비밀번호를 재설정해주시기 바랍니다.`,

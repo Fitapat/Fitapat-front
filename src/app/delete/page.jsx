@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { Box, Typography, Button, Stack, TextField } from '@mui/material';
+import authAPI from '/src/apis/authAPI';
 
 export default function Delete() {
   const { data: session, status } = useSession();
@@ -24,13 +25,7 @@ export default function Delete() {
       return;
     }
     try {
-      const res = await fetch('/api/auth/delete', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await authAPI.delete(email, password);
       if (res.ok) {
         signOut();
         alert(`${email} 계정이 탈퇴되었습니다.`);
