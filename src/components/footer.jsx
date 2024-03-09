@@ -18,7 +18,8 @@ export default function Footer() {
   if (
     pathname == '/selectpic' ||
     pathname == '/canvas' ||
-    pathname == '/start'
+    pathname == '/start' ||
+    pathname == '/login'
   ) {
     return null;
   }
