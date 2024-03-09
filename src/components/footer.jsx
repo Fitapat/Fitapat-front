@@ -15,7 +15,12 @@ export default function Footer() {
     router.push(href);
   };
 
-  if (pathname == '/selectpic' || pathname == '/canvas') {
+  if (
+    pathname == '/selectpic' ||
+    pathname == '/canvas' ||
+    pathname == '/start' ||
+    pathname == '/login'
+  ) {
     return null;
   }
 

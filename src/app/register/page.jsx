@@ -3,14 +3,8 @@
 /* eslint-disable no-console, no-alert, no-useless-escape */
 
 import React, { useState } from 'react';
-import {
-  Box,
-  Stack,
-  Typography,
-  Button,
-  Link,
-  TextField,
-} from '@mui/material';
+import { Box, Stack, Typography, Button, Link, TextField } from '@mui/material';
+import authAPI from '/src/apis/authAPI';
 
 export default function Register() {
   const [nickname, setNickname] = useState('');
@@ -42,13 +36,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        body: JSON.stringify({ email, password, nickname }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await authAPI.signup(email, password, nickname);
       const data = await res.json();
       if (res.ok) {
         console.log(`회원가입 완료, 닉네임: ${nickname}, email: ${email}`);

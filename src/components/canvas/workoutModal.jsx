@@ -11,78 +11,8 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import Box from '@mui/material/Box';
 import SelectWorkoutButtons from './selectWorkoutButtons';
 import StylePicker from './stylePicker';
-
-// 운동 예시 오브젝트
-const EXAMPLE_WORKOUT1 = {
-  _id: '1',
-  userId: '1',
-  title: '벤치프레스',
-  date: '2021-10-10',
-  aerobic: false,
-  done: true,
-  sets: [
-    {
-      intensity: 30,
-      time: 10,
-    },
-    {
-      intensity: 40,
-      time: 8,
-    },
-    {
-      intensity: 50,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUT2 = {
-  _id: '2',
-  userId: '1',
-  title: '스쿼트',
-  date: '2021-10-10',
-  aerobic: false,
-  done: true,
-  sets: [
-    {
-      intensity: 30,
-      time: 10,
-    },
-    {
-      intensity: 40,
-      time: 8,
-    },
-    {
-      intensity: 50,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUT3 = {
-  _id: '3',
-  userId: '1',
-  title: '런닝머신',
-  date: '2021-10-10',
-  aerobic: true,
-  done: true,
-  sets: [
-    {
-      intensity: 6,
-      time: 10,
-    },
-    {
-      intensity: 7,
-      time: 8,
-    },
-    {
-      intensity: 8,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUTS = [EXAMPLE_WORKOUT1, EXAMPLE_WORKOUT2, EXAMPLE_WORKOUT3];
+import dayjs from 'dayjs';
+import todoAPI from '/src/apis/todoAPI';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -121,7 +51,9 @@ export default function WorkoutModal(props) {
   };
 
   const getWorkouts = async () => {
-    await fetch('/api/todo')
+    const date = dayjs();
+    await todoAPI
+      .getTodo(date, 'd')
       .then((res) => res.json())
       .then((res) => {
         setWorkouts(res);
@@ -133,9 +65,7 @@ export default function WorkoutModal(props) {
   };
 
   React.useEffect(() => {
-    // getWorkouts();
-    // TODO: 테스트용, 변경 필요
-    setWorkouts(EXAMPLE_WORKOUTS);
+    getWorkouts();
   }, []);
 
   return (

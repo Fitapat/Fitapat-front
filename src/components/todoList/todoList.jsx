@@ -2,16 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 import TodoItem from './todoItem';
+import todoAPI from '/src/apis/todoAPI';
 
 export default function TodoList({ date }) {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/api/todo?date=${date.format(
-        'YYYY-MM-DD',
-      )}&reqType=d`,
-    )
+    todoAPI
+      .getTodo(date, 'd')
       .then((res) => res.json())
       .then((data) => setTodoList(data));
   }, [date]);
