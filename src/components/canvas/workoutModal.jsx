@@ -57,6 +57,9 @@ export default function WorkoutModal(props) {
       .then((res) => res.json())
       .then((res) => {
         setWorkouts(res);
+      })
+      .catch((err) => {
+        console.log('workoutModal', err);
       });
   };
 
