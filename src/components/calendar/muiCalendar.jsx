@@ -40,7 +40,6 @@ export default function MuiCalendar({ value, setValue }) {
     '2023-12-18',
     '2023-12-19',
   ]);
-  const { data: session, status } = useSession();
   const initialValue = dayjs(); // today
 
   const fetchHighlightedDays = (date) => {

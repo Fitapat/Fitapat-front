@@ -3,13 +3,8 @@
 /* eslint-disable no-console, no-alert */
 
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Box, Typography, Button, Stack, TextField } from '@mui/material';
+import authAPI from '/src/apis/authAPI';
 
 // p = {params: {userToken: '...'}, searchParams: {...}}
 export default function Reset(p) {
@@ -25,13 +20,7 @@ export default function Reset(p) {
 
       // resetToken을 verify해서 어떤 계정인지 알아오자
       try {
-        const res = await fetch('/api/auth/verifyResetToken', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ resetToken }),
-        });
+        const res = await authAPI.verifyResetToken(resetToken);
         const user = await res.json();
 
         if (res.ok) {
@@ -74,13 +63,7 @@ export default function Reset(p) {
     } else {
       try {
         // 새 비밀번호를 db에 적용하기
-        const res = await fetch('/api/auth/reset', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: userEmail, password: userPassword }),
-        });
+        const res = await authAPI.reset(userEmail, userPassword);
         if (res.ok) {
           alert(
             `${userEmail}님의 비밀번호가 변경되었습니다. 다시 로그인해주세요.`,

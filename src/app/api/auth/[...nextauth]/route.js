@@ -58,7 +58,7 @@ export const authOptions = {
           email,
           nickname,
         };
-        console.log('authorized: ', user);
+        // console.log('authorized: ', user);
         return user;
       },
     }),
@@ -75,7 +75,7 @@ export const authOptions = {
     jwt: ({ token, user }) => {
       if (user) {
         token.user = { ...user };
-        console.log('JWT callback, ', token);
+        // console.log('JWT callback, ', token);
       }
       return token;
     },
@@ -83,7 +83,7 @@ export const authOptions = {
     session: ({ session, token }) => {
       if (token?.user) {
         session.user = token.user;
-        console.log('session callback, ', session);
+        // console.log('session callback, ', session);
       }
       return session;
     },
