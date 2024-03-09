@@ -57,6 +57,7 @@ export default function MuiCalendar({ value, setValue }) {
       });
 
     setIsLoading(false);
+    console.log(highlightedDays);
   };
 
   React.useEffect(() => {
