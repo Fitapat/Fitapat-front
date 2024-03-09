@@ -9,7 +9,7 @@ const prisma = new PrismaClient({});
 export async function GET(request: NextRequest, response: NextResponse) {
   const session = await getServerSession(authOptions);
 
-  console.log('세션: ', session);
+  // console.log('세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  console.log('세션: ', session);
+  // console.log('create Todo 세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -99,13 +99,13 @@ export async function POST(request: NextRequest) {
 
   try {
     // 클라이언트에서 전달된 데이터 파싱
-    const { userId, title, date, aerobic, done, sets } = await request.json();
-    const date_ = new Date(date);
+    const { title, aerobic, sets } = await request.json();
+    const date = new Date();
 
     // 유저 정보 확인
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        email: session.user.email,
       },
     });
 
@@ -120,15 +120,15 @@ export async function POST(request: NextRequest) {
     // 새로운 todo 생성
     const newTodo = await prisma.todo.create({
       data: {
-        userId: userId,
+        userId: user.id,
         title: title,
-        date: date_.toISOString(),
-        aerobic: aerobic,
-        done: done,
+        date: date.toISOString(),
+        done: false,
         sets: sets.map((set) => ({
-            intensity: set.intensity,
-            time: set.time,
+          intensity: set.intensity,
+          time: set.time,
         })),
+        aerobic: aerobic,
       },
     });
 
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  console.log('세션: ', session);
+  // console.log('put todo 세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -157,7 +157,7 @@ export async function PUT(request: NextRequest) {
       body: 'No authorization',
     });
   }
-  
+
   try {
     // 요청에서 todo id를 가져옴
     const todoId = request.nextUrl.searchParams.get('id');
@@ -251,7 +251,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  console.log('세션: ', session);
+  // console.log('delete todo 세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -272,13 +272,10 @@ export async function DELETE(request: NextRequest) {
       });
     }
 
-    // 클라이언트에서 전달된 데이터 파싱
-    const { userId } = await request.json();
-
     // 유저 정보 확인
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        email: session.user.email,
       },
     });
 
@@ -306,7 +303,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // 요청한 유저와 todo의 유저가 다를 경우 에러 반환
-    if (todo.userId !== userId) {
+    if (todo.userId !== user.id) {
       return NextResponse.json({
         status: 403,
         body: 'Forbidden: You do not have permission to delete this todo',
@@ -342,72 +339,3 @@ export async function DELETE(request: NextRequest) {
     });
   }
 }
-
-// 운동 예시 오브젝트
-const EXAMPLE_WORKOUT1 = {
-  user_id: '1',
-  title: '벤치프레스',
-  date: '2021-10-10',
-  aerobic: false,
-  done: true,
-  sets: [
-    {
-      intensity: 30,
-      time: 10,
-    },
-    {
-      intensity: 40,
-      time: 8,
-    },
-    {
-      intensity: 50,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUT2 = {
-  user_id: '1',
-  title: '스쿼트',
-  date: '2021-10-10',
-  aerobic: false,
-  done: true,
-  sets: [
-    {
-      intensity: 30,
-      time: 10,
-    },
-    {
-      intensity: 40,
-      time: 8,
-    },
-    {
-      intensity: 50,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUT3 = {
-  user_id: '1',
-  title: '런닝머신',
-  date: '2021-10-10',
-  aerobic: true,
-  done: true,
-  sets: [
-    {
-      intensity: 6,
-      time: 10,
-    },
-    {
-      intensity: 7,
-      time: 8,
-    },
-    {
-      intensity: 8,
-      time: 6,
-    },
-  ],
-};
-
-const EXAMPLE_WORKOUTS = [EXAMPLE_WORKOUT1, EXAMPLE_WORKOUT2, EXAMPLE_WORKOUT3];
