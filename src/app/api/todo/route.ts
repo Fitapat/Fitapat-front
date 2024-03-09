@@ -9,8 +9,6 @@ const prisma = new PrismaClient({});
 export async function GET(request: NextRequest, response: NextResponse) {
   const session = await getServerSession();
 
-  console.log('세션: ', session);
-
   if (!session) {
     return NextResponse.json({
       status: 401,
@@ -39,8 +37,8 @@ export async function GET(request: NextRequest, response: NextResponse) {
         where: {
           user: { email: session.user.email },
           date: {
-            gte: startDate.toISOString(),
-            lte: endDate.toISOString(),
+            gte: new Date(startDate.toISOString().replace('Z', '')),
+            lt: new Date(endDate.toISOString().replace('Z', '')),
           },
         },
       });
@@ -58,7 +56,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
           },
         },
       });
-      console.log(startDate, endDate, todoDataList);
       return NextResponse.json(todoDataList);
     } else {
       // reqType 오류
@@ -81,8 +78,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
 // todo 생성
 export async function POST(request: NextRequest) {
   const session = await getServerSession();
-
-  // console.log('create Todo 세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -142,8 +137,6 @@ export async function POST(request: NextRequest) {
 // todo 편집
 export async function PUT(request: NextRequest) {
   const session = await getServerSession();
-
-  // console.log('put todo 세션: ', session);
 
   if (!session) {
     return NextResponse.json({
@@ -303,13 +296,6 @@ export async function DELETE(request: NextRequest) {
         body: 'Forbidden: You do not have permission to delete this todo',
       });
     }
-
-    // todo에 연결된 모든 Set 삭제
-    // await prisma.set.deleteMany({
-    //   where: {
-    //     todoId: todoId,
-    //   },
-    // });
 
     // todo 삭제
     await prisma.todo.delete({
