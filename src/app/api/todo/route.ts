@@ -88,8 +88,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // 클라이언트에서 전달된 데이터 파싱
-    const { title, aerobic, sets } = await request.json();
-    const date = new Date();
+    const { title, aerobic, sets, date } = await request.json();
 
     // 유저 정보 확인
     const user = await prisma.user.findUnique({
@@ -111,7 +110,7 @@ export async function POST(request: NextRequest) {
       data: {
         userId: user.id,
         title: title,
-        date: date.toISOString(),
+        date: new Date(date).toISOString(),
         done: false,
         sets: sets.map((set) => ({
           intensity: set.intensity,

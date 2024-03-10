@@ -82,7 +82,7 @@ export default function TodoItem({ item }) {
                     {idx + 1}st : {value.intensity}
                     {item.aerobic ? ' km ' : ' kg '}
                     {value.time}
-                    {item.aerobic ? ' 시간 ' : ' 회 '}
+                    {item.aerobic ? ' 분 ' : ' 회 '}
                   </ListItem>
                 );
               })}
