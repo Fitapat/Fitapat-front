@@ -8,7 +8,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
-import { useSession } from 'next-auth/react';
 import todoAPI from '/src/apis/todoAPI.js';
 
 function ServerDay(props) {
@@ -75,7 +74,7 @@ export default function MuiCalendar({ value, setValue }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
-        defaultValue={initialValue}
+        // defaultValue={initialValue}
         value={value}
         onChange={(newValue) => setValue(newValue)}
         loading={isLoading}
