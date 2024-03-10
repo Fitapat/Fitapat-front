@@ -24,7 +24,11 @@ export default function Home() {
       <MuiCalendar value={value} setValue={setValue} />
       <TodoList date={value} />
       <CreateTodoBtn toggleDrawer={toggleDrawer} />
-      <CreateTodoDrawer open={openDrawer} toggleDrawer={toggleDrawer} />
+      <CreateTodoDrawer
+        open={openDrawer}
+        toggleDrawer={toggleDrawer}
+        date={value}
+      />
     </Box>
   );
 }

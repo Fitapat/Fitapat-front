@@ -65,7 +65,7 @@ function checkAllFilled(title, setList) {
   return true;
 }
 
-export default function CreateTodoDrawer({ open, toggleDrawer }) {
+export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
   const [setList, setSetList] = useState([
@@ -102,6 +102,7 @@ export default function CreateTodoDrawer({ open, toggleDrawer }) {
         title: title,
         aerobic: isAerobic,
         sets: setList,
+        date: date,
       });
 
       toggleDrawer(false);
