@@ -12,7 +12,7 @@ export default function TodoList({ date }) {
       .getTodo(date, 'd')
       .then((res) => res.json())
       .then((data) => setTodoList(data));
-  }, [date]);
+  });
 
   return (
     <Box>
