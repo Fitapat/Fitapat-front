@@ -5,6 +5,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import type { NextAuthOptions, RequestInternal } from 'next-auth';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,10 @@ export const authOptions = {
         },
       },
       // signin
-      async authorize(credentials, req) {
+      async authorize(
+        credentials: Record<'email' | 'password', string>,
+        req: Pick<RequestInternal, 'query' | 'body' | 'headers' | 'method'>,
+      ) {
         if (!credentials?.email || !credentials?.password) {
           console.log('authorize is null');
           return null;
@@ -94,7 +98,7 @@ export const authOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-};
+} satisfies NextAuthOptions;
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

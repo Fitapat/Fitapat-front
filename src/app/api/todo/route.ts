@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { authOptions } from '/src/app/api/auth/[...nextauth]/route.js';
+// import { authOptions } from '../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
 
 const prisma = new PrismaClient({});
 
 // 날짜를 매개변수로 입력받아, 입력된 날짜에 해당하는 데이터 리턴
 export async function GET(request: NextRequest, response: NextResponse) {
-  const session = await getServerSession(authOptions);
-
-  // console.log('세션: ', session);
+  const session = await getServerSession();
 
   if (!session) {
     return NextResponse.json({
@@ -17,13 +15,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
       body: 'No authorization',
     });
   }
-
-  // console.log('server session', session);
-  /*
-  server session {
-  user: { name: undefined, email: 'test@test.test', image: undefined }
-  }
- */
 
   try {
     const dateString = request.nextUrl.searchParams.get('date'); // 2002-08-09
@@ -46,8 +37,8 @@ export async function GET(request: NextRequest, response: NextResponse) {
         where: {
           user: { email: session.user.email },
           date: {
-            gte: startDate.toISOString(),
-            lte: endDate.toISOString(),
+            gte: new Date(startDate.toISOString().replace('Z', '')),
+            lt: new Date(endDate.toISOString().replace('Z', '')),
           },
         },
       });
@@ -60,8 +51,8 @@ export async function GET(request: NextRequest, response: NextResponse) {
         where: {
           user: { email: session.user.email },
           date: {
-            gte: startDate.toISOString(),
-            lt: endDate.toISOString(),
+            gte: new Date(startDate.toISOString().replace('Z', '')),
+            lt: new Date(endDate.toISOString().replace('Z', '')),
           },
         },
       });
@@ -86,9 +77,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
 // todo 생성
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  // console.log('create Todo 세션: ', session);
+  const session = await getServerSession();
 
   if (!session) {
     return NextResponse.json({
@@ -146,9 +135,7 @@ export async function POST(request: NextRequest) {
 
 // todo 편집
 export async function PUT(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  // console.log('put todo 세션: ', session);
+  const session = await getServerSession();
 
   if (!session) {
     return NextResponse.json({
@@ -248,7 +235,7 @@ export async function PUT(request: NextRequest) {
 
 // todo 삭제
 export async function DELETE(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
 
   // console.log('delete todo 세션: ', session);
 
@@ -308,13 +295,6 @@ export async function DELETE(request: NextRequest) {
         body: 'Forbidden: You do not have permission to delete this todo',
       });
     }
-
-    // todo에 연결된 모든 Set 삭제
-    // await prisma.set.deleteMany({
-    //   where: {
-    //     todoId: todoId,
-    //   },
-    // });
 
     // todo 삭제
     await prisma.todo.delete({

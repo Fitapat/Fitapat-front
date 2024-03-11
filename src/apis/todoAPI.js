@@ -1,7 +1,7 @@
 export default {
   getTodo(date, reqType) {
     return fetch(
-      `api/todo?date=${date.format('YYYY-MM-DD')}&reqType=${reqType}`,
+      `/api/todo?date=${date.format('YYYY-MM-DD')}&reqType=${reqType}`,
     );
   },
 
