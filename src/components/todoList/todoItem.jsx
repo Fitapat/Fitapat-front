@@ -21,7 +21,6 @@ export default function TodoItem({ item }) {
   };
 
   const postTodoDuplicate = (item) => {
-    console.log(item);
     todoAPI.createTodo({
       title: item.title,
       aerobic: item.aerobic,
