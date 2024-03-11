@@ -60,9 +60,8 @@ export default function MuiCalendar({ value, setValue }) {
   };
 
   React.useEffect(() => {
-    fetchHighlightedDays(initialValue);
-    setValue(initialValue);
-  }, []);
+    fetchHighlightedDays(value);
+  });
 
   const handleMonthChange = (date) => {
     // console.log(date.format('YYYY-MM-DD')); // 2023-12-01 ..  1일로 바뀜
