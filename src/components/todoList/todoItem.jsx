@@ -20,6 +20,16 @@ export default function TodoItem({ item }) {
     todoAPI.updateTodo(data);
   };
 
+  const postTodoDuplicate = (item) => {
+    console.log(item);
+    todoAPI.createTodo({
+      title: item.title,
+      aerobic: item.aerobic,
+      sets: item.sets,
+      date: item.date,
+    });
+  };
+
   return (
     <Grid container sx={{ mb: 1 }}>
       <Grid item xs={'auto'}>
@@ -47,7 +57,7 @@ export default function TodoItem({ item }) {
                       <MenuItem
                         onClick={() => {
                           popupState.close();
-                          // postTodoDupliicate(item._id)
+                          postTodoDuplicate(item);
                         }}
                       >
                         복제
