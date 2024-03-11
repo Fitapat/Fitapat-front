@@ -12,7 +12,6 @@ export default {
       body: JSON.stringify(data),
     };
     return fetch(`/api/todo`, requestOptions).then(() => {
-      // window.location.href = '/';
       console.log('createTodo success!');
     });
   },
@@ -24,7 +23,6 @@ export default {
       body: JSON.stringify(data),
     };
     return fetch(`/api/todo?id=${data.id}`, requestOptions).then(() => {
-      window.location.href = '/';
       console.log('updateTodo success!');
     });
   },
@@ -34,7 +32,6 @@ export default {
       method: 'DELETE',
     };
     return fetch(`/api/todo?id=${id}`, requestOptions).then(() => {
-      window.location.href = '/';
       console.log('deleteTodo success!');
     });
   },
