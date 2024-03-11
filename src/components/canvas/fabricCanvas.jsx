@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { fabric } from 'fabric';
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import OverlayButtons from './overlayButtons';
+import { fabric } from 'fabric';
 
 export default function FabricCanvas() {
   const [isClient, setIsClient] = useState(false);

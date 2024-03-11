@@ -61,12 +61,9 @@ function addItemToCanvasCenter(canvas, item) {
   canvas.renderAll();
 }
 
-// make a function that makes a fabric text object into Image
-function textToImage(text) {}
-
 export default function StylePicker(props) {
   const { canvas, selectedWorkout, handleClose } = props;
-  const [value, setValue] = React.useState('simple');
+  const [value, setValue] = React.useState('white');
   const [textColor, setTextColor] = React.useState('white');
   const [workoutResult, setWorkoutResult] = React.useState(null);
   const [workoutImage, setWorkoutImage] = React.useState(null);
