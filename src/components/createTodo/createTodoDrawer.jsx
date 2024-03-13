@@ -66,12 +66,24 @@ function checkAllFilled(title, setList) {
 }
 
 export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
+  const [title, setTitle] = useState('');
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
   const [setList, setSetList] = useState([
     { id: 'set-1', intensity: 0, time: 0 },
   ]);
   const [openDialog, setOpenDialog] = useState(false);
+
+  const initialize = () => {
+    setTitle('');
+    setIsAerobic(true);
+    setNextId(nextId + 1);
+    setSetList([{ id: 'set-' + nextId, intensity: 0, time: 0 }]);
+  };
+
+  const handleInputTitle = (event) => {
+    setTitle(event.target.value);
+  };
 
   const addSet = () => {
     setNextId(nextId + 1);
@@ -98,12 +110,17 @@ export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
         sets: setList,
       });
 
-      todoAPI.createTodo({
-        title: title,
-        aerobic: isAerobic,
-        sets: setList,
-        date: date,
-      });
+      todoAPI
+        .createTodo({
+          title: title,
+          aerobic: isAerobic,
+          sets: setList,
+          date: date,
+        })
+        .then(() => {
+          console.log('createTodo success!');
+          initialize();
+        });
 
       toggleDrawer(false);
     } else {
@@ -121,7 +138,7 @@ export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
   const handleInterrupt = () => {
     setOpenDialog(false);
     toggleDrawer(false);
-    // 투두 입력창 초기화
+    initialize();
   };
 
   let todoSets = [];
@@ -194,7 +211,9 @@ export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
               name="title"
               label="운동 이름"
               variant="standard"
+              value={title}
               fullWidth
+              onChange={handleInputTitle}
             />
             <AerobicSwitch isAerobic={isAerobic} setIsAerobic={setIsAerobic} />
             {todoSets}
