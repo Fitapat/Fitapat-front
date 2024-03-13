@@ -48,9 +48,8 @@ function AerobicSwitch({ isAerobic, setIsAerobic }) {
 
   return (
     <FormControlLabel
-      control={<Switch />}
+      control={<Switch checked={isAerobic} />}
       label={isAerobic ? '유산소' : '무산소'}
-      checked={isAerobic}
       onChange={handleAerobic}
       sx={{ marginBottom: 1 }}
     />
