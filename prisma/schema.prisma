@@ -29,7 +29,10 @@ model Todo {
   done      Boolean
 }
 
-type Set {
+model Set {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
   intensity Int   
   time      Int
+  todo      Todo    @relation(fields: [todoId], references: [id])
+  todoId    String  @db.ObjectId
 }
