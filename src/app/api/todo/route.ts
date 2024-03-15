@@ -41,9 +41,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
             lt: new Date(endDate.toISOString().replace('Z', '')),
           },
         },
-        include: {
-          sets: true,
-        },
       });
       return NextResponse.json(todoDataList);
     } else if (reqType === 'd') {
@@ -57,9 +54,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
             gte: new Date(startDate.toISOString().replace('Z', '')),
             lt: new Date(endDate.toISOString().replace('Z', '')),
           },
-        },
-        include: {
-          sets: true,
         },
       });
       return NextResponse.json(todoDataList);
@@ -118,16 +112,11 @@ export async function POST(request: NextRequest) {
         title: title,
         date: new Date(date).toISOString(),
         done: false,
-        sets: {
-          create: sets.map((set) => ({
-            intensity: set.intensity,
-            time: set.time,
-          })),
-        },
+        sets: sets.map((set) => ({
+          intensity: set.intensity,
+          time: set.time,
+        })),
         aerobic: aerobic,
-      },
-      include: {
-        sets: true,
       },
     });
 
@@ -221,15 +210,12 @@ export async function PUT(request: NextRequest) {
         done: done,
         sets: {
           // sets 필드 업데이트
-          deleteMany: {}, // 기존의 sets 삭제
-          create: sets.map((set) => ({
+          // 각 set을 순회하면서 업데이트
+          set: sets.map((set) => ({
             intensity: set.intensity,
             time: set.time,
           })),
         },
-      },
-      include: {
-        sets: true,
       },
     });
 
@@ -308,13 +294,6 @@ export async function DELETE(request: NextRequest) {
         body: 'Forbidden: You do not have permission to delete this todo',
       });
     }
-
-    // todo에 연결된 모든 Set 삭제
-    await prisma.set.deleteMany({
-      where: {
-        todoId: todoId,
-      },
-    });
 
     // todo 삭제
     await prisma.todo.delete({
