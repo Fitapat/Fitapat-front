@@ -15,6 +15,7 @@ export default function TodoSet({
   setList,
   setSetList,
 }) {
+  let { intensity, time } = setList.filter((set) => id === set.id)[0];
   const handleInput = (event) => {
     const name = event.target.name;
     const value = Number(event.target.value);
@@ -47,6 +48,7 @@ export default function TodoSet({
           variant="outlined"
           type="number"
           onChange={handleInput}
+          value={intensity}
           size="small"
           sx={{
             width: '20%',
@@ -61,6 +63,7 @@ export default function TodoSet({
           variant="outlined"
           type="number"
           onChange={handleInput}
+          value={time}
           size="small"
           sx={{
             width: '20%',

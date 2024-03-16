@@ -13,7 +13,12 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import todoAPI from '/src/apis/todoAPI.js';
 
-export default function TodoItem({ item }) {
+export default function TodoItem({
+  item,
+  toggleDrawer,
+  setDrawerType,
+  setTodoItem,
+}) {
   const onDoneClick = () => {
     const data = item;
     data.done = !item.done;
@@ -27,6 +32,12 @@ export default function TodoItem({ item }) {
       sets: item.sets,
       date: item.date,
     });
+  };
+
+  const putTodoEdit = (item) => {
+    setDrawerType(1);
+    setTodoItem(item);
+    toggleDrawer(true);
   };
 
   return (
@@ -64,7 +75,7 @@ export default function TodoItem({ item }) {
                       <MenuItem
                         onClick={() => {
                           popupState.close();
-                          // putTodoEdit(item._id)
+                          putTodoEdit(item);
                         }}
                       >
                         편집

@@ -14,6 +14,8 @@ import CreateTodoDrawer from '../components/createTodo/createTodoDrawer';
 export default function Home() {
   const [value, setValue] = useState(dayjs());
   const [openDrawer, setOpenDrawer] = useState(false);
+  let [drawerType, setDrawerType] = useState(0); // 0: 생성 / 1: 편집
+  const [todoItem, setTodoItem] = useState({});
 
   const toggleDrawer = (newOpen) => {
     setOpenDrawer(newOpen);
@@ -22,12 +24,22 @@ export default function Home() {
   return (
     <Box sx={{ height: '100%', overflowY: 'scroll' }}>
       <MuiCalendar value={value} setValue={setValue} />
-      <TodoList date={value} />
-      <CreateTodoBtn toggleDrawer={toggleDrawer} />
+      <TodoList
+        date={value}
+        toggleDrawer={toggleDrawer}
+        setDrawerType={setDrawerType}
+        setTodoItem={setTodoItem}
+      />
+      <CreateTodoBtn
+        toggleDrawer={toggleDrawer}
+        setDrawerType={setDrawerType}
+      />
       <CreateTodoDrawer
         open={openDrawer}
         toggleDrawer={toggleDrawer}
+        drawerType={drawerType}
         date={value}
+        item={todoItem}
       />
     </Box>
   );
