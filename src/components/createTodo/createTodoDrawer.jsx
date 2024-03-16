@@ -150,7 +150,6 @@ export default function CreateTodoDrawer({
         item.title = title;
         item.aerobic = isAerobic;
         item.sets = setList;
-        console.log(item); // -- ?!
         todoAPI.updateTodo(item).then(() => {
           initialize();
         });
