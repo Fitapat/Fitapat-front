@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   SwipeableDrawer,
   Box,
@@ -65,7 +65,13 @@ function checkAllFilled(title, setList) {
   return true;
 }
 
-export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
+export default function TodoDrawer({
+  open,
+  toggleDrawer,
+  drawerType,
+  date,
+  item,
+}) {
   const [title, setTitle] = useState('');
   const [isAerobic, setIsAerobic] = useState(true);
   const [nextId, setNextId] = useState(2);
@@ -73,6 +79,21 @@ export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
     { id: 'set-1', intensity: 0, time: 0 },
   ]);
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    // 투두 편집 - 기존 값 띄우기
+    if (open && drawerType === 1) {
+      setTitle(item.title);
+      setIsAerobic(item.aerobic);
+      let prevSetList = item.sets.map((set, index) => ({
+        id: 'set-' + (nextId + index),
+        intensity: set.intensity,
+        time: set.time,
+      }));
+      setSetList(prevSetList);
+      setNextId(nextId + item.sets.length);
+    }
+  }, [open]);
 
   const initialize = () => {
     setTitle('');
@@ -99,28 +120,32 @@ export default function CreateTodoDrawer({ open, toggleDrawer, date }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const title = data.get('title');
 
+    // 모두 입력된 경우 서버에 전송
     if (checkAllFilled(title, setList)) {
-      // 모두 입력된 경우 서버에 전송
-      console.log({
-        title: title,
-        aerobic: isAerobic,
-        sets: setList,
-      });
-
-      todoAPI
-        .createTodo({
-          title: title,
-          aerobic: isAerobic,
-          sets: setList,
-          date: date,
-        })
-        .then(() => {
-          console.log('createTodo success!');
+      // 투두 생성
+      if (drawerType === 0) {
+        todoAPI
+          .createTodo({
+            title: title,
+            aerobic: isAerobic,
+            sets: setList,
+            date: date,
+          })
+          .then(() => {
+            console.log('createTodo success!');
+            initialize();
+          });
+      }
+      // 투두 편집
+      else if (drawerType === 1) {
+        item.title = title;
+        item.aerobic = isAerobic;
+        item.sets = setList;
+        todoAPI.updateTodo(item).then(() => {
           initialize();
         });
+      }
 
       toggleDrawer(false);
     } else {

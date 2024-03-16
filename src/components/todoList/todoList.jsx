@@ -4,7 +4,12 @@ import { Box } from '@mui/material';
 import TodoItem from './todoItem';
 import todoAPI from '/src/apis/todoAPI';
 
-export default function TodoList({ date }) {
+export default function TodoList({
+  date,
+  toggleDrawer,
+  setDrawerType,
+  setTodoItem,
+}) {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
@@ -17,7 +22,15 @@ export default function TodoList({ date }) {
   return (
     <Box>
       {todoList.length
-        ? todoList.map((item) => <TodoItem key={item.id} item={item} />)
+        ? todoList.map((item) => (
+            <TodoItem
+              key={item.id}
+              item={item}
+              toggleDrawer={toggleDrawer}
+              setDrawerType={setDrawerType}
+              setTodoItem={setTodoItem}
+            />
+          ))
         : null}
     </Box>
   );
