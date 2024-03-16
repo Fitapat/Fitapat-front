@@ -99,7 +99,7 @@ export default function TodoDrawer({
     setTitle('');
     setIsAerobic(true);
     setNextId(nextId + 1);
-    setSetList([{ id: 'set-' + nextId, intensity: 0, time: 0 }]);
+    setSetList([{ id: 'set-' + nextId, intensity: null, time: null }]);
   };
 
   const handleInputTitle = (event) => {
@@ -109,7 +109,7 @@ export default function TodoDrawer({
   const addSet = () => {
     setNextId(nextId + 1);
     let newSetList = setList.slice();
-    newSetList.push({ id: 'set-' + nextId, intensity: 0, time: 0 });
+    newSetList.push({ id: 'set-' + nextId, intensity: null, time: null });
     setSetList(newSetList);
   };
 
