@@ -120,8 +120,6 @@ export default function TodoDrawer({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const title = data.get('title');
 
     // 모두 입력된 경우 서버에 전송
     if (checkAllFilled(title, setList)) {
