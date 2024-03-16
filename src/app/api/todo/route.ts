@@ -212,7 +212,6 @@ export async function PUT(request: NextRequest) {
           // sets 필드 업데이트
           // 각 set을 순회하면서 업데이트
           set: sets.map((set) => ({
-            id: set.id, // 업데이트할 set의 고유한 ID
             intensity: set.intensity,
             time: set.time,
           })),
