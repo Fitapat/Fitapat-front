@@ -8,8 +8,8 @@ import styles from './page.module.css';
 import Box from '@mui/material/Box';
 import MuiCalendar from '../components/calendar/muiCalendar';
 import TodoList from '../components/todoList/todoList';
-import CreateTodoBtn from '../components/createTodo/createTodoBtn';
-import CreateTodoDrawer from '../components/createTodo/createTodoDrawer';
+import CreateTodoBtn from '../components/todoDrawer/createTodoBtn';
+import TodoDrawer from '../components/todoDrawer/todoDrawer';
 
 export default function Home() {
   const [value, setValue] = useState(dayjs());
@@ -34,7 +34,7 @@ export default function Home() {
         toggleDrawer={toggleDrawer}
         setDrawerType={setDrawerType}
       />
-      <CreateTodoDrawer
+      <TodoDrawer
         open={openDrawer}
         toggleDrawer={toggleDrawer}
         drawerType={drawerType}

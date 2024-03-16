@@ -65,7 +65,7 @@ function checkAllFilled(title, setList) {
   return true;
 }
 
-export default function CreateTodoDrawer({
+export default function TodoDrawer({
   open,
   toggleDrawer,
   drawerType,
