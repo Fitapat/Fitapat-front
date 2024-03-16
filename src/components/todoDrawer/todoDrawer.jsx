@@ -123,14 +123,8 @@ export default function TodoDrawer({
     const data = new FormData(event.currentTarget);
     const title = data.get('title');
 
+    // 모두 입력된 경우 서버에 전송
     if (checkAllFilled(title, setList)) {
-      // 모두 입력된 경우 서버에 전송
-      console.log({
-        title: title,
-        aerobic: isAerobic,
-        sets: setList,
-      });
-
       // 투두 생성
       if (drawerType === 0) {
         todoAPI
